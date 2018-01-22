@@ -1,3 +1,5 @@
+# Assignment 1
+
 The M-N-K-Y Problem
 The problem is to get N>0 packages delivered, using M>0 vehicles.  Each package has a source and a destination.  The M vehicles start and end their routes at a garage.  A vehicle can carry upto K>0 packages at a time.  We'll assume that the number of vehicles is less than or equal to the number of packages M<=N.
 
