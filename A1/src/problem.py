@@ -1,4 +1,4 @@
-from ProblemState import State, Vehicles, Packages
+from problemState import State, Vehicle, Package
 
 class Problem():
     """ Problem Class """
@@ -7,7 +7,6 @@ class Problem():
     k = None
     y = None
     currentState = None
-
 
     def __init__(self, _m, _n, _k, _y, packs):
         """
@@ -45,21 +44,65 @@ class Problem():
         packages = []
         for i in range(n):
             interm = list(map(int,input().strip().split(' ')))
-            src = tuple([0:len(interm)/2])
-            des =  tuple([len(interm)/2:len(interm)])
-            packages.append((src, dest))
+            src = tuple(interm[0:int(len(interm)/2)])
+            des =  tuple(interm[int(len(interm)/2):len(interm)])
+            packages.append((src, des))
 
         return Problem(m, n, k, y, packages)
 
+    def getCurrentState(self):
+        """
+        Return the current state of the problem.
+        :return: current state.
+        """
+        return self.currentState
 
     def successor(self, state):
-    """
-        Set of possible transitions from the current state
-        :return [State]
-    """
+        """
+        Set of possible transitions from the current state.
+        :return: list of all possible states.
+        """
+
+        # vehicles
+        #    1. New Package
+        #    2. Deliver
+        #    3. Return
+
+        possible_states = []
+
+        for v in states.getVehicles():
+            # v can carry more:
+            list_possible_vehicles = []
+            if len(v.getPackages()) < self.k:
+                for p in self.state.getPackages():
+                    # v moves to p:
+                    v_changed = Vehicle(p.getPosition())
+                    # v picks up p:
+                    v_changed_packages = list(v.getPackages()).append(p)
+                    for i in v_changed_packages:
+                        v_changed.addPackage(i)
+                    # add the v_changed to list of possible vehicles.
+                    list_possible_vehicles.append(v_changed)
+                    new_vehicles = [Vehicle]
+
         return State(state.vehicles, state.packages)
 
-
-
     def isGoal(self, state):
-        return False
+        """
+        Returns whether the given state is the goal state.
+        :param state: a State.
+        :return: true if goal state, false otherwise.
+        """
+        origin = tuple([0 for i in range(self.y)])
+        for v in state.getVehicles():
+            if v.getPosition() != origin:
+                return False
+        if state.getPackages() != []:
+            return False
+
+        return True
+
+    def __str__(self):
+        """  String representation of Problem """
+        return "(M, N, K, Y) := " + str((self.m, self.n, self.k, self.y)) +\
+            "\n" + "Current State:\n" + str(self.currentState)

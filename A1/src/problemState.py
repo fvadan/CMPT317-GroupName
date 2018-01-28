@@ -42,6 +42,17 @@ class Vehicle():
         """
         self.packages = self.packages.union([pack])
 
+    def __str__(self):
+        """
+        Method that returns the print values of a vehicle.
+        :return: formatted output.
+        """
+        packs = ""
+        for i in self.packages:
+            packs = packs + str(i) + "\n"
+        return "----------\nPosition: " + str(self.position) +\
+            "\nPackages on board:\n" + packs
+
 
 class Package():
     position = None
@@ -61,8 +72,6 @@ class Package():
         self.destination = dest
         self.carried = False
         self.delivered = False
-
-
 
     def getPosition(self):
         """ Get the position of package """
@@ -104,6 +113,13 @@ class Package():
         """ Set the delivered to be False """
         self.delivered = False
 
+    def __str__(self):
+        """ String Representation of the Package object """
+        return "----------\nPosition: " + str(self.position) +\
+        "\n" + "Destination: " + str(self.destination) +\
+        "\nCarried: " + str(self.carried) + "\n" + "Delivered: " +\
+        str(self.delivered)
+
 class State():
     vehicles = None
     packages = None
@@ -131,10 +147,17 @@ class State():
         """
         return self.vehicles
 
+    def __str__(self):
+        """
+            String representation of a state for printing:
+        """
+        result = "Vehicles:\n"
+        for i in self.vehicles:
+            result = result + str(i) + "\n"
 
-class SimpleState(State):
-    """
-        Problem state where (M,N,K,Y)=(1,1,1,1)
-    """
-    def __init__(self):
-        i = "lol"
+        result = result + "Packages:\n"
+
+        for j in self.packages:
+            result = result + str(j) + "\n"
+
+        return result
