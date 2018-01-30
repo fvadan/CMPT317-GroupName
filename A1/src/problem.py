@@ -1,4 +1,5 @@
 from problemState import State, Vehicle, Package
+import copy
 
 class Problem():
     """ Problem Class """
@@ -21,8 +22,15 @@ class Problem():
         self.k = _k
         self.y = _y
         self.currentState = State(
-            [Vehicle(tuple([0 for i in range(_y)])) for i in range(len(packs))],
-            [Package(i,j) for (i,j) in packs])
+            [Vehicle(tuple([0 for i in range(_y)]), i, _k) for i in range(_m)],
+            [Package(packs[i][0], packs[i][1], i) for i in range(len(packs))])
+
+    def getCurrentState(self):
+        """
+        Return current state.
+        :return: state.
+        """
+        return self.currentState
 
     def readProblem():
         """
@@ -50,42 +58,60 @@ class Problem():
 
         return Problem(m, n, k, y, packages)
 
-    def getCurrentState(self):
-        """
-        Return the current state of the problem.
-        :return: current state.
-        """
-        return self.currentState
-
-    def successor(self, state):
+    def successors(self, state):
         """
         Set of possible transitions from the current state.
         :return: list of all possible states.
         """
 
-        # vehicles
-        #    1. New Package
-        #    2. Deliver
-        #    3. Return
+        possibleSuccessors = []
 
-        possible_states = []
 
-        for v in states.getVehicles():
-            # v can carry more:
-            list_possible_vehicles = []
-            if len(v.getPackages()) < self.k:
-                for p in self.state.getPackages():
-                    # v moves to p:
-                    v_changed = Vehicle(p.getPosition())
-                    # v picks up p:
-                    v_changed_packages = list(v.getPackages()).append(p)
-                    for i in v_changed_packages:
-                        v_changed.addPackage(i)
-                    # add the v_changed to list of possible vehicles.
-                    list_possible_vehicles.append(v_changed)
-                    new_vehicles = [Vehicle]
 
-        return State(state.vehicles, state.packages)
+        for v in state.getVehicles():
+            for p in state.getPackages():
+
+                # Vehicle is not carrying this package and it has no more room:
+                if p.getPosition() != v.getPosition() and v.getRoom() <= 0:
+                    # it can neither pickup this package nor deliver it:
+                    continue
+
+                # First, cover the case when you can deliver something
+                # For each package picked up by/moving with v:
+                else:
+                    # Generate a new state:
+                    newState = copy.deepcopy(state)
+
+                    if p.getPosition() == v.getPosition():
+                        # Change copied state to reflect a delivery:
+                        newState.getVehicles()[v.getIndex()].setPosition(p.getDestination())
+                        newState.getVehicles()[v.getIndex()].setRoom(v.getRoom() + 1)
+                        # a delivered package is no longer under consideration:
+                        newState.getPackages().pop(p.getIndex()) # removed
+
+                        # Append to list of possible states:
+                        possibleSuccessors.append(newState)
+
+                    # If the vehicle can pick up more packages:
+                    elif v.getRoom() > 0:
+                        # Change copied state to reflect
+                        # a pick up of package p by v:
+                        newState.getVehicles()[v.getIndex()].setPosition(p.getPosition())
+                        newState.getVehicles()[v.getIndex()].setRoom(v.getRoom() - 1)
+                        newState.getPackages()[p.getIndex()].setCarried(v.getIndex())
+
+                        # Append to the list of possible states:
+                        possibleSuccessors.append(newState)
+
+            # Vehicle is empty, an option is to go back to origin:
+            if v.getRoom() == self.k\
+                    and v.getPosition() != tuple([0 for x in range(self.y)]):
+                newState = copy.deepcopy(state)
+                newState.getVehicles()[v.getIndex()].setPosition(\
+                    tuple([0 for i in range(self.y)]))
+                possibleSuccessors.append(newState)
+
+        return possibleSuccessors
 
     def isGoal(self, state):
         """
