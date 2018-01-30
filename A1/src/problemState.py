@@ -3,16 +3,41 @@
 """
 
 class Vehicle():
+    index = None
     position = None
-    packages = None
+    room = None
 
-    def __init__(self, pos):
+    def __init__(self, pos, i, r):
         """
         Constructor class.
         :param pos: position of the vehicle.
+        :param i: index of the vehicle.
+        :param r: room available, initially k.
         """
         self.position = pos
-        self.packages = set([])
+        self.index = i
+        self.room = r
+
+    def setRoom(self, r):
+        """
+        Set number of spaces left for packages.
+        :param r: the leftover room
+        """
+        self.room = r
+
+    def getRoom(self):
+        """
+        Return leftover room for packages.
+        :return: room available.
+        """
+        return self.room
+
+    def getIndex(self):
+        """
+        Return the index of the vehicle.
+        :return: index.
+        """
+        return self.index
 
     def getPosition(self):
         """
@@ -28,39 +53,19 @@ class Vehicle():
         """
         self.position = pos
 
-    def getPackages(self):
-        """
-        Get list of packages carried by vehicle.
-        :return: set of packages.
-        """
-        return self.packages
-
-    def addPackage(self, pack):
-        """
-        Adds a package to the current vehicle.
-        :param pack: the package to be added.
-        """
-        self.packages = self.packages.union([pack])
-
     def __str__(self):
         """
-        Method that returns the print values of a vehicle.
-        :return: formatted output.
+        Format the position of the vehicle.
         """
-        packs = ""
-        for i in self.packages:
-            packs = packs + str(i) + "\n"
-        return "----------\nPosition: " + str(self.position) +\
-            "\nPackages on board:\n" + packs
-
+        return "Position: " + str(self.position)
 
 class Package():
     position = None
     destination = None
-    carried = False
-    delivered = False
+    carried = None
+    index = None
 
-    def __init__(self,pos,dest):
+    def __init__(self,pos,dest,i):
         """
             Constructor method for Package.
             :param position: position of the package.
@@ -71,7 +76,11 @@ class Package():
         self.position = pos
         self.destination = dest
         self.carried = False
-        self.delivered = False
+        self.index = i
+
+    def getIndex(self):
+        """ Get index of the package """
+        return self.index
 
     def getPosition(self):
         """ Get the position of package """
@@ -91,34 +100,21 @@ class Package():
 
     def isCarried(self):
         """ Determine if the package is carried """
-        return self.carried
+        return self.carried != None
 
     def isDelivered(self):
         """ Determine if the package is delivered """
-        return self.delivered
+        return (self.position == self.destination)
 
-    def setCarried(self):
+    def setCarried(self, c):
         """ Set the carried to be True """
-        self.carried = True
-
-    def setDelivered(self):
-        """ Set the delivered to be True """
-        self.delivered = True
-
-    def setUnCarried(self):
-        """ Set the carried to be False """
-        self.carried = False
-
-    def setUnDelivered(self):
-        """ Set the delivered to be False """
-        self.delivered = False
+        self.carried = c
 
     def __str__(self):
         """ String Representation of the Package object """
         return "----------\nPosition: " + str(self.position) +\
         "\n" + "Destination: " + str(self.destination) +\
-        "\nCarried: " + str(self.carried) + "\n" + "Delivered: " +\
-        str(self.delivered)
+        "\nCarried: " + str(self.carried)
 
 class State():
     vehicles = None
@@ -127,11 +123,11 @@ class State():
     def __init__(self, v, p):
         """
             Constructor:
-            :param vehicles: set of available Vehicle objects
+            :param vehicles: array of available Vehicle objects
             :param packages: set of untouched Package objects
         """
-        self.vehicles = set(v)
-        self.packages = set(p)
+        self.vehicles = v
+        self.packages = p
 
     def getPackages(self):
         """
@@ -151,13 +147,17 @@ class State():
         """
             String representation of a state for printing:
         """
-        result = "Vehicles:\n"
+        result = "Vehicles: "
         for i in self.vehicles:
-            result = result + str(i) + "\n"
+            result = result + str(i) + " "
 
-        result = result + "Packages:\n"
+        result = result + "\n"
+
+        result = result + "Packages: "
 
         for j in self.packages:
-            result = result + str(j) + "\n"
+            result = result + str(j)
+
+        result = result + "\n"
 
         return result
