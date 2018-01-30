@@ -19,10 +19,13 @@ class ProblemTestCase(unittest.TestCase):
         #p.getCurrentState().packages = []
         #self.assertTrue(p.isGoal(p.getCurrentState()))
         print("---* PRINTING SUCCESSORS OF INITIAL STATE *-----")
-        state = [p.getCurrentState()]
-        for i in range(4):
-            print(state[0])
-            state = p.successors(state[0])
+        states = [p.getCurrentState()]
+        for i in range(6):
+            print("---Successors: ", len(states))
+            for s in states:
+                print(s)
+            states = p.successors(states[0])
+            print("----------------------------------------------------------")
 
 if __name__ == '__main__':
     unittest.main()
