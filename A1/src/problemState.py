@@ -57,7 +57,7 @@ class Vehicle():
         """
         Format the position of the vehicle.
         """
-        return "Position: " + str(self.position)
+        return "\nPosition: " + str(self.position)
 
 class Package():
     position = None
@@ -112,7 +112,7 @@ class Package():
 
     def __str__(self):
         """ String Representation of the Package object """
-        return "----------\nPosition: " + str(self.position) +\
+        return "\n----------\nPosition: " + str(self.position) +\
         "\n" + "Destination: " + str(self.destination) +\
         "\nCarried: " + str(self.carried)
 
@@ -148,14 +148,14 @@ class State():
             String representation of a state for printing:
         """
         result = "Vehicles: "
-        for i in self.vehicles:
+        for k, i in self.vehicles.items():
             result = result + str(i) + " "
 
         result = result + "\n"
 
         result = result + "Packages: "
 
-        for j in self.packages:
+        for k, j in self.packages.items():
             result = result + str(j)
 
         result = result + "\n"

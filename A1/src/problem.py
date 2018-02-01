@@ -21,9 +21,13 @@ class Problem():
         self.n = _n
         self.k = _k
         self.y = _y
-        self.currentState = State(
-            [Vehicle(tuple([0 for i in range(_y)]), i, _k) for i in range(_m)],
-            [Package(packs[i][0], packs[i][1], i) for i in range(len(packs))])
+        vehicles = {}
+        packages = {}
+        for i in range(_m):
+            vehicles[i] = Vehicle(tuple([0 for i in range(_y)]), i, _k)
+        for j in range(len(packs)):
+            packages[j] = Package(packs[j][0], packs[j][1], j)
+        self.currentState = State(vehicles, packages)
 
     def getCurrentState(self):
         """
@@ -66,10 +70,8 @@ class Problem():
 
         possibleSuccessors = []
 
-
-
-        for v in state.getVehicles():
-            for p in state.getPackages():
+        for k1, v in state.getVehicles().items():
+            for k2, p in state.getPackages().items():
 
                 # Vehicle is not carrying this package and it has no more room:
                 if p.getPosition() != v.getPosition() and v.getRoom() <= 0:
@@ -93,7 +95,7 @@ class Problem():
                         possibleSuccessors.append(newState)
 
                     # If the vehicle can pick up more packages:
-                    elif v.getRoom() > 0:
+                    elif v.getRoom() > 0 and False != p.isCarried():
                         # Change copied state to reflect
                         # a pick up of package p by v:
                         newState.getVehicles()[v.getIndex()].setPosition(p.getPosition())
@@ -120,12 +122,11 @@ class Problem():
         :return: true if goal state, false otherwise.
         """
         origin = tuple([0 for i in range(self.y)])
-        for v in state.getVehicles():
+        for k, v in state.getVehicles().items():
             if v.getPosition() != origin:
                 return False
         if state.getPackages() != []:
             return False
-
         return True
 
     def __str__(self):
