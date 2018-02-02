@@ -6,6 +6,7 @@ class Vehicle():
     index = None
     position = None
     room = None
+    distance_travelled = None
 
     def __init__(self, pos, i, r):
         """
@@ -17,6 +18,7 @@ class Vehicle():
         self.position = pos
         self.index = i
         self.room = r
+        self.distance_travelled = 0
 
     def setRoom(self, r):
         """
@@ -24,6 +26,19 @@ class Vehicle():
         :param r: the leftover room
         """
         self.room = r
+
+    def setDistanceTravelled(self,dist):
+        """
+            Set the distance travelled for vehicle
+        """
+        self.distance_travelled = dist
+
+    def getDistanceTravelled(self):
+        """
+        Return current travelled distance.
+        :return: distance travelled
+        """
+        return self.distance_travelled
 
     def getRoom(self):
         """
@@ -57,7 +72,7 @@ class Vehicle():
         """
         Format the position of the vehicle.
         """
-        return "\nPosition: " + str(self.position)
+        return "\nPosition: " + str(self.position) + "\nDistance Travelled: " + str(self.distance_travelled)
 
 class Package():
     position = None
@@ -119,6 +134,8 @@ class Package():
 class State():
     vehicles = None
     packages = None
+    max_dist = None
+    cost = None
 
     def __init__(self, v, p):
         """
@@ -128,11 +145,41 @@ class State():
         """
         self.vehicles = v
         self.packages = p
+        self.max_dist = 0
+        self.cost = 0
+
+    def getMaxDist(self):
+        """
+            Get the maximum cost of the state.
+            @return: returns the maximum cost of the state
+        """
+        return self.max_dist
+
+    def setMaxDist(self, dist):
+        """
+            Updates the maximum distance of the state if distacnce exceeds the
+            current maximum
+            :param: dist -- the current distance of the state.
+        """
+        if dist > self.max_dist:
+            self.max_dist = dist
+
+    def addCost(self,cst):
+        """
+            Appends the cost to the current state's cost
+        """
+        self.cost += cst
+
+    def getCost(self):
+        """
+        Return the cost of the state
+        """
+        return self.cost
 
     def getPackages(self):
         """
             Accessor for untouched Packages
-            :return Package
+            :return: Package
         """
         return self.packages
 
@@ -147,7 +194,9 @@ class State():
         """
             String representation of a state for printing:
         """
-        result = "Vehicles: "
+        result = "State Cost: " + str(self.cost) + "\n"
+        result  += "Max Dist Travelled: " + str(self.max_dist) + "\n"
+        result += "Vehicles: "
         for k, i in self.vehicles.items():
             result = result + str(i) + " "
 
@@ -159,5 +208,6 @@ class State():
             result = result + str(j)
 
         result = result + "\n"
+
 
         return result

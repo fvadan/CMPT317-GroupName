@@ -1,6 +1,13 @@
 from problemState import State, Vehicle, Package
 import copy
 
+def metric(point1, point2):
+    """
+        Return Manhattan distance.
+        :return: distance
+    """
+    return sum([abs(point1[i] - point2[i]) for i in range(len(point1))])
+
 class Problem():
     """ Problem Class """
     m = None
@@ -86,8 +93,18 @@ class Problem():
 
                     if p.getPosition() == v.getPosition():
                         # Change copied state to reflect a delivery:
-                        newState.getVehicles()[v.getIndex()].setPosition(p.getDestination())
-                        newState.getVehicles()[v.getIndex()].setRoom(v.getRoom() + 1)
+                        # Increase distance travelled for vehicle:
+                        addedDistance = metric(v.getPosition(), p.getDestination())
+                        currVehicle = newState.getVehicles()[v.getIndex()]
+                        currVehicle.setDistanceTravelled(v.getDistanceTravelled() + addedDistance)
+                        # Add the total cost to the state.
+                        newState.addCost(addedDistance)
+                        # Adjust the max distance cost
+                        newState.setMaxDist(currVehicle.getDistanceTravelled())
+                        # Moving to destination:
+                        currVehicle.setPosition(p.getDestination())
+                        # Decrease room in vehicle because of the new package:
+                        currVehicle.setRoom(v.getRoom() + 1)
                         # a delivered package is no longer under consideration:
                         newState.getPackages().pop(p.getIndex()) # removed
 
@@ -97,9 +114,20 @@ class Problem():
                     # If the vehicle can pick up more packages:
                     elif v.getRoom() > 0 and False != p.isCarried():
                         # Change copied state to reflect
-                        # a pick up of package p by v:
-                        newState.getVehicles()[v.getIndex()].setPosition(p.getPosition())
-                        newState.getVehicles()[v.getIndex()].setRoom(v.getRoom() - 1)
+                        addedDistance = metric(v.getPosition(), p.getPosition())
+                        currVehicle = newState.getVehicles()[v.getIndex()]
+                        # a pick up of package p by v
+                        # First, adjust the distance travelled to the package
+                        currVehicle.setDistanceTravelled(v.getDistanceTravelled() + addedDistance)
+                        # Add the total cost to the state.
+                        newState.addCost(addedDistance)
+                        # Adjust the max distance cost
+                        newState.setMaxDist(currVehicle.getDistanceTravelled())
+                        # Now move the vehicle to the position of the package
+                        currVehicle.setPosition(p.getPosition())
+                        # Adjust the room available for the vehicle
+                        currVehicle.setRoom(v.getRoom() - 1)
+                        # Set package as carried
                         newState.getPackages()[p.getIndex()].setCarried(v.getIndex())
 
                         # Append to the list of possible states:
@@ -108,9 +136,21 @@ class Problem():
             # Vehicle is empty, an option is to go back to origin:
             if v.getRoom() == self.k\
                     and v.getPosition() != tuple([0 for x in range(self.y)]):
+                # Make a deep copy of the state
                 newState = copy.deepcopy(state)
-                newState.getVehicles()[v.getIndex()].setPosition(\
-                    tuple([0 for i in range(self.y)]))
+                # Define origin
+                garage = tuple([0 for x in range(self.y)])
+                addedDistance = metric(v.getPosition(), garage)
+                currVehicle = newState.getVehicles()[v.getIndex()]
+                # Add the distance to go back to the origin
+                currVehicle.setDistanceTravelled(v.getDistanceTravelled() + addedDistance)
+                # Add the cost to the state
+                newState.addCost(metric(v.getPosition(), garage))
+                # Adjust the max distance cost
+                newState.setMaxDist(currVehicle.getDistanceTravelled())
+                # Move the vehicle to the origin
+                currVehicle.setPosition(garage)
+                # Append state to the possible successor
                 possibleSuccessors.append(newState)
 
         return possibleSuccessors
