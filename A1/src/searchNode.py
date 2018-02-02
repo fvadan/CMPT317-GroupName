@@ -27,7 +27,7 @@ class SearchNode():
         """
         return self.state
 
-    def traceBack():
+    def traceBack(self):
         """
             Trace back to initial state:
         """

@@ -166,7 +166,7 @@ class Problem():
         for k, v in state.getVehicles().items():
             if v.getPosition() != origin:
                 return False
-        if state.getPackages() != []:
+        if state.getPackages() != {}:
             return False
         return True
 
