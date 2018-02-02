@@ -9,7 +9,7 @@ class SearchNode():
         """
             Initializes the search nodes class.
             :param _state: the state to construct.
-            :param _pred: the predecessor state.
+            :param _pred: the predecessor searchNode.
         """
         self.state = _state
         self.pred = _pred
@@ -31,4 +31,9 @@ class SearchNode():
         """
             Trace back to initial state:
         """
-        return []
+        cursor = self.pred
+        result  = [self.state]
+        while cursor is not None:
+            result.insert(0, cursor.getState())
+            cursor = cursor.pred
+        return result

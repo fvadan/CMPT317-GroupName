@@ -70,7 +70,7 @@ class Problem():
 
         return Problem(m, n, k, y, packages)
 
-    def successors(self, state):
+    def successors(self, node):
         """
         Set of possible transitions from the current state.
         :return: list of all possible states.
@@ -78,8 +78,8 @@ class Problem():
 
         possibleSuccessors = []
 
-        for k1, v in state.getVehicles().items():
-            for k2, p in state.getPackages().items():
+        for k1, v in node.getState().getVehicles().items():
+            for k2, p in node.getState().getPackages().items():
 
                 # Vehicle is not carrying this package and it has no more room:
                 if p.getPosition() != v.getPosition() and v.getRoom() <= 0:
@@ -90,7 +90,7 @@ class Problem():
                 # For each package picked up by/moving with v:
                 else:
                     # Generate a new state:
-                    newState = copy.deepcopy(state)
+                    newState = copy.deepcopy(node.getState())
 
                     if p.getPosition() == v.getPosition():
                         # Change copied state to reflect a delivery:
@@ -110,10 +110,10 @@ class Problem():
                         newState.getPackages().pop(p.getIndex()) # removed
 
                         # Append to list of possible states:
-                        possibleSuccessors.append(SearchNode(newState, state))
+                        possibleSuccessors.append(SearchNode(newState, node))
 
                     # If the vehicle can pick up more packages:
-                    elif v.getRoom() > 0 and False != p.isCarried():
+                    elif (v.getRoom() > 0) and (p.isCarried() is None):
                         # Change copied state to reflect
                         addedDistance = metric(v.getPosition(), p.getPosition())
                         currVehicle = newState.getVehicles()[v.getIndex()]
@@ -132,13 +132,13 @@ class Problem():
                         newState.getPackages()[p.getIndex()].setCarried(v.getIndex())
 
                         # Append to the list of possible states:
-                        possibleSuccessors.append(SearchNode(newState, state))
+                        possibleSuccessors.append(SearchNode(newState, node))
 
             # Vehicle is empty, an option is to go back to origin:
             if v.getRoom() == self.k\
                     and v.getPosition() != tuple([0 for x in range(self.y)]):
                 # Make a deep copy of the state
-                newState = copy.deepcopy(state)
+                newState = copy.deepcopy(node.getState())
                 # Define origin
                 garage = tuple([0 for x in range(self.y)])
                 addedDistance = metric(v.getPosition(), garage)
@@ -152,7 +152,7 @@ class Problem():
                 # Move the vehicle to the origin
                 currVehicle.setPosition(garage)
                 # Append state to the possible successor
-                possibleSuccessors.append(SearchNode(newState, state))
+                possibleSuccessors.append(SearchNode(newState, node))
 
         return possibleSuccessors
 

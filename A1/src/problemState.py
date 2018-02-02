@@ -90,7 +90,7 @@ class Package():
         """
         self.position = pos
         self.destination = dest
-        self.carried = False
+        self.carried = None
         self.index = i
 
     def getIndex(self):
@@ -115,7 +115,7 @@ class Package():
 
     def isCarried(self):
         """ Determine if the package is carried """
-        return self.carried != None
+        return self.carried
 
     def isDelivered(self):
         """ Determine if the package is delivered """

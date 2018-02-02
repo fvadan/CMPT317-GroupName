@@ -15,14 +15,12 @@ class Search():
         q.enqueue(problem.getInitState())
         while q.isEmpty() is False:
             curr = q.dequeue()
-            print(curr.getState())
             if p.isGoal(curr.getState()):
                 return curr.traceBack()
             else:
-                succ = p.successors(curr.getState())
+                succ = p.successors(curr)
                 for s in succ:
                     q.enqueue(s)
-        print("NOT FOUND")
         return []
 
 
