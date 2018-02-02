@@ -1,4 +1,5 @@
 from problemState import State, Vehicle, Package
+from searchNode import SearchNode
 import copy
 
 def metric(point1, point2):
@@ -14,7 +15,7 @@ class Problem():
     n = None
     k = None
     y = None
-    currentState = None
+    initState = None
 
     def __init__(self, _m, _n, _k, _y, packs):
         """
@@ -34,14 +35,14 @@ class Problem():
             vehicles[i] = Vehicle(tuple([0 for i in range(_y)]), i, _k)
         for j in range(len(packs)):
             packages[j] = Package(packs[j][0], packs[j][1], j)
-        self.currentState = State(vehicles, packages)
+        self.initState = State(vehicles, packages)
 
-    def getCurrentState(self):
+    def getInitState(self):
         """
         Return current state.
         :return: state.
         """
-        return self.currentState
+        return SearchNode(self.initState, None)
 
     def readProblem():
         """
@@ -109,7 +110,7 @@ class Problem():
                         newState.getPackages().pop(p.getIndex()) # removed
 
                         # Append to list of possible states:
-                        possibleSuccessors.append(newState)
+                        possibleSuccessors.append(SearchNode(newState, state))
 
                     # If the vehicle can pick up more packages:
                     elif v.getRoom() > 0 and False != p.isCarried():
@@ -131,7 +132,7 @@ class Problem():
                         newState.getPackages()[p.getIndex()].setCarried(v.getIndex())
 
                         # Append to the list of possible states:
-                        possibleSuccessors.append(newState)
+                        possibleSuccessors.append(SearchNode(newState, state))
 
             # Vehicle is empty, an option is to go back to origin:
             if v.getRoom() == self.k\
@@ -151,7 +152,7 @@ class Problem():
                 # Move the vehicle to the origin
                 currVehicle.setPosition(garage)
                 # Append state to the possible successor
-                possibleSuccessors.append(newState)
+                possibleSuccessors.append(SearchNode(newState, state))
 
         return possibleSuccessors
 
@@ -172,4 +173,4 @@ class Problem():
     def __str__(self):
         """  String representation of Problem """
         return "(M, N, K, Y) := " + str((self.m, self.n, self.k, self.y)) +\
-            "\n" + "Current State:\n" + str(self.currentState)
+            "\n" + "Current State:\n" + str(self.initState)

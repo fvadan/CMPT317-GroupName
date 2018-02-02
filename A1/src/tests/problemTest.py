@@ -13,18 +13,18 @@ class ProblemTestCase(unittest.TestCase):
         print("Read problem:")
         print(p)
         # Negative control
-        self.assertFalse(p.isGoal(p.getCurrentState()))
+        self.assertFalse(p.isGoal(p.getInitState().getState()))
 
         # Positive control
-        #p.getCurrentState().packages = []
-        #self.assertTrue(p.isGoal(p.getCurrentState()))
+        #p.getInitState().packages = []
+        #self.assertTrue(p.isGoal(p.getInitState()))
         print("---* PRINTING SUCCESSORS OF INITIAL STATE *-----")
-        states = [p.getCurrentState()]
+        states = [p.getInitState()]
         for i in range(6):
             print("---Successors: ", len(states))
             for s in states:
                 print(s)
-            states = p.successors(states[0])
+            states = p.successors(states[0].getState())
             print("----------------------------------------------------------")
 
 if __name__ == '__main__':
