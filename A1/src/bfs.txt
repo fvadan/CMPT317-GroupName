@@ -1,0 +1,90 @@
+###############
+State Cost: 0
+Max Dist Travelled: 0
+Vehicles:
+---------------
+Position: (0,)
+Distance Travelled: 0
+---------------
+ 
+Packages: 
+----------
+Position: (2,)
+Destination: (4,)
+Carried: None
+----------
+Position: (3,)
+Destination: (5,)
+Carried: None
+###############
+###############
+State Cost: 2
+Max Dist Travelled: 2
+Vehicles:
+---------------
+Position: (2,)
+Distance Travelled: 2
+---------------
+ 
+Packages: 
+----------
+Position: (2,)
+Destination: (4,)
+Carried: 0
+----------
+Position: (3,)
+Destination: (5,)
+Carried: None
+###############
+###############
+State Cost: 4
+Max Dist Travelled: 4
+Vehicles:
+---------------
+Position: (4,)
+Distance Travelled: 4
+---------------
+ 
+Packages: 
+----------
+Position: (3,)
+Destination: (5,)
+Carried: None
+###############
+###############
+State Cost: 5
+Max Dist Travelled: 5
+Vehicles:
+---------------
+Position: (3,)
+Distance Travelled: 5
+---------------
+ 
+Packages: 
+----------
+Position: (3,)
+Destination: (5,)
+Carried: 0
+###############
+###############
+State Cost: 7
+Max Dist Travelled: 7
+Vehicles:
+---------------
+Position: (5,)
+Distance Travelled: 7
+---------------
+ 
+Packages: 
+###############
+###############
+State Cost: 12
+Max Dist Travelled: 12
+Vehicles:
+---------------
+Position: (0,)
+Distance Travelled: 12
+---------------
+ 
+Packages: 
+###############

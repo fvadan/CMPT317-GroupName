@@ -23,7 +23,7 @@ class SearchNode():
     def __eq__(self, other):
         """
         Return whether two states are the same from a cost viewpoint.
-        :return: whether two states are the same cost-wise. 
+        :return: whether two states are the same cost-wise.
         """
         return (self.state.getCost() + self.state.getMaxDist()) \
             == (other.state.getCost() + other.state.getMaxDist())

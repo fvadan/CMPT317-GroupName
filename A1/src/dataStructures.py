@@ -28,7 +28,7 @@ class StateStack():
         Pops a state from the stack
         """
         self.num_el -= 1
-        self.s.pop()
+        return self.s.pop()
 
     def getNumEl(self):
         """
@@ -43,7 +43,6 @@ class StateStack():
         :return: true if empty, false otherwise.
         """
         return self.num_el == 0
-
 
 class StateQueue():
     """

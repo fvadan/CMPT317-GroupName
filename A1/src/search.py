@@ -1,6 +1,7 @@
-from dataStructures import *
+from dataStructures import StateStack
+from dataStructures import StateQueue
 from problem import Problem
-import time,math
+import time, math
 
 class Search():
     """
@@ -19,7 +20,7 @@ class Search():
         depth = 0 # the depth of our solution.
         memory = 0 # the max width of the queue for the entire problem run
 
-        q = dataStructures.StateQueue()
+        q = StateQueue()
         q.enqueue(problem.getInitState())
         while q.isEmpty() is False:
             curr = q.dequeue()
@@ -56,7 +57,7 @@ class Search():
         depth = 0 # the depth of our solution.
         memory = 0 # the max height of the stack for the entire problem
 
-        s = dataStructures.StateStack()
+        s = StateStack()
         s.push(problem.getInitState())
         while s.isEmpty() is False:
             curr = s.pop()
@@ -83,7 +84,18 @@ class Search():
 
 
 if __name__ == '__main__':
+
+    bfsFile = open('bfs.txt','+w')
+    dfsFile = open('dfs.txt','+w')
+
     p = Problem.readProblem()
     print(p.getValues())
-    Search.bfs(p)
-    Search.dfs(p)
+
+    bfsResult = Search.bfs(p)
+    dfsResult = Search.dfs(p)
+
+    for i in range(len(bfsResult)):
+        bfsFile.write(str(bfsResult[i]))
+
+    for i in range(len(dfsResult)):
+        dfsFile.write(str(dfsResult[i]))

@@ -72,7 +72,9 @@ class Vehicle():
         """
         Format the position of the vehicle.
         """
-        return "\nPosition: " + str(self.position) + "\nDistance Travelled: " + str(self.distance_travelled)
+        return "---------------\nPosition: " + str(self.position) +\
+            "\nDistance Travelled: " + str(self.distance_travelled) +\
+            "\n---------------\n"
 
 class Package():
     position = None
@@ -194,9 +196,9 @@ class State():
         """
             String representation of a state for printing:
         """
-        result = "State Cost: " + str(self.cost) + "\n"
+        result = "###############\nState Cost: " + str(self.cost) + "\n"
         result  += "Max Dist Travelled: " + str(self.max_dist) + "\n"
-        result += "Vehicles: "
+        result += "Vehicles:\n"
         for k, i in self.vehicles.items():
             result = result + str(i) + " "
 
@@ -207,7 +209,7 @@ class State():
         for k, j in self.packages.items():
             result = result + str(j)
 
-        result = result + "\n"
+        result = result + "\n###############\n"
 
 
         return result
