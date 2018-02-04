@@ -130,7 +130,7 @@ class Search():
                     memory = q.getNumEl()
         return []
 
-    def astar(problem):
+    def astar(problem, h):
         """
             Search algorithm
             :param initialState: the initial state that is passed to the algorithm.
@@ -185,10 +185,12 @@ if __name__ == '__main__':
     p = Problem.readProblem()
 
     print(p.getValues())
-    Search.bfs(p)
-    Search.dfs(p)
-    Search.ucs(p)
-    Search.astar(p)
+    #Search.bfs(p)
+    #Search.dfs(p)
+    Search.astar(p, lambda a: 0)
+    Search.astar(p, h)
+    Search.astar(p, h2)
+    Search.astar(p,h3)
 """
     for i in range(len(bfsResult)):
         bfsFile.write(str(bfsResult[i]))

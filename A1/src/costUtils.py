@@ -14,6 +14,36 @@ def euclidean_metric(p1, p2):
                     (p1[i] - p2[i]) ** 2 for i in range(len(p1))\
                     ]))
 
+def h2(state):
+    origin = [0 for x in range(len(state.getVehicles()[0].getPosition()))]
+    distance = 0
+    for k1, v in state.getVehicles().items():
+
+        for k2, p in state.getPackages().items():
+            src = p.getPosition()
+            dest = p.getDestination()
+            p_mid = [abs(src[i]-dest[i])/2 for i in range(len(src))]
+            distance += euclidean_metric(v.getPosition(), p_mid)
+        distance += euclidean_metric(v.getPosition(), origin)
+    return distance
+
+
+def h3(state):
+    origin = [0 for x in range(len(state.getVehicles()[0].getPosition()))]
+    distance = 0
+    for k1, v in state.getVehicles().items():
+        closest_mid = v.getPosition()
+        for k2, p in state.getPackages().items():
+            src = p.getPosition()
+            dest = p.getDestination()
+            p_mid = [abs(src[i]-dest[i])/2 for i in range(len(src))]
+            if euclidean_metric(p_mid, v.getPosition())\
+                    < euclidean_metric(closest_mid, v.getPosition()):
+                closest_mid = p_mid
+        distance += euclidean_metric(closest_mid, v.getPosition())
+        distance += euclidean_metric(v.getPosition(), origin)
+    return distance
+
 def h(state):
     """
         Heuristic function for the M-N-K-Y problem.
