@@ -174,3 +174,7 @@ class Problem():
         """  String representation of Problem """
         return "(M, N, K, Y) := " + str((self.m, self.n, self.k, self.y)) +\
             "\n" + "Current State:\n" + str(self.initState)
+
+    def getValues(self):
+        """ String representation of the current values used """
+        return("(M, N, K, Y) := " + str((self.m, self.n, self.k, self.y)))
