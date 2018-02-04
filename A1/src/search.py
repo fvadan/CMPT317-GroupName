@@ -36,7 +36,7 @@ class Search():
                       "\n---Depth: ", depth, " nodes" \
                       "\n---Time: " , round(elapsed_time*1000,2), "ms"\
                       "\n---Memory: ", memory, " nodes", \
-                      "\n---Cost Function: ", costFunction(trace), \
+                      "\n---Total cost: ", costFunction(trace), \
                       "\n")
                 return trace
             else:
@@ -74,7 +74,7 @@ class Search():
                       "\n---Depth: ", depth, " nodes" \
                       "\n---Time: " , round(elapsed_time*1000,2), "ms"\
                       "\n---Memory: ", memory, " nodes", \
-                      "\n---Cost Function: ", costFunction(trace), \
+                      "\n---Total costn: ", costFunction(trace), \
                       "\n")
                 return trace
             else:
@@ -116,7 +116,7 @@ class Search():
                       "\n---Depth: ", depth, " nodes" \
                       "\n---Time: " , round(elapsed_time*1000,2), "ms"\
                       "\n---Memory: ", memory, " nodes", \
-                      "\n---Cost Function: ", costFunction(trace), \
+                      "\n---Total cost: ", costFunction(trace), \
                       "\n")
                 return trace
             else:
@@ -162,7 +162,7 @@ class Search():
                       "\n---Depth: ", depth, " nodes" \
                       "\n---Time: " , round(elapsed_time*1000,2), "ms"\
                       "\n---Memory: ", memory, " nodes", \
-                      "\n---Cost Function: ", costFunction(trace), \
+                      "\n---Total cost: ", costFunction(trace), \
                       "\n")
                 return trace
             else:
