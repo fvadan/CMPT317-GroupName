@@ -185,12 +185,20 @@ if __name__ == '__main__':
     p = Problem.readProblem()
 
     print(p.getValues())
+<<<<<<< HEAD
     #Search.bfs(p)
     #Search.dfs(p)
     Search.astar(p, lambda a: 0)
     Search.astar(p, h)
     Search.astar(p, h2)
     Search.astar(p,h3)
+=======
+    Search.bfs(p)
+    Search.dfs(p)
+    Search.ucs(p)
+    for i in Search.astar(p):
+        print(i)
+>>>>>>> c84e0bd440d750fb952f6d95ae774afe6525c024
 """
     for i in range(len(bfsResult)):
         bfsFile.write(str(bfsResult[i]))
