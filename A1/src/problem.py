@@ -95,13 +95,7 @@ class Problem():
                     if p.getPosition() == v.getPosition():
                         # Change copied state to reflect a delivery:
                         # Increase distance travelled for vehicle:
-                        addedDistance = metric(v.getPosition(), p.getDestination())
                         currVehicle = newState.getVehicles()[v.getIndex()]
-                        currVehicle.setDistanceTravelled(v.getDistanceTravelled() + addedDistance)
-                        # Add the total cost to the state.
-                        newState.addCost(addedDistance)
-                        # Adjust the max distance cost
-                        newState.setMaxDist(currVehicle.getDistanceTravelled())
                         # Moving to destination:
                         currVehicle.setPosition(p.getDestination())
                         # Decrease room in vehicle because of the new package:
@@ -114,16 +108,8 @@ class Problem():
 
                     # If the vehicle can pick up more packages:
                     elif (v.getRoom() > 0) and (p.isCarried() is None):
-                        # Change copied state to reflect
-                        addedDistance = metric(v.getPosition(), p.getPosition())
+                        # Change copied state to reflect a pick up of package p by v
                         currVehicle = newState.getVehicles()[v.getIndex()]
-                        # a pick up of package p by v
-                        # First, adjust the distance travelled to the package
-                        currVehicle.setDistanceTravelled(v.getDistanceTravelled() + addedDistance)
-                        # Add the total cost to the state.
-                        newState.addCost(addedDistance)
-                        # Adjust the max distance cost
-                        newState.setMaxDist(currVehicle.getDistanceTravelled())
                         # Now move the vehicle to the position of the package
                         currVehicle.setPosition(p.getPosition())
                         # Adjust the room available for the vehicle
@@ -141,14 +127,7 @@ class Problem():
                 newState = copy.deepcopy(node.getState())
                 # Define origin
                 garage = tuple([0 for x in range(self.y)])
-                addedDistance = metric(v.getPosition(), garage)
                 currVehicle = newState.getVehicles()[v.getIndex()]
-                # Add the distance to go back to the origin
-                currVehicle.setDistanceTravelled(v.getDistanceTravelled() + addedDistance)
-                # Add the cost to the state
-                newState.addCost(metric(v.getPosition(), garage))
-                # Adjust the max distance cost
-                newState.setMaxDist(currVehicle.getDistanceTravelled())
                 # Move the vehicle to the origin
                 currVehicle.setPosition(garage)
                 # Append state to the possible successor
