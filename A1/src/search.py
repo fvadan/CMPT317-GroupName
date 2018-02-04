@@ -188,7 +188,8 @@ if __name__ == '__main__':
     Search.bfs(p)
     Search.dfs(p)
     Search.ucs(p)
-    Search.astar(p)
+    for i in Search.astar(p):
+        print(i)
 """
     for i in range(len(bfsResult)):
         bfsFile.write(str(bfsResult[i]))

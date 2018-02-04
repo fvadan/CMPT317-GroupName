@@ -150,7 +150,7 @@ class State():
         result = "###############\n"
         result += "Vehicles:\n"
         for k, i in self.vehicles.items():
-            result = result + str(i) + " "
+            result = result + str(i)
 
         result = result + "\n"
 
