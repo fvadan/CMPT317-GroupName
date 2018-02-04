@@ -2,13 +2,6 @@ from problemState import State, Vehicle, Package
 from searchNode import SearchNode
 import copy
 
-def metric(point1, point2):
-    """
-        Return Manhattan distance.
-        :return: distance
-    """
-    return sum([abs(point1[i] - point2[i]) for i in range(len(point1))])
-
 class Problem():
     """ Problem Class """
     m = None

@@ -1,9 +1,12 @@
+from costUtils import *
+
 class SearchNode():
     """
         Class keeps track of the position of the node in a graph.
     """
     state = None
     pred = None
+    cost = 0
 
     def __init__(self, _state, _pred):
         """
@@ -13,6 +16,12 @@ class SearchNode():
         """
         self.state = _state
         self.pred = _pred
+        # adjust the cost only for non-root search nodes
+        if self.pred is not None:
+            self.cost = self.pred.getCost() + \
+                        sum(stateDiff(self.state, self.pred.getState()))
+        else:
+            self.cost = 0
 
     def __str__(self):
         """
@@ -25,16 +34,14 @@ class SearchNode():
         Return whether two states are the same from a cost viewpoint.
         :return: whether two states are the same cost-wise.
         """
-        return (self.state.getCost() + self.state.getMaxDist()) \
-            == (other.state.getCost() + other.state.getMaxDist())
+        return
 
     def __lt__(self, other):
         """
         Return whether the current state is cheaper, cost-wise, than a given state.
         :return: True if current is less than given, false otherwise.
         """
-        return (self.state.getCost() + self.state.getMaxDist()) \
-             < (other.state.getCost() + other.state.getMaxDist())
+        return
 
     def getState(self):
         """
@@ -42,6 +49,13 @@ class SearchNode():
         :return: state
         """
         return self.state
+
+    def getCost(self):
+        """
+            Return cost of reaching this search node.
+            :return: cost
+        """
+        return self.cost
 
     def traceBack(self):
         """
