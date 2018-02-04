@@ -31,22 +31,22 @@ class SearchNode():
 
     def __eq__(self, other):
         """
-        Return whether two states are the same from a cost viewpoint.
-        :return: whether two states are the same cost-wise.
+            Return whether two states are the same from a cost viewpoint.
+            :return: whether two states are the same cost-wise.
         """
-        return
+        return self.cost == other.getCost()
 
     def __lt__(self, other):
         """
-        Return whether the current state is cheaper, cost-wise, than a given state.
-        :return: True if current is less than given, false otherwise.
+            Return whether the current state is cheaper, cost-wise, than a given state.
+            :return: True if current is less than given, false otherwise.
         """
-        return
+        return self.cost < other.getCost()
 
     def getState(self):
         """
-        Return state
-        :return: state
+            Return state
+            :return: state
         """
         return self.state
 

@@ -9,10 +9,10 @@ class Vehicle():
 
     def __init__(self, pos, i, r):
         """
-        Constructor class.
-        :param pos: position of the vehicle.
-        :param i: index of the vehicle.
-        :param r: room available, initially k.
+            Constructor class.
+            :param pos: position of the vehicle.
+            :param i: index of the vehicle.
+            :param r: room available, initially k.
         """
         self.position = pos
         self.index = i
@@ -20,42 +20,42 @@ class Vehicle():
 
     def setRoom(self, r):
         """
-        Set number of spaces left for packages.
-        :param r: the leftover room
+            Set number of spaces left for packages.
+            :param r: the leftover room
         """
         self.room = r
 
     def getRoom(self):
         """
-        Return leftover room for packages.
-        :return: room available.
+            Return leftover room for packages.
+            :return: room available.
         """
         return self.room
 
     def getIndex(self):
         """
-        Return the index of the vehicle.
-        :return: index.
+            Return the index of the vehicle.
+            :return: index.
         """
         return self.index
 
     def getPosition(self):
         """
-        Get current position of vehicle.
-        :return: position of the vehicle.
+            Get current position of vehicle.
+            :return: position of the vehicle.
         """
         return self.position
 
     def setPosition(self, pos):
         """
-        Sets the vehicles position to a new one.
-        :param pos: the new position.
+            Sets the vehicles position to a new one.
+            :param pos: the new position.
         """
         self.position = pos
 
     def __str__(self):
         """
-        Format the position of the vehicle.
+            Format the position of the vehicle.
         """
         return "---------------\nPosition: " + str(self.position) + "\n"
 

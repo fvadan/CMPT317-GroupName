@@ -5,7 +5,6 @@ class StateStack():
     """
         State stack class that stores the states.
     """
-
     s = None
     num_el = 0
 
@@ -94,24 +93,45 @@ class StateHeap():
     """
     heapList = None
     num_el = 0
+    equality = None
+    comparator = None
 
-    def __init__(self):
+    class HeapElement():
+
+        item = None
+        parent = None
+
+        def __init__(self, _item, _parent):
+            self.item = _item
+            self.parent = _parent
+
+        def __eq__(self, other):
+            return self.parent.equality(self.item, other.item)
+
+        def __lt__(self, other):
+            return self.parent.comparator(self.item, other.item)
+
+    def __init__(self, _equality, _comparator):
         """
         Constructor that initializes the heap.
         """
-        heapList = []
+        self.heapList = []
+        self.equality = _equality
+        self.comparator = _comparator
 
     def enqueue(self, item):
         """
             Enqueue the given item.
         """
-        heapq.heappush(self.heapList, item)
+        self.num_el += 1
+        heapq.heappush(self.heapList, StateHeap.HeapElement(item,self))
 
-    def dequeue(self, item):
+    def dequeue(self):
         """
             Dequeue the minimum element in the heap
         """
-        heapq.heappop(self.heapList, item)
+        self.num_el -= 1
+        return heapq.heappop(self.heapList).item
 
     def getNumEl(self):
         """

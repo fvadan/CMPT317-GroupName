@@ -4,6 +4,12 @@ Class that defines all static methods that are required for cost computation
 and other metrics.
 """
 
+def h(state):
+    """
+        Heuristic function for the M-N-K-Y problem.
+    """
+    return 100
+
 def metric(point1, point2):
     """
     Return Manhattan distance.
