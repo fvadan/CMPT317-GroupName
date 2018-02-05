@@ -14,9 +14,10 @@ def euclidean_metric(p1, p2):
                     (p1[i] - p2[i]) ** 2 for i in range(len(p1))\
                     ]))
 
-def h(state):
+def h1(state):
     """
-        Heuristic function for the M-N-K-Y problem.
+        Heuristic:
+        total delivery distance + return distance heuristic
         :param state: a state will vehicles and packages at certain
                       positions.
     """
@@ -31,6 +32,50 @@ def h(state):
             max_distance = euclidean_metric(pack.getDestination(), origin)
 
     return max_distance + delivery_distance
+
+def h2(state):
+    """
+        Heuristic:
+        distances to mid-points of all delivery lines for all packages
+        + return distance
+        :param state: a state will vehicles and packages at certain
+                      positions.
+    """
+    origin = [0 for x in range(len(state.getVehicles()[0].getPosition()))]
+    distance = 0
+    for k1, v in state.getVehicles().items():
+        for k2, p in state.getPackages().items():
+            src = p.getPosition()
+            dest = p.getDestination()
+            p_mid = [abs(src[i]-dest[i])/2 for i in range(len(src))]
+            distance += euclidean_metric(v.getPosition(), p_mid)
+        distance += euclidean_metric(v.getPosition(), origin)
+    return distance
+
+def h3(state):
+    """
+        Heuristic:
+        distance to mid-point of minimum delivery line for all packages
+        + return distance
+        :param state: a state will vehicles and packages at certain
+                      positions.
+    """
+    origin = [0 for x in range(len(state.getVehicles()[0].getPosition()))]
+    distance = 0
+    for k1, v in state.getVehicles().items():
+        closest_mid = v.getPosition()
+        for k2, p in state.getPackages().items():
+            src = p.getPosition()
+            dest = p.getDestination()
+            p_mid = [abs(src[i]-dest[i])/2 for i in range(len(src))]
+            if euclidean_metric(p_mid, v.getPosition())\
+                    < euclidean_metric(closest_mid, v.getPosition()):
+                closest_mid = p_mid
+        distance += euclidean_metric(closest_mid, v.getPosition())
+        distance += euclidean_metric(v.getPosition(), origin)
+    return distance
+
+
 
 def metric(point1, point2):
     """
