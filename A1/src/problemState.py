@@ -75,7 +75,7 @@ class Package():
         """
         self.position = pos
         self.destination = dest
-        self.carried = None
+        self.carried = False
         self.index = i
 
     def getIndex(self):
@@ -106,6 +106,9 @@ class Package():
         """ Determine if the package is delivered """
         return (self.position == self.destination)
 
+    def setDelivered(self):
+        self.position = self.destination
+    
     def setCarried(self, c):
         """ Set the carried to be True """
         self.carried = c
