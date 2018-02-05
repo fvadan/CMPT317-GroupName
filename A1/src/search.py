@@ -185,9 +185,9 @@ if __name__ == '__main__':
     p = Problem.readProblem()
 
     print(p.getValues())
-    Search.bfs(p)
-    Search.dfs(p)
-    Search.ucs(p)
+    # Search.bfs(p)
+    # Search.dfs(p)
+    # Search.ucs(p)
     for i in Search.astar(p):
         print(i)
 """
