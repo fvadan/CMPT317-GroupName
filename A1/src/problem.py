@@ -71,12 +71,10 @@ class Problem():
 
         possibleSuccessors = []
         for k1, v in node.getState().getVehicles().items():
-            print("SUCCESSOR ON VEHICLE: ", v.getIndex(), " AT" , v.getPosition())
             for k2, p in node.getState().getPackages().items():
 
                 # Vehicle is not carrying this package and it has no more room:
                 if p.getPosition() != v.getPosition() and v.getRoom() <= 0:
-                    print("VEHICLE: ", v.getIndex(), " NO ROOM, SKIPPED!")
                     # it can neither pickup this package nor deliver it:
                     continue
 
@@ -91,13 +89,11 @@ class Problem():
                         # Increase distance travelled for vehicle:
                         currVehicle = newState.getVehicles()[v.getIndex()]
                         # Moving to destination:
-
-                        print("---VEHICLE: ", v.getIndex(), " DELIVERS"\
-                                " PACKAGE: ", p.getPosition(), "\n")
-
                         currVehicle.setPosition(p.getDestination())
                         # Decrease room in vehicle because of the new package:
                         currVehicle.setRoom(v.getRoom() + 1)
+                        assert(currVehicle.getRoom() <= self.k and\
+                            currVehicle.getRoom() >= 0)
                         # a delivered package is no longer under consideration:
                         newState.getPackages().pop(p.getIndex()) # removed
                         # Append to list of possible states:
@@ -105,19 +101,19 @@ class Problem():
 
                     # If the vehicle can pick up more packages:
                     elif (v.getRoom() > 0) and (p.isCarried() is False):
-                        # Change copied state to reflect a pick up of package p by v
+                        # Change copied state to reflect a pick up of package
+                            # p by v
                         currVehicle = newState.getVehicles()[v.getIndex()]
                         # Now move the vehicle to the position of the package
                         currVehicle.setPosition(p.getPosition())
 
-                        print("VEHICLE: ", currVehicle.getIndex(),\
-                                " PICKS UP MORE: ", p.getPosition())
-
                         # Adjust the room available for the vehicle
                         currVehicle.setRoom(v.getRoom() - 1)
+                        assert(currVehicle.getRoom() <= self.k and\
+                            currVehicle.getRoom() >= 0)
                         # Set package as carried
-                        newState.getPackages()[p.getIndex()].setCarried(v.getIndex())
-
+                        newState.getPackages()[p.getIndex()].setCarried(
+                            v.getIndex())
                         # Append to the list of possible states:
                         possibleSuccessors.append(SearchNode(newState, node))
 
@@ -125,9 +121,6 @@ class Problem():
             if v.getRoom() == self.k\
                     and v.getPosition() != tuple([0 for x in range(self.y)]):
                 # Make a deep copy of the state
-
-                print("VEHICLE: ", v.getPosition(), " MOVES TO ORIGIN")
-
                 newState = copy.deepcopy(node.getState())
                 # Define origin
                 garage = tuple([0 for x in range(self.y)])
@@ -136,6 +129,14 @@ class Problem():
                 currVehicle.setPosition(garage)
                 # Append state to the possible successor
                 possibleSuccessors.append(SearchNode(newState, node))
+        for i in possibleSuccessors:
+            count = 0
+            for k,v in i.getState().getVehicles().items():
+                if v.getRoom() < self.k:
+                    count += 1
+            if count > 1:
+                print("Multiple vehicles carrying packages:")
+                print(i)
 
         return possibleSuccessors
 
@@ -161,3 +162,4 @@ class Problem():
     def getValues(self):
         """ String representation of the current values used """
         return("(M, N, K, Y) := " + str((self.m, self.n, self.k, self.y)))
+

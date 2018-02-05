@@ -185,7 +185,8 @@ if __name__ == '__main__':
     p = Problem.readProblem()
 
     print(p.getValues())
-    h0_result = Search.astar(p, lambda a: 0)
+    dfs_result = Search.dfs(p)
+    #h0_result = Search.astar(p, lambda a: 0)
     h1_result = Search.astar(p, h1)
     h2_result = Search.astar(p, h2)
     h3_result = Search.astar(p, h3)

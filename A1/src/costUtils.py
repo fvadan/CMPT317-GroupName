@@ -45,6 +45,8 @@ def h2(state):
     distance = 0
     for k1, v in state.getVehicles().items():
         for k2, p in state.getPackages().items():
+            if p.isCarried() != None and p.isCarried() != v.getIndex():
+                continue
             src = p.getPosition()
             dest = p.getDestination()
             p_mid = [abs(src[i]-dest[i])/2 for i in range(len(src))]
