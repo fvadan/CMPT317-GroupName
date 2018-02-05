@@ -18,8 +18,11 @@ class SearchNode():
         self.pred = _pred
         # adjust the cost only for non-root search nodes
         if self.pred is not None:
-            self.cost = self.pred.getCost() + \
-                        sum(stateDiff(self.state, self.pred.getState()))
+            distancesBetweenVehicles = stateDiff(self.state,\
+                                                self.pred.getState())
+            totalDistanceTravelled = sum(distancesBetweenVehicles)
+            maxDist = 1000 * max(distancesBetweenVehicles)
+            self.cost = self.pred.getCost() + totalDistanceTravelled + maxDist
         else:
             self.cost = 0
 

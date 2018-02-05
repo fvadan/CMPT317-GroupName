@@ -92,8 +92,11 @@ class Problem():
                         currVehicle.setPosition(p.getDestination())
                         # Decrease room in vehicle because of the new package:
                         currVehicle.setRoom(v.getRoom() + 1)
+
+                        # Make sure that no vehicle carries beyond capacity:
                         assert(currVehicle.getRoom() <= self.k and\
                             currVehicle.getRoom() >= 0)
+
                         # a delivered package is no longer under consideration:
                         newState.getPackages().pop(p.getIndex()) # removed
                         # Append to list of possible states:
@@ -106,11 +109,13 @@ class Problem():
                         currVehicle = newState.getVehicles()[v.getIndex()]
                         # Now move the vehicle to the position of the package
                         currVehicle.setPosition(p.getPosition())
-
                         # Adjust the room available for the vehicle
                         currVehicle.setRoom(v.getRoom() - 1)
+
+                        # Make sure that no vehicle carries beyond capacity:
                         assert(currVehicle.getRoom() <= self.k and\
                             currVehicle.getRoom() >= 0)
+
                         # Set package as carried
                         newState.getPackages()[p.getIndex()].setCarried(
                             v.getIndex())
@@ -129,6 +134,9 @@ class Problem():
                 currVehicle.setPosition(garage)
                 # Append state to the possible successor
                 possibleSuccessors.append(SearchNode(newState, node))
+        """
+            Print out states where more than one vehicle is deployed:
+        """
         for i in possibleSuccessors:
             count = 0
             for k,v in i.getState().getVehicles().items():
@@ -162,4 +170,3 @@ class Problem():
     def getValues(self):
         """ String representation of the current values used """
         return("(M, N, K, Y) := " + str((self.m, self.n, self.k, self.y)))
-

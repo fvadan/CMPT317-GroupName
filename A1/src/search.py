@@ -4,7 +4,7 @@ from dataStructures import StateHeap
 from problem import Problem
 import problem
 from costUtils import *
-import time, math
+import time, math, sys
 
 class Search():
     """
@@ -135,7 +135,6 @@ class Search():
             Search algorithm
             :param initialState: the initial state that is passed to the algorithm.
         """
-
         # keep track of the states that were seen before
         seen = {}
 
@@ -145,6 +144,7 @@ class Search():
         depth = 0 # the depth of our solution.
         memory = 0 # the max height of the stack for the entire problem
 
+        # a: state 1, b: state 2
         q = StateHeap(lambda a,b: a.getCost() + h(a.getState()) == \
                                   b.getCost() + h(b.getState()), \
                       lambda a,b: a.getCost() + h(a.getState()) < \
@@ -164,34 +164,33 @@ class Search():
                       "\n---Memory: ", memory, " nodes", \
                       "\n---Total cost: ", costFunction(trace), \
                       "\n")
+
                 return trace
             else:
                 succ = p.successors(curr)
                 for successor in succ:
-                    if successor.getState() not in seen and \
-                       h(successor.getState()) + successor.getCost():
+                    if successor.getState() not in seen:
                         seen[successor.getState()] = True
                         q.enqueue(successor)
                 # adjust memory used if memory use larger than previous record
                 if memory < q.getNumEl():
                     memory = q.getNumEl()
+
         return []
 
 if __name__ == '__main__':
-
-    #bfsFile = open('bfs.txt','+w')
-    #dfsFile = open('dfs.txt','+w')
-
+    h0 = lambda a: 0
+    heuristics = [h0, h1, h2, h3]
     p = Problem.readProblem()
 
     print(p.getValues())
-    dfs_result = Search.dfs(p)
-    #h0_result = Search.astar(p, lambda a: 0)
-    h1_result = Search.astar(p, h1)
-    h2_result = Search.astar(p, h2)
-    h3_result = Search.astar(p, h3)
-    for i in h2_result:
+    #dfs_result = Search.dfs(p)
+
+    A_star_result = Search.astar(p, heuristics[ int(sys.argv[1]) ])
+    print("\n\n-----PRINTING A* RESULT-----\n\n")
+    for i in A_star_result:
         print(i)
+
 """
     for i in range(len(bfsResult)):
         bfsFile.write(str(bfsResult[i]))
