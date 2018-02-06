@@ -129,8 +129,13 @@ class Search():
                 succ = p.successors(curr)
                 for successor in succ:
                     if successor.getState() not in seen:
-                        seen[successor.getState()] = True
+                        seen[successor.getState()] = successor.getCost()
                         q.enqueue(successor)
+                    else:
+                        if(seen[successor.getState()].getCost() >\
+                                successor.getCost()):
+                            seen[successor.getState()] = successor.getCost()
+                            q.replace(successor)
                 # adjust memory used if memory use larger than previous record
                 if memory < q.getNumEl():
                     memory = q.getNumEl()

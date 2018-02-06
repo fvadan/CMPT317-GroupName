@@ -1,5 +1,7 @@
 from costUtils import *
 
+DISTANCE_TO_TIME = 0
+
 class SearchNode():
     """
         Class keeps track of the position of the node in a graph.
@@ -21,10 +23,13 @@ class SearchNode():
             distancesBetweenVehicles = stateDiff(self.state,\
                                                 self.pred.getState())
             totalDistanceTravelled = sum(distancesBetweenVehicles)
-            maxDist = 1000 * max(distancesBetweenVehicles)
-            self.cost = self.pred.getCost() + totalDistanceTravelled + maxDist
+            time = DISTANCE_TO_TIME * max(distancesBetweenVehicles)
+            self.cost = totalDistanceTravelled + time
         else:
             self.cost = 0
+
+    def isEqual(self, other):
+        return self.state == other.state
 
     def __str__(self):
         """

@@ -165,6 +165,16 @@ class StateHeap():
         self.num_el -= 1
         return heapq.heappop(self.heapList).item
 
+    def replace(self, item):
+        """
+            Replace an element with a given item
+        """
+        for i in range(len(self.heapList)):
+            if self.heapList[i].isEqual(item):
+                self.heapList[i] = item
+                reheapify(self.heapList)
+                break
+
     def getNumEl(self):
         """
         Return the number of elements in the heap.
