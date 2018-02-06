@@ -1,7 +1,8 @@
 import queue as Queue
 import heapq
+from unique import UniqueHashable
 
-class HashableDictionary():
+class HashableDictionary(UniqueHashable):
     table = None
     name = None
     def __init__(self, n):
