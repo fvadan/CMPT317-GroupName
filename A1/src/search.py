@@ -142,9 +142,10 @@ if __name__ == '__main__':
     heuristics = [h0, h1, h2, h3]
     p = Problem.readProblem()
 
-    print(p.getValues())
-    #dfs_result = Search.dfs(p)
+    print(p)
+    dfs_result = Search.dfs(p)
 
+    exit()
     A_star_result = Search.astar(p, heuristics[ int(sys.argv[1]) ])
     print("\n\n-----PRINTING A* RESULT-----\n\n")
     for i in A_star_result:

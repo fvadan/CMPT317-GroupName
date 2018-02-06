@@ -1,8 +1,11 @@
+
+from unique import UniqueHashable
+
 """
     Problem State - defines the structure of the problem state.
 """
 
-class Vehicle():
+class Vehicle(UniqueHashable):
     index = None
     position = None
     room = None
@@ -18,12 +21,8 @@ class Vehicle():
         self.index = i
         self.room = r
 
-    def setRoom(self, r):
-        """
-            Set number of spaces left for packages.
-            :param r: the leftover room
-        """
-        self.room = r
+    def __hash__(self):
+        return hash((self.position,self.index,self.room,type(self)))
 
     def getRoom(self):
         """
@@ -46,26 +45,19 @@ class Vehicle():
         """
         return self.position
 
-    def setPosition(self, pos):
-        """
-            Sets the vehicles position to a new one.
-            :param pos: the new position.
-        """
-        self.position = pos
-
     def __str__(self):
         """
             Format the position of the vehicle.
         """
         return "---------------\nPosition: " + str(self.position) + "\n"
 
-class Package():
+class Package(UniqueHashable):
     position = None
     destination = None
     carried = None
     index = None
 
-    def __init__(self,pos,dest,i):
+    def __init__(self,pos,dest,i,c):
         """
             Constructor method for Package.
             :param position: position of the package.
@@ -75,8 +67,12 @@ class Package():
         """
         self.position = pos
         self.destination = dest
-        self.carried = False
         self.index = i
+        self.carried = c
+
+    def __hash__(self):
+        return hash((self.position,self.destination,\
+                        self.index,self.carried,type(self)))
 
     def getIndex(self):
         """ Get index of the package """
@@ -90,28 +86,9 @@ class Package():
         """ Get the destination of package """
         return self.destination
 
-    def setPosition(self,pos):
-        """ Set the position of package """
-        self.position = pos
-
-    def setDestination(self,dest):
-        """ Set the destination of package """
-        self.destination = dest
-
     def isCarried(self):
         """ Determine if the package is carried """
         return self.carried
-
-    def isDelivered(self):
-        """ Determine if the package is delivered """
-        return (self.position == self.destination)
-
-    def setDelivered(self):
-        self.position = self.destination
-    
-    def setCarried(self, c):
-        """ Set the carried to be True """
-        self.carried = c
 
     def __str__(self):
         """ String Representation of the Package object """
@@ -119,7 +96,7 @@ class Package():
         "\n" + "Destination: " + str(self.destination) +\
         "\nCarried: " + str(self.carried)
 
-class State():
+class State(UniqueHashable):
     vehicles = None
     packages = None
 
@@ -131,6 +108,9 @@ class State():
         """
         self.vehicles = v
         self.packages = p
+
+    def __hash__(self):
+        return hash((self.vehicles,self.packages,type(self)))
 
     def getPackages(self):
         """

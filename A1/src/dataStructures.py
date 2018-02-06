@@ -1,6 +1,35 @@
 import queue as Queue
 import heapq
 
+class HashableDictionary():
+    table = None
+    name = None
+    def __init__(self, name):
+        self.table = {}
+        self.name = name
+
+    def __hash__(self):
+        ret = hash((self.name, *((k,v) for k,v in self.table.items())))
+        return ret
+
+    def __getitem__(self, index):
+        return table[index]
+
+    def __setitem__(self, index, item):
+        self.table[index] = item
+
+    def clone(self):
+        copy = HashableDictionary(self.name)
+        for k,v in self.table:
+            copy[k] = v
+        return copy
+
+    def items(self):
+        return self.table.items()
+
+    def pop(self, index):
+        table.pop(index)
+
 class StateStack():
     """
         State stack class that stores the states.
