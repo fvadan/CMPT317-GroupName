@@ -144,8 +144,8 @@ if __name__ == '__main__':
 
     print(p)
     dfs_result = Search.dfs(p)
-
-    exit()
+    if(len(sys.argv) < 2):
+        exit()
     A_star_result = Search.astar(p, heuristics[ int(sys.argv[1]) ])
     print("\n\n-----PRINTING A* RESULT-----\n\n")
     for i in A_star_result:
