@@ -137,6 +137,7 @@ class Problem():
         """
             Print out states where more than one vehicle is deployed:
         """
+        """
         for i in possibleSuccessors:
             count = 0
             for k,v in i.getState().getVehicles().items():
@@ -145,7 +146,7 @@ class Problem():
             if count > 1:
                 print("Multiple vehicles carrying packages:")
                 print(i)
-
+        """
         return possibleSuccessors
 
     def isGoal(self, state):

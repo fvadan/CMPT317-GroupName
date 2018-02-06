@@ -45,7 +45,7 @@ def h2(state):
         if v.getPosition() == origin:
             numVehiclesAtOrigin+=1
     distance = 0
-    distance += 100 * numVehiclesAtOrigin
+    distance += 10 * numVehiclesAtOrigin
     for k1, v in state.getVehicles().items():
         for k2, p in state.getPackages().items():
             if p.isCarried() != None and p.isCarried() != v.getIndex():
@@ -71,7 +71,7 @@ def h3(state):
         if v.getPosition() == origin:
             numVehiclesAtOrigin +=1
     distance = 0
-    distance += 100 * numVehiclesAtOrigin
+    distance += 10 * numVehiclesAtOrigin
     for k1, v in state.getVehicles().items():
         closest_mid = v.getPosition()
         for k2, p in state.getPackages().items():
