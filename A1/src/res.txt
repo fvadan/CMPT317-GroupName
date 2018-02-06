@@ -1,198 +1,152 @@
-(M, N, K, Y) := (2, 4, 2, 2)
+(M, N, K, Y) := (2, 2, 1, 2)
+Initial State:
+###############
+Vehicles:
+---------------
+Position: (0, 0)
+Index: 0
+Room: 1
+---------------
+Position: (0, 0)
+Index: 1
+Room: 1
+
+Packages: 
+----------
+Position: (0, 4)
+Destination: (0, 5)
+Carried: None
+----------
+Position: (4, 0)
+Destination: (5, 0)
+Carried: None
+###############
+
 DFS search results: 
----Expanded nodes:  13 
----Depth:  12  nodes
----Time:  8.32 ms
----Memory:  41  nodes 
----Total costn:  968 
+---Expanded nodes:  7 
+---Depth:  6  nodes
+---Time:  0.87 ms
+---Memory:  13  nodes 
 
 A* search results: 
----Expanded nodes:  1298 
----Depth:  9  nodes
----Time:  1856.64 ms
----Memory:  3302  nodes 
----Total cost:  528 
+---Expanded nodes:  114 
+---Depth:  6  nodes
+---Time:  12.71 ms
+---Memory:  160  nodes 
 
-A* search results: 
----Expanded nodes:  1168 
----Depth:  9  nodes
----Time:  1772.81 ms
----Memory:  2958  nodes 
----Total cost:  528 
 
-A* search results: 
----Expanded nodes:  7175 
----Depth:  9  nodes
----Time:  14366.91 ms
----Memory:  12377  nodes 
----Total cost:  528 
+
+-----PRINTING A* RESULT-----
+
 
 ###############
 Vehicles:
 ---------------
 Position: (0, 0)
+Index: 0
+Room: 1
 ---------------
 Position: (0, 0)
+Index: 1
+Room: 1
 
 Packages: 
 ----------
-Position: (1, 4)
-Destination: (2, 3)
-Carried: False
+Position: (0, 4)
+Destination: (0, 5)
+Carried: None
 ----------
-Position: (2, 7)
-Destination: (3, 2)
-Carried: False
-----------
-Position: (5, 8)
-Destination: (6, 9)
-Carried: False
-----------
-Position: (7, 2)
-Destination: (1, 6)
-Carried: False
+Position: (4, 0)
+Destination: (5, 0)
+Carried: None
 ###############
 
 ###############
 Vehicles:
 ---------------
-Position: (1, 4)
+Position: (4, 0)
+Index: 0
+Room: 0
 ---------------
 Position: (0, 0)
+Index: 1
+Room: 1
 
 Packages: 
 ----------
-Position: (1, 4)
-Destination: (2, 3)
-Carried: 0
+Position: (0, 4)
+Destination: (0, 5)
+Carried: None
 ----------
-Position: (2, 7)
-Destination: (3, 2)
-Carried: False
-----------
-Position: (5, 8)
-Destination: (6, 9)
-Carried: False
-----------
-Position: (7, 2)
-Destination: (1, 6)
-Carried: False
-###############
-
-###############
-Vehicles:
----------------
-Position: (2, 3)
----------------
-Position: (0, 0)
-
-Packages: 
-----------
-Position: (2, 7)
-Destination: (3, 2)
-Carried: False
-----------
-Position: (5, 8)
-Destination: (6, 9)
-Carried: False
-----------
-Position: (7, 2)
-Destination: (1, 6)
-Carried: False
-###############
-
-###############
-Vehicles:
----------------
-Position: (5, 8)
----------------
-Position: (0, 0)
-
-Packages: 
-----------
-Position: (2, 7)
-Destination: (3, 2)
-Carried: False
-----------
-Position: (5, 8)
-Destination: (6, 9)
-Carried: 0
-----------
-Position: (7, 2)
-Destination: (1, 6)
-Carried: False
-###############
-
-###############
-Vehicles:
----------------
-Position: (6, 9)
----------------
-Position: (0, 0)
-
-Packages: 
-----------
-Position: (2, 7)
-Destination: (3, 2)
-Carried: False
-----------
-Position: (7, 2)
-Destination: (1, 6)
-Carried: False
-###############
-
-###############
-Vehicles:
----------------
-Position: (7, 2)
----------------
-Position: (0, 0)
-
-Packages: 
-----------
-Position: (2, 7)
-Destination: (3, 2)
-Carried: False
-----------
-Position: (7, 2)
-Destination: (1, 6)
+Position: (4, 0)
+Destination: (5, 0)
 Carried: 0
 ###############
 
 ###############
 Vehicles:
 ---------------
-Position: (1, 6)
+Position: (4, 0)
+Index: 0
+Room: 0
 ---------------
-Position: (0, 0)
+Position: (0, 4)
+Index: 1
+Room: 0
 
 Packages: 
 ----------
-Position: (2, 7)
-Destination: (3, 2)
-Carried: False
-###############
-
-###############
-Vehicles:
----------------
-Position: (2, 7)
----------------
-Position: (0, 0)
-
-Packages: 
+Position: (0, 4)
+Destination: (0, 5)
+Carried: 1
 ----------
-Position: (2, 7)
-Destination: (3, 2)
+Position: (4, 0)
+Destination: (5, 0)
 Carried: 0
 ###############
 
 ###############
 Vehicles:
 ---------------
-Position: (3, 2)
+Position: (5, 0)
+Index: 0
+Room: 1
+---------------
+Position: (0, 4)
+Index: 1
+Room: 0
+
+Packages: 
+----------
+Position: (0, 4)
+Destination: (0, 5)
+Carried: 1
+###############
+
+###############
+Vehicles:
+---------------
+Position: (5, 0)
+Index: 0
+Room: 1
+---------------
+Position: (0, 5)
+Index: 1
+Room: 1
+
+Packages: 
+###############
+
+###############
+Vehicles:
+---------------
+Position: (5, 0)
+Index: 0
+Room: 1
 ---------------
 Position: (0, 0)
+Index: 1
+Room: 1
 
 Packages: 
 ###############
@@ -201,9 +155,18 @@ Packages:
 Vehicles:
 ---------------
 Position: (0, 0)
+Index: 0
+Room: 1
 ---------------
 Position: (0, 0)
+Index: 1
+Room: 1
 
 Packages: 
 ###############
+
+
+
+A STAR COST:  40 
+
 

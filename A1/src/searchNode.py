@@ -1,6 +1,6 @@
 from costUtils import *
 
-DISTANCE_TO_TIME = 0
+DISTANCE_TO_TIME = 1
 
 class SearchNode():
     """
@@ -9,6 +9,7 @@ class SearchNode():
     state = None
     pred = None
     cost = 0
+    vehicleDistances = None # list corresponding to the distances of all the vehicles.
 
     def __init__(self, _state, _pred):
         """
@@ -18,13 +19,15 @@ class SearchNode():
         """
         self.state = _state
         self.pred = _pred
+        self.vehicleDistances = [0] * len(_state.getVehicles())
         # adjust the cost only for non-root search nodes
         if self.pred is not None:
-            distancesBetweenVehicles = stateDiff(self.state,\
-                                                self.pred.getState())
-            totalDistanceTravelled = sum(distancesBetweenVehicles)
-            time = DISTANCE_TO_TIME * max(distancesBetweenVehicles)
-            self.cost = totalDistanceTravelled + time
+            distancesBetweenVehicles = stateDiff(self.state, self.pred.getState())
+            for i in range(len(distancesBetweenVehicles)):
+                self.vehicleDistances[i] = _pred.vehicleDistances[i] +\
+                                            distancesBetweenVehicles[i]
+            time = DISTANCE_TO_TIME * max(self.vehicleDistances)
+            self.cost = sum(self.vehicleDistances) + time
         else:
             self.cost = 0
 
@@ -35,7 +38,7 @@ class SearchNode():
         """
             String method for the SearchNodes
         """
-        return str(self.state)
+        return "State:" + str(self.state) + "\nCost: " + self.cost
 
     def getState(self):
         """

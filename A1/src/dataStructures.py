@@ -102,6 +102,7 @@ class StateQueue():
         Enqueue/add the next state to the queue.
         :param state: the state to be added to the queue.
         """
+
         self.q.put(state)
         self.num_el += 1
 
@@ -123,6 +124,7 @@ class StateHeap():
     """
         A heap based priority queue:
     """
+    lookup = None
     heapList = None
     num_el = 0
     equality = None
@@ -147,6 +149,7 @@ class StateHeap():
         """
         Constructor that initializes the heap.
         """
+        self.lookup = {} # dictionary containing the costs of each item
         self.heapList = []
         self.equality = _equality
         self.comparator = _comparator
@@ -155,36 +158,34 @@ class StateHeap():
         """
             Enqueue the given item.
         """
-        self.num_el += 1
-        heapq.heappush(self.heapList, StateHeap.HeapElement(item,self))
+        if item in self.lookup:
+            # Adjust cost and heapify:
+            if item.getCost() < self.lookup[item.getState()]:
+                self.lookup[item.getState()] = item.getCost()
+                for i in range(len(heapList)):
+                    if i.item == item:
+                        self.heapList[i] = StateHeap.HeapElement(item,self)
+                        heapq.heapify(self.heapList)
+                        break
+        else:
+            # put into lookup and add to heap:
+            self.lookup[item.getState()] = item.getCost()
+            heapq.heappush(self.heapList, StateHeap.HeapElement(item,self))
 
     def dequeue(self):
         """
             Dequeue the minimum element in the heap
         """
-        self.num_el -= 1
-        return heapq.heappop(self.heapList).item
-
-    def replace(self, item):
-        """
-            Replace an element with a given item
-        """
-        for i in range(len(self.heapList)):
-            if self.heapList[i].isEqual(item):
-                self.heapList[i] = item
-                reheapify(self.heapList)
-                break
-
-    def getNumEl(self):
-        """
-        Return the number of elements in the heap.
-        :return: number of elements in the heap.
-        """
-        return self.num_el
+        ret = heapq.heappop(self.heapList).item
+        if ret.getState() in self.lookup:
+            self.lookup.pop(ret.getState())
+            return ret
+        return None
 
     def isEmpty(self):
         """
         Return whether the heap is empty or not.
         :return: true if empty, false otherwise.
         """
-        return self.num_el == 0
+        assert(len(self.heapList) == len(self.lookup))
+        return (len(self.heapList) == 0)

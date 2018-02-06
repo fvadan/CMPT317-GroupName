@@ -48,7 +48,7 @@ def h2(state):
     distance += 100 * numVehiclesAtOrigin
     for k1, v in state.getVehicles().items():
         for k2, p in state.getPackages().items():
-            if p.isCarried() != None and p.isCarried() != v.getIndex():
+            if p.carrier() is not None and p.carrier() != v.getIndex():
                 continue
             src = p.getPosition()
             dest = p.getDestination()
@@ -93,20 +93,6 @@ def metric(point1, point2):
     :return: distance
     """
     return sum([abs(point1[i] - point2[i]) for i in range(len(point1))])
-
-def costFunction(trace):
-    """
-        Computes the cost of a path through the state space
-        :param: trace is the list of states in the path
-    """
-    # Store distance travelled by each vehicle:
-    totalDists = [0 for x in range(len(trace[0].getVehicles()))]
-    for i in range(1, len(trace)): # loop through the trace
-        diff = stateDiff(trace[i], trace[i-1]) # get the cost difference of
-                                                # the i'th and i-1'th state.
-        for j in range(len(diff)): # Add to each vehicle's total distance
-            totalDists[j] += diff[j]
-    return (sum(totalDists) + max(totalDists))
 
 def stateDiff(state1, state2):
     """
