@@ -86,7 +86,6 @@ class Search():
                 # adjust memory used if memory use larger than previous record
                 if memory < s.getNumEl():
                     memory = s.getNumEl()
-        print("NO SOLUTION:")
         return []
 
     def astar(problem, h):

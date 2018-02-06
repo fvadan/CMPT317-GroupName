@@ -22,7 +22,7 @@ class Vehicle(UniqueHashable):
         self.room = r
 
     def __hash__(self):
-        return hash((self.position,self.index,self.room,type(self)))
+        return hash((self.position,self.index,self.room))
 
     def getRoom(self):
         """
@@ -49,7 +49,9 @@ class Vehicle(UniqueHashable):
         """
             Format the position of the vehicle.
         """
-        return "---------------\nPosition: " + str(self.position) + "\n"
+        return "---------------\nPosition: " + str(self.position) + "\n" +\
+                "Index: " + str(self.index) + "\n" +\
+                "Room: " + str(self.room) + "\n"
 
 class Package(UniqueHashable):
     position = None
@@ -72,7 +74,7 @@ class Package(UniqueHashable):
 
     def __hash__(self):
         return hash((self.position,self.destination,\
-                        self.index,self.carried,type(self)))
+                        self.index,self.carried))
 
     def getIndex(self):
         """ Get index of the package """
@@ -86,7 +88,7 @@ class Package(UniqueHashable):
         """ Get the destination of package """
         return self.destination
 
-    def isCarried(self):
+    def carrier(self):
         """ Determine if the package is carried """
         return self.carried
 
@@ -110,7 +112,7 @@ class State(UniqueHashable):
         self.packages = p
 
     def __hash__(self):
-        return hash((self.vehicles,self.packages,type(self)))
+        return hash((self.vehicles,self.packages))
 
     def getPackages(self):
         """

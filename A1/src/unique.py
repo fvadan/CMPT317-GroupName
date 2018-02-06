@@ -21,6 +21,7 @@ class Ab(UniqueHashable):
     def __hash__(self):
         return hash((self.a, self.b))
 
+"""
 obj = Ab(5,6)
 obj2 = Ab(5,6)
 assert obj is obj2
@@ -32,4 +33,5 @@ l2 = [Ab(1,i) for i in range(10)]
 assert(hash(tuple(l1)) == hash(tuple(l2)))
 assert(obj == obj2)
 assert(2 == table[obj])
+"""
 

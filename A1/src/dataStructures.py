@@ -4,23 +4,26 @@ import heapq
 class HashableDictionary():
     table = None
     name = None
-    def __init__(self, name):
+    def __init__(self, n):
         self.table = {}
-        self.name = name
+        self.name = n
 
     def __hash__(self):
         ret = hash((self.name, *((k,v) for k,v in self.table.items())))
         return ret
 
     def __getitem__(self, index):
-        return table[index]
+        return self.table[index]
 
     def __setitem__(self, index, item):
         self.table[index] = item
 
+    def __len__(self):
+        return len(self.table)
+
     def clone(self):
         copy = HashableDictionary(self.name)
-        for k,v in self.table:
+        for k,v in self.table.items():
             copy[k] = v
         return copy
 
@@ -28,7 +31,7 @@ class HashableDictionary():
         return self.table.items()
 
     def pop(self, index):
-        table.pop(index)
+        self.table.pop(index)
 
 class StateStack():
     """
