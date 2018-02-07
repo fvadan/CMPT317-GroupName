@@ -12,6 +12,9 @@ def euclidean_metric(p1, p2):
     """
     return math.sqrt(sum([(p1[i] - p2[i]) ** 2 for i in range(len(p1))]))
 
+def h0(state):
+    return 0
+
 def h1(state):
     """
         Heuristic:
@@ -88,6 +91,11 @@ def h3(state):
     return distance
 
 def h4(state):
+    """
+        Heuristic that returns max source and destination distance of all
+        the packages.
+        :return: distance
+    """
     farthest_s = 0
     farthest_d = 0
     origin = [0 for x in range(len(state.getVehicles()[0].getPosition()))]

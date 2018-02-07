@@ -195,3 +195,7 @@ class StateHeap():
         """
         assert(len(self.heapList) == len(self.lookup))
         return (len(self.heapList) == 0)
+
+    def __len__(self):
+        assert(len(self.heapList) == len(self.lookup))
+        return len(self.heapList)

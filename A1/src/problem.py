@@ -57,7 +57,7 @@ class Problem():
         y = int(input())
         packages = []
         for i in range(n):
-            interm = list(map(int,input().strip().split(' ')))
+            interm = list(map(float,input().strip().split(' ')))
             src = tuple(interm[0:int(len(interm)/2)])
             des =  tuple(interm[int(len(interm)/2):len(interm)])
             packages.append((src, des))

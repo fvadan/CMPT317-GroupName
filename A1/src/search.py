@@ -1,6 +1,4 @@
-from dataStructures import StateStack
-from dataStructures import StateQueue
-from dataStructures import StateHeap
+from dataStructures import StateStack, StateQueue, StateHeap
 from problem import Problem
 import problem
 from costUtils import *
@@ -37,6 +35,7 @@ class Search():
                       "\n---Depth: ", depth, " nodes" \
                       "\n---Time: " , round(elapsed_time*1000,2), "ms"\
                       "\n---Memory: ", memory, " nodes"
+                      "\n---Cost: ", curr.getCost(), \
                       "\n")
                 return trace
             else:
@@ -67,7 +66,7 @@ class Search():
             curr = s.pop()
             # number of expanded nodes increases every time we pop
             exp_nodes += 1
-            if p.isGoal(curr.getState()):
+            if problem.isGoal(curr.getState()):
                 trace, depth = curr.traceBack()
                 elapsed_time = time.time() - start_time
                 print("DFS search results:", \
@@ -75,6 +74,7 @@ class Search():
                       "\n---Depth: ", depth, " nodes" \
                       "\n---Time: " , round(elapsed_time*1000,2), "ms"\
                       "\n---Memory: ", memory, " nodes", \
+                      "\n---Cost: ", curr.getCost(), \
                       "\n")
                 return trace
             else:
@@ -87,7 +87,7 @@ class Search():
                     memory = s.getNumEl()
         return []
 
-    def astar2(problem, h):
+    def astar(problem, h):
         """
             :param: problem which contains initialState
             :param: heuristic funciton to use.
@@ -96,7 +96,7 @@ class Search():
         exp_nodes = 0 # number of nodes expanded
         start_time = time.time() # Time we started the search.
         depth = 0 # the depth of our solution.
-        memory = 0 # the max height of the stack for the entire problem
+        memory = 0 # the max memory in use i.e. size of data structure
 
         # keep track of the states that were evaluated already
         seen = {}
@@ -124,7 +124,7 @@ class Search():
             seen[curr.getState()] = True
 
             # return the goal when you find it
-            if p.isGoal(curr.getState()):
+            if problem.isGoal(curr.getState()):
                 elapsed_time = time.time() - start_time
                 trace, depth = curr.traceBack()
                 print("A* search results:", \
@@ -132,12 +132,12 @@ class Search():
                       "\n---Depth: ", depth, " nodes" \
                       "\n---Time: " , round(elapsed_time*1000,2), "ms"\
                       "\n---Memory: ", memory, " nodes", \
+                      "\n---Cost: ", curr.getCost(), \
                       "\n")
 
                 return trace, curr.getCost()
 
-            successors = p.successors(curr)
-            memory += len(successors)
+            successors = problem.successors(curr)
             # for each successor of the current search node
             for s in successors:
                 # ignore the node which is already evaluated
@@ -145,22 +145,21 @@ class Search():
                     continue
                 else:
                     q.enqueue(s)
+            if len(q) > memory:
+                memory = len(q)
         return []
 
 if __name__ == '__main__':
-    h0 = lambda a: 0
-    heuristics = [h0, h1, h2, h3, h4]
-    p = Problem.readProblem()
-
-    print(p)
-    dfs_result = Search.dfs(p)
 
     if(len(sys.argv) < 2):
         exit()
+    h0 = lambda a: 0
+    heuristics = [h0, h1, h2, h3, h4]
+    p = Problem.readProblem()
+    print(p)
+    #bfs_result = Search.bfs(p)
+    dfs_result = Search.dfs(p)
+    A_star_trace, A_star_cost = Search.astar(p, heuristics[int(sys.argv[1])])
 
-    A_star_trace, A_star_cost = Search.astar2(p, heuristics[int(sys.argv[1])])
-
-    print("\n\n-----PRINTING A* RESULT-----\n\n")
-    for i in A_star_trace:
-        print(i)
-    print("\n\nA STAR COST: ", A_star_cost, "\n\n")
+    #for i in A_star_trace:
+    #    print(i)
