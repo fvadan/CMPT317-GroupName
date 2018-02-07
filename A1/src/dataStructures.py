@@ -1,10 +1,10 @@
 import queue as Queue
 import heapq
-from unique import UniqueHashable
 
-class HashableDictionary(UniqueHashable):
+class HashableDictionary():
     table = None
     name = None
+
     def __init__(self, n):
         self.table = {}
         self.name = n
@@ -14,10 +14,13 @@ class HashableDictionary(UniqueHashable):
         return ret
 
     def __getitem__(self, index):
-        return self.table[index]
+        return self.table[hash(index)]
+
+    def __contains__(self, index):
+        return (hash(index) in self.table)
 
     def __setitem__(self, index, item):
-        self.table[index] = item
+        self.table[hash(index)] = item
 
     def __len__(self):
         return len(self.table)
@@ -25,14 +28,14 @@ class HashableDictionary(UniqueHashable):
     def clone(self):
         copy = HashableDictionary(self.name)
         for k,v in self.table.items():
-            copy[k] = v
+            copy[hash(k)] = v
         return copy
 
     def items(self):
         return self.table.items()
 
     def pop(self, index):
-        self.table.pop(index)
+        self.table.pop(hash(index))
 
 class StateStack():
     """
@@ -140,9 +143,11 @@ class StateHeap():
             self.item = _item
             self.parent = _parent
 
+        # Solely for the purposes of the heap algorithms:
         def __eq__(self, other):
             return self.parent.equality(self.item, other.item)
 
+        # Solely for the purposes of the heap algorithms:
         def __lt__(self, other):
             return self.parent.comparator(self.item, other.item)
 
@@ -150,7 +155,7 @@ class StateHeap():
         """
         Constructor that initializes the heap.
         """
-        self.lookup = {} # dictionary containing the costs of each item
+        self.lookup = HashableDictionary("STATE_HEAP") # dictionary containing the costs of each item
         self.heapList = []
         self.equality = _equality
         self.comparator = _comparator
@@ -159,29 +164,29 @@ class StateHeap():
         """
             Enqueue the given item.
         """
-        if item in self.lookup:
-            # Adjust cost and heapify:
+        # if seen before
+        if item.getState() in self.lookup:
             if item.getCost() < self.lookup[item.getState()]:
+                seen_count = 0
                 self.lookup[item.getState()] = item.getCost()
-                for i in range(len(heapList)):
-                    if i.item == item:
-                        self.heapList[i] = StateHeap.HeapElement(item,self)
+                for i in range(len(self.heapList)):
+                    if self.heapList[i].item == item:
+                        self.heapList[i] = StateHeap.HeapElement(item, self)
                         heapq.heapify(self.heapList)
-                        break
+                        seen_count += 1
+                assert(seen_count == 1)
         else:
-            # put into lookup and add to heap:
             self.lookup[item.getState()] = item.getCost()
-            heapq.heappush(self.heapList, StateHeap.HeapElement(item,self))
+            heapq.heappush(self.heapList, StateHeap.HeapElement(item, self))
 
     def dequeue(self):
         """
             Dequeue the minimum element in the heap
         """
         ret = heapq.heappop(self.heapList).item
-        if ret.getState() in self.lookup:
-            self.lookup.pop(ret.getState())
-            return ret
-        return None
+        assert(ret.getState() in self.lookup)
+        self.lookup.pop(ret.getState())
+        return ret
 
     def isEmpty(self):
         """

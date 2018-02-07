@@ -142,6 +142,7 @@ class Search():
             for s in successors:
                 # ignore the node which is already evaluated
                 if s.getState() in seen:
+                    print("\n\n\nFOUND A CYCLE!\n\n\n")
                     continue
                 else:
                     q.enqueue(s)

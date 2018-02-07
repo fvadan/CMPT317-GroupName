@@ -81,14 +81,15 @@ states = {}
 states[st] = True
 states[st_copy] = False
 
+states_hash = HashableDictionary("States")
+states_hash[st] = True
+states_hash[st_copy] = False
+
 for k,v in states.items():
     print(k)
     print(v)
 
 assert(len(states) == 1)
 assert(states[st] == False)
-
-
-
-
-
+assert(len(states_hash) == 1)
+assert(states_hash[st] == False)

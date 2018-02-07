@@ -1,4 +1,3 @@
-
 from unique import UniqueHashable
 
 """
@@ -113,6 +112,9 @@ class State(UniqueHashable):
 
     def __hash__(self):
         return hash((self.vehicles,self.packages))
+
+    def __eq__(self, other):
+        return hash(self) == hash(other)
 
     def getPackages(self):
         """

@@ -31,14 +31,14 @@ class SearchNode():
         else:
             self.cost = 0
 
-    def isEqual(self, other):
-        return self.state == other.state
+    def __eq__(self, other):
+        return hash(self.state) == hash(other.state)
 
     def __str__(self):
         """
             String method for the SearchNodes
         """
-        return "State:" + str(self.state) + "\nCost: " + self.cost
+        return "State:" + str(self.state) + "\nCost: " + str(self.cost)
 
     def getState(self):
         """
