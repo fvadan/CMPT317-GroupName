@@ -21,10 +21,12 @@ class ProblemTestCase(unittest.TestCase):
         print("---* PRINTING SUCCESSORS OF INITIAL STATE *-----")
         states = [p.getInitState()]
         for i in range(6):
+            print("---Parent:")
+            print(states[0])
+            states = p.successors(states[0])
             print("---Successors: ", len(states))
             for s in states:
                 print(s)
-            states = p.successors(states[0].getState())
             print("----------------------------------------------------------")
 
 if __name__ == '__main__':

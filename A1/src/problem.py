@@ -1,4 +1,5 @@
 from problemState import State, Vehicle, Package
+from dataStructures import HashableDictionary
 from searchNode import SearchNode
 import copy
 
@@ -22,12 +23,12 @@ class Problem():
         self.n = _n
         self.k = _k
         self.y = _y
-        vehicles = {}
-        packages = {}
+        vehicles = HashableDictionary("VEHICLES")
+        packages = HashableDictionary("PACKAGES")
         for i in range(_m):
             vehicles[i] = Vehicle(tuple([0 for i in range(_y)]), i, _k)
         for j in range(len(packs)):
-            packages[j] = Package(packs[j][0], packs[j][1], j)
+            packages[j] = Package(packs[j][0], packs[j][1], j, None)
         self.initState = State(vehicles, packages)
 
     def getInitState(self):
@@ -56,7 +57,7 @@ class Problem():
         y = int(input())
         packages = []
         for i in range(n):
-            interm = list(map(int,input().strip().split(' ')))
+            interm = list(map(float,input().strip().split(' ')))
             src = tuple(interm[0:int(len(interm)/2)])
             des =  tuple(interm[int(len(interm)/2):len(interm)])
             packages.append((src, des))
@@ -74,66 +75,66 @@ class Problem():
             for k2, p in node.getState().getPackages().items():
 
                 # Vehicle is not carrying this package and it has no more room:
-                if p.getPosition() != v.getPosition() and v.getRoom() <= 0:
+                if p.carrier() != v.getIndex() and v.getRoom() <= 0:
                     # it can neither pickup this package nor deliver it:
                     continue
 
                 # First, cover the case when you can deliver something
                 # For each package picked up by/moving with v:
                 else:
-                    # Generate a new state:
-                    newState = copy.deepcopy(node.getState())
-
-                    if p.getPosition() == v.getPosition():
+                    if p.carrier() == v.getIndex():
                         # Change copied state to reflect a delivery:
-                        # Increase distance travelled for vehicle:
-                        currVehicle = newState.getVehicles()[v.getIndex()]
-                        # Moving to destination:
-                        currVehicle.setPosition(p.getDestination())
-                        # Decrease room in vehicle because of the new package:
-                        currVehicle.setRoom(v.getRoom() + 1)
+                        currVehicle = Vehicle(p.getDestination(),\
+                                                v.getIndex(), v.getRoom() + 1)
+                        vehicles = node.getState().getVehicles().clone()
+                        vehicles[v.getIndex()] = currVehicle
 
                         # Make sure that no vehicle carries beyond capacity:
-                        assert(currVehicle.getRoom() <= self.k and\
-                            currVehicle.getRoom() >= 0)
+                        assert(currVehicle.getRoom() <= self.k)
+                        assert(currVehicle.getRoom() >= 0)
 
-                        # a delivered package is no longer under consideration:
-                        newState.getPackages().pop(p.getIndex()) # removed
+                        packages = node.getState().getPackages().clone()
+                        packages.pop(p.getIndex())
                         # Append to list of possible states:
-                        possibleSuccessors.append(SearchNode(newState, node))
+                        newNode = SearchNode(State(vehicles,packages),node)
+                        possibleSuccessors.append(newNode)
 
                     # If the vehicle can pick up more packages:
-                    elif (v.getRoom() > 0) and (p.isCarried() is False):
+                    elif (v.getRoom() > 0) and (p.carrier() is None):
                         # Change copied state to reflect a pick up of package
-                            # p by v
-                        currVehicle = newState.getVehicles()[v.getIndex()]
-                        # Now move the vehicle to the position of the package
-                        currVehicle.setPosition(p.getPosition())
-                        # Adjust the room available for the vehicle
-                        currVehicle.setRoom(v.getRoom() - 1)
+                        # p by v:
+                        currVehicle = Vehicle(p.getPosition(),\
+                                                v.getIndex(), v.getRoom() - 1)
+                        vehicles = node.getState().getVehicles().clone()
+                        vehicles[v.getIndex()] = currVehicle
 
                         # Make sure that no vehicle carries beyond capacity:
-                        assert(currVehicle.getRoom() <= self.k and\
-                            currVehicle.getRoom() >= 0)
+                        assert(currVehicle.getRoom() <= self.k)
+                        assert(currVehicle.getRoom() >= 0)
 
                         # Set package as carried
-                        newState.getPackages()[p.getIndex()].setCarried(
-                            v.getIndex())
+                        pickUp = Package(p.getPosition(),p.getDestination(),
+                                            p.getIndex(),v.getIndex())
+                        packages = node.getState().getPackages().clone()
+                        packages[p.getIndex()] = pickUp
+
+                        newNode = SearchNode(State(vehicles,packages),node)
+
                         # Append to the list of possible states:
-                        possibleSuccessors.append(SearchNode(newState, node))
+                        possibleSuccessors.append(newNode)
 
             # Vehicle is empty, an option is to go back to origin:
             if v.getRoom() == self.k\
                     and v.getPosition() != tuple([0 for x in range(self.y)]):
-                # Make a deep copy of the state
-                newState = copy.deepcopy(node.getState())
                 # Define origin
                 garage = tuple([0 for x in range(self.y)])
-                currVehicle = newState.getVehicles()[v.getIndex()]
-                # Move the vehicle to the origin
-                currVehicle.setPosition(garage)
+                currVehicle = Vehicle(garage, v.getIndex(),v.getRoom())
+                vehicles = node.getState().getVehicles().clone()
+                vehicles[v.getIndex()] = currVehicle
+                packages = node.getState().getPackages().clone()
+                newNode = SearchNode(State(vehicles,packages), node)
                 # Append state to the possible successor
-                possibleSuccessors.append(SearchNode(newState, node))
+                possibleSuccessors.append(newNode)
         """
             Print out states where more than one vehicle is deployed:
         """
@@ -159,14 +160,14 @@ class Problem():
         for k, v in state.getVehicles().items():
             if v.getPosition() != origin:
                 return False
-        if state.getPackages() != {}:
+        if len(state.getPackages()) != 0:
             return False
         return True
 
     def __str__(self):
         """  String representation of Problem """
         return "(M, N, K, Y) := " + str((self.m, self.n, self.k, self.y)) +\
-            "\n" + "Current State:\n" + str(self.initState)
+            "\n" + "Initial State:\n" + str(self.initState)
 
     def getValues(self):
         """ String representation of the current values used """

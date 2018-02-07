@@ -1,5 +1,7 @@
 from costUtils import *
 
+DISTANCE_TO_TIME = 1
+
 class SearchNode():
     """
         Class keeps track of the position of the node in a graph.
@@ -7,6 +9,7 @@ class SearchNode():
     state = None
     pred = None
     cost = 0
+    vehicleDistances = None # list corresponding to the distances of all the vehicles.
 
     def __init__(self, _state, _pred):
         """
@@ -16,21 +19,26 @@ class SearchNode():
         """
         self.state = _state
         self.pred = _pred
+        self.vehicleDistances = [0] * len(_state.getVehicles())
         # adjust the cost only for non-root search nodes
         if self.pred is not None:
-            distancesBetweenVehicles = stateDiff(self.state,\
-                                                self.pred.getState())
-            totalDistanceTravelled = sum(distancesBetweenVehicles)
-            maxDist = 1000 * max(distancesBetweenVehicles)
-            self.cost = self.pred.getCost() + totalDistanceTravelled + maxDist
+            distancesBetweenVehicles = stateDiff(self.state, self.pred.getState())
+            for i in range(len(distancesBetweenVehicles)):
+                self.vehicleDistances[i] = _pred.vehicleDistances[i] +\
+                                            distancesBetweenVehicles[i]
+            time = DISTANCE_TO_TIME * max(self.vehicleDistances)
+            self.cost = sum(self.vehicleDistances) + time
         else:
             self.cost = 0
+
+    def __eq__(self, other):
+        return hash(self.state) == hash(other.state)
 
     def __str__(self):
         """
             String method for the SearchNodes
         """
-        return str(self.state)
+        return "State:" + str(self.state) + "\nCost: " + str(self.cost)
 
     def getState(self):
         """

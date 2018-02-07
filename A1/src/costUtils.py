@@ -12,6 +12,9 @@ def euclidean_metric(p1, p2):
     """
     return math.sqrt(sum([(p1[i] - p2[i]) ** 2 for i in range(len(p1))]))
 
+def h0(state):
+    return 0
+
 def h1(state):
     """
         Heuristic:
@@ -48,7 +51,7 @@ def h2(state):
     distance += 10 * numVehiclesAtOrigin
     for k1, v in state.getVehicles().items():
         for k2, p in state.getPackages().items():
-            if p.isCarried() != None and p.isCarried() != v.getIndex():
+            if p.carrier() is not None and p.carrier() != v.getIndex():
                 continue
             src = p.getPosition()
             dest = p.getDestination()
@@ -87,26 +90,29 @@ def h3(state):
         distance += euclidean_metric(v.getPosition(), origin)
     return distance
 
+def h4(state):
+    """
+        Heuristic that returns max source and destination distance of all
+        the packages.
+        :return: distance
+    """
+    farthest_s = 0
+    farthest_d = 0
+    origin = [0 for x in range(len(state.getVehicles()[0].getPosition()))]
+    for k, p in state.getPackages().items():
+        if p.isDelivered() is False:
+            if euclidean_metric(origin, p.position) > farthest_s:
+                farthest_s = euclidean_metric(origin, p.position) > farthest_s
+            if euclidean_metric(origin, p.destination) > farthest_d:
+                farthest_d = euclidean_metric(origin, p.destination) > farthest_d
+    return farthest_s + farthest_d
+
 def metric(point1, point2):
     """
     Return Manhattan distance.
     :return: distance
     """
     return sum([abs(point1[i] - point2[i]) for i in range(len(point1))])
-
-def costFunction(trace):
-    """
-        Computes the cost of a path through the state space
-        :param: trace is the list of states in the path
-    """
-    # Store distance travelled by each vehicle:
-    totalDists = [0 for x in range(len(trace[0].getVehicles()))]
-    for i in range(1, len(trace)): # loop through the trace
-        diff = stateDiff(trace[i], trace[i-1]) # get the cost difference of
-                                                # the i'th and i-1'th state.
-        for j in range(len(diff)): # Add to each vehicle's total distance
-            totalDists[j] += diff[j]
-    return (sum(totalDists) + max(totalDists))
 
 def stateDiff(state1, state2):
     """
