@@ -75,10 +75,9 @@ class Problem():
             for k2, p in node.getState().getPackages().items():
 
                 # Vehicle is not carrying this package and it has no more room:
-                if p.getPosition() != v.getPosition() and v.getRoom() <= 0:
+                if p.carrier() != v.getIndex() and v.getRoom() <= 0:
                     # it can neither pickup this package nor deliver it:
                     continue
-
 
                 # First, cover the case when you can deliver something
                 # For each package picked up by/moving with v:

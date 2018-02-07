@@ -87,6 +87,18 @@ def h3(state):
         distance += euclidean_metric(v.getPosition(), origin)
     return distance
 
+def h4(state):
+    farthest_s = 0
+    farthest_d = 0
+    origin = [0 for x in range(len(state.getVehicles()[0].getPosition()))]
+    for k, p in state.getPackages().items():
+        if p.isDelivered() is False:
+            if euclidean_metric(origin, p.position) > farthest_s:
+                farthest_s = euclidean_metric(origin, p.position) > farthest_s
+            if euclidean_metric(origin, p.destination) > farthest_d:
+                farthest_d = euclidean_metric(origin, p.destination) > farthest_d
+    return farthest_s + farthest_d
+
 def metric(point1, point2):
     """
     Return Manhattan distance.

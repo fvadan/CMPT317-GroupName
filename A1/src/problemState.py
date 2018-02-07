@@ -83,6 +83,9 @@ class Package(UniqueHashable):
         """ Get the position of package """
         return self.position
 
+    def isDelivered(self):
+        return self.position == self.destination
+
     def getDestination(self):
         """ Get the destination of package """
         return self.destination

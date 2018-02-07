@@ -142,7 +142,6 @@ class Search():
             for s in successors:
                 # ignore the node which is already evaluated
                 if s.getState() in seen:
-                    print("\n\n\nFOUND A CYCLE!\n\n\n")
                     continue
                 else:
                     q.enqueue(s)
@@ -150,7 +149,7 @@ class Search():
 
 if __name__ == '__main__':
     h0 = lambda a: 0
-    heuristics = [h0, h1, h2, h3]
+    heuristics = [h0, h1, h2, h3, h4]
     p = Problem.readProblem()
 
     print(p)
