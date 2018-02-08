@@ -1,5 +1,6 @@
 import queue as Queue
 import heapq
+import sys
 
 class HashableDictionary():
     table = None
@@ -166,6 +167,7 @@ class StateHeap():
         """
         # if seen before
         if item.getState() in self.lookup:
+            print("!!!Duplicate!!!")
             if item.getCost() < self.lookup[item.getState()]:
                 seen_count = 0
                 self.lookup[item.getState()] = item.getCost()
@@ -173,8 +175,15 @@ class StateHeap():
                     if self.heapList[i].item == item:
                         self.heapList[i] = StateHeap.HeapElement(item, self)
                         heapq.heapify(self.heapList)
+                        break
+
+                # Check counts:
+                for i in range(len(self.heapList)):
+                    if self.heapList[i].item == item:
                         seen_count += 1
-                assert(seen_count == 1)
+                if seen_count != 1:
+                    print("Seen Count:", seen_count, file=sys.stderr)
+                # assert(seen_count == 1)
         else:
             self.lookup[item.getState()] = item.getCost()
             heapq.heappush(self.heapList, StateHeap.HeapElement(item, self))
@@ -199,3 +208,4 @@ class StateHeap():
     def __len__(self):
         assert(len(self.heapList) == len(self.lookup))
         return len(self.heapList)
+

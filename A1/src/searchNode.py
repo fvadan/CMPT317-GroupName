@@ -22,7 +22,8 @@ class SearchNode():
         self.vehicleDistances = [0] * len(_state.getVehicles())
         # adjust the cost only for non-root search nodes
         if self.pred is not None:
-            distancesBetweenVehicles = stateDiff(self.state, self.pred.getState())
+            distancesBetweenVehicles = stateDiff(self.state,
+                                                    self.pred.getState())
             for i in range(len(distancesBetweenVehicles)):
                 self.vehicleDistances[i] = _pred.vehicleDistances[i] +\
                                             distancesBetweenVehicles[i]
@@ -67,3 +68,4 @@ class SearchNode():
             result.insert(0, cursor.getState())
             cursor = cursor.pred
         return result, depth
+

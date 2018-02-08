@@ -45,4 +45,10 @@ if __name__ == '__main__':
         _n = int(sys.argv[2])
         _k = int(sys.argv[3])
         _y = int(sys.argv[4])
-    main(_m, _n, _k, _y)
+        if len(sys.argv) > 5:
+            for i in range(int(sys.argv[5])):
+                main(_m, _n, _k, _y)
+                print("Complete ", i + 1, file=sys.stderr)
+        else:
+            main(_m,_n,_k,_y)
+
