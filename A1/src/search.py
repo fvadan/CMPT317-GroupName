@@ -14,6 +14,8 @@ class Search():
             Search algorithm
             :param initialState: the initial state that is passed to the
                                     algorithm.
+            :return:
+
         """
         # monitor performance stats
         exp_nodes = 0 # number of nodes expanded
@@ -27,19 +29,12 @@ class Search():
             curr = q.dequeue()
             # number of expanded nodes increases every time we dequeue
             exp_nodes += 1
-            if p.isGoal(curr.getState()):
+            if problem.isGoal(curr.getState()):
                 trace, depth = curr.traceBack()
                 elapsed_time = time.time() - start_time
-                print("BSF search results:", \
-                      "\n---Expanded nodes: ", exp_nodes, \
-                      "\n---Depth: ", depth, " nodes" \
-                      "\n---Time: " , round(elapsed_time*1000,2), "ms"\
-                      "\n---Memory: ", memory, " nodes"
-                      "\n---Cost: ", curr.getCost(), \
-                      "\n")
-                return trace
+                return trace, exp_nodes, depth, round(elapsed_time*1000,2), memory, curr.getCost()
             else:
-                succ = p.successors(curr)
+                succ = problem.successors(curr)
                 for successor in succ:
                     q.enqueue(successor)
                 # adjust memory used if memory use larger than previous record
@@ -52,6 +47,9 @@ class Search():
             Search algorithm
             :param initialState: the initial state that is passed to the
                                     algorithm.
+            :return:
+                list containing following items:
+                - Trace, expanded_nodes, depth, clock time, memory and cost
         """
 
         # monitor performance stats
@@ -69,16 +67,9 @@ class Search():
             if problem.isGoal(curr.getState()):
                 trace, depth = curr.traceBack()
                 elapsed_time = time.time() - start_time
-                print("DFS search results:", \
-                      "\n---Expanded nodes: ", exp_nodes, \
-                      "\n---Depth: ", depth, " nodes" \
-                      "\n---Time: " , round(elapsed_time*1000,2), "ms"\
-                      "\n---Memory: ", memory, " nodes", \
-                      "\n---Cost: ", curr.getCost(), \
-                      "\n")
-                return trace
+                return trace, exp_nodes, depth, round(elapsed_time*1000,2), memory, curr.getCost()
             else:
-                succ = p.successors(curr)
+                succ = problem.successors(curr)
                 memory += len(succ)
                 for successor in succ:
                     s.push(successor)
@@ -127,16 +118,7 @@ class Search():
             if problem.isGoal(curr.getState()):
                 elapsed_time = time.time() - start_time
                 trace, depth = curr.traceBack()
-                print("A* search results:", \
-                      "\n---Expanded nodes: ", exp_nodes, \
-                      "\n---Depth: ", depth, " nodes" \
-                      "\n---Time: " , round(elapsed_time*1000,2), "ms"\
-                      "\n---Memory: ", memory, " nodes", \
-                      "\n---Cost: ", curr.getCost(), \
-                      "\n")
-
-                return trace, curr.getCost()
-
+                return trace, exp_nodes, depth, round(elapsed_time*1000,2), memory, curr.getCost()
             successors = problem.successors(curr)
             # for each successor of the current search node
             for s in successors:
@@ -153,13 +135,15 @@ if __name__ == '__main__':
 
     if(len(sys.argv) < 2):
         exit()
-    h0 = lambda a: 0
+
     heuristics = [h0, h1, h2, h3, h4]
     p = Problem.readProblem()
     print(p)
-    #bfs_result = Search.bfs(p)
-    dfs_result = Search.dfs(p)
-    A_star_trace, A_star_cost = Search.astar(p, heuristics[int(sys.argv[1])])
+
+    bfs_trace, bfs_nodes, bfs_depth, bfs_time, bfs_memory, bfs_cost = Search.bfs(p)
+    dfs_trace, dfs_nodes, dfs_depth, dfs_time, dfs_memory, dfs_cost = Search.dfs(p)
+    astar_trace, astar_nodes, astar_depth, astar_time, astar_memory, astar_cost = \
+        Search.astar(p, heuristics[int(sys.argv[1])])
 
     #for i in A_star_trace:
     #    print(i)
