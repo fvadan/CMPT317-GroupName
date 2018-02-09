@@ -4,6 +4,18 @@ import problem
 from costUtils import *
 import time, math, sys
 
+"""
+    Search class that implements the search algorithms used in the MNKY problem.
+    The class defined BFS, DFS, and A* search.
+
+    Authors: Mahmud Ahzam*, Tayab Soomro*, Flaviu Vadan*
+    Class: CMPT317
+    Instructor: Michael Horsch
+    Assignment: 1
+
+    * - all authors equally contributed to the implementation 
+"""
+
 class Search():
     """
         Class deals with the search functionality.
@@ -144,6 +156,3 @@ if __name__ == '__main__':
     dfs_trace, dfs_nodes, dfs_depth, dfs_time, dfs_memory, dfs_cost = Search.dfs(p)
     astar_trace, astar_nodes, astar_depth, astar_time, astar_memory, astar_cost = \
         Search.astar(p, heuristics[int(sys.argv[1])])
-
-    #for i in A_star_trace:
-    #    print(i)

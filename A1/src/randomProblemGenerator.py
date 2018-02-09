@@ -5,9 +5,24 @@ import random as r
 from costUtils import *
 from problem import Problem
 
+"""
+    Random problem generator for the MNKY problem. The file defines and
+    implements functions to generate random problems for the MNKY problem
+    and generate plots of BFS, DFS, and A* performance. Problems range in
+    values having M = [1, 2], N = 3, K = [1, 2], and Y = [1, 2].
+
+    Authors: Mahmud Ahzam*, Tayab Soomro*, Flaviu Vadan*
+    Class: CMPT317
+    Instructor: Michael Horsch
+    Assignment: 1
+
+    * - all authors equally contributed to the implementation
+"""
+
 def generateRandomProblem():
     """
-        Return Problem
+        Generate and return a problem.
+        :return: problem.
     """
     _m = r.randint(1, 2)
     _n = 3
@@ -24,7 +39,7 @@ def generateRandomProblem():
 def generateDfsBfsPlot(n):
     """
         Generates a plot.
-        :param: # of random problems to generate
+        :param n: # of random problems to test algorithm on.
     """
 
     plt.figure()
@@ -56,7 +71,7 @@ def generateDfsBfsPlot(n):
 def generateAStarPlot(n):
     """
         Generates a plot.
-        :param: # of random problems to generate
+        :param n: # of random problems to test algorithm on.
     """
     colors = ['r','g','b','m','c']
     heuristics = [h0,h1,h2,h3,h4]

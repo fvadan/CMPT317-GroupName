@@ -1,7 +1,15 @@
 import math
+
 """
-File that defines all static methods that are required for cost computation
-and other metrics.
+    Implementation file of all metrics used for the MNKY problem. The file
+    defines and implements euclidean and manhattan distance methods, a method
+    for computing the value difference between two states, and the five
+    heuristics used in the MNKY problem.
+
+    Authors: Mahmud Ahzam, Tayab Soomro, Flaviu Vadan
+    Class: CMPT317
+    Instructor: Michael Horsch
+    Assignment: 1
 """
 
 def euclidean_metric(p1, p2):
@@ -14,7 +22,7 @@ def euclidean_metric(p1, p2):
 
 def h0(state):
     """
-        The zero heuristic. 
+        The zero heuristic.
     """
     return 0
 
