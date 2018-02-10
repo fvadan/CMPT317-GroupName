@@ -11,7 +11,7 @@ DISTANCE_TO_TIME = 10
     Instructor: Michael Horsch
     Assignment: 1
 
-    * - all authors equally contributed to the implementation 
+    * - all authors equally contributed to the implementation
 """
 
 class SearchNode():

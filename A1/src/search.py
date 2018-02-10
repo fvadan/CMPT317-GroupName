@@ -13,7 +13,7 @@ import time, math, sys
     Instructor: Michael Horsch
     Assignment: 1
 
-    * - all authors equally contributed to the implementation 
+    * - all authors equally contributed to the implementation
 """
 
 class Search():
