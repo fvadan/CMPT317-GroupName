@@ -167,7 +167,6 @@ class StateHeap():
         """
         # if seen before
         if item.getState() in self.lookup:
-            print("!!!Duplicate!!!")
             if item.getCost() < self.lookup[item.getState()]:
                 seen_count = 0
                 self.lookup[item.getState()] = item.getCost()
