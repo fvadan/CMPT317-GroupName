@@ -149,10 +149,31 @@ if __name__ == '__main__':
         exit()
 
     heuristics = [h0, h1, h2, h3, h4]
-    p = Problem.readProblem()
-    print(p)
+    heuristic = int(sys.argv[1])
 
-    bfs_trace, bfs_nodes, bfs_depth, bfs_time, bfs_memory, bfs_cost = Search.bfs(p)
-    dfs_trace, dfs_nodes, dfs_depth, dfs_time, dfs_memory, dfs_cost = Search.dfs(p)
+    p = Problem.readProblem()
+
+    #bfs_trace, bfs_nodes, bfs_depth, bfs_time, bfs_memory, bfs_cost = Search.bfs(p)
+    #dfs_trace, dfs_nodes, dfs_depth, dfs_time, dfs_memory, dfs_cost = Search.dfs(p)
     astar_trace, astar_nodes, astar_depth, astar_time, astar_memory, astar_cost = \
-        Search.astar(p, heuristics[int(sys.argv[1])])
+        Search.astar(p, heuristics[heuristic])
+
+    #bfs_overall = bfs_nodes + bfs_depth + bfs_time + bfs_memory + bfs_cost
+    #dfs_overall = dfs_nodes + dfs_depth + dfs_time + dfs_memory + dfs_cost
+    astar_overall = astar_nodes + astar_depth + astar_time + astar_memory + \
+                    astar_cost
+
+    print("\nProblem: ", p, "\n")
+    """
+    print("BFS results\n--nodes: ", bfs_nodes, "\n--depth: ", bfs_depth, \
+           "\n--time: ", bfs_time, "\n--memory: ", bfs_memory, "\n--cost: ", \
+           bfs_cost, "\n", "----------overall: ", bfs_overall, "\n")
+
+    print("DFS results\n--nodes: ", dfs_nodes, "\n--depth: ", dfs_depth, \
+           "\n--time: ", dfs_time, "\n--memory: ", dfs_memory, "\n--cost: ", \
+           dfs_cost, "\n", "----------overall: ", dfs_overall, "\n")
+    """
+    print("A* results on h", heuristic, "\n--nodes: ", astar_nodes, \
+           "\n--depth: ", astar_depth, "\n--time: ", astar_time, "\n--memory: ", \
+           astar_memory, "\n--cost: ", astar_cost, "\n", \
+           "----------overall: ", astar_overall, "\n")

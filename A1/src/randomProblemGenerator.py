@@ -25,8 +25,8 @@ def generateRandomProblem():
         :return: problem.
     """
     _m = r.randint(1, 2)
-    _n = 3
-    _k = r.randint(1, 2)
+    _n = 10
+    _k = r.randint(1, 4)
     _y = r.randint(1, 2)
 
     packages = []
@@ -43,8 +43,8 @@ def generateDfsBfsPlot(n):
     """
 
     plt.figure()
-    plt.xlabel("Problem #")
-    plt.ylabel("Load Count")
+    plt.xlabel("Problem Number")
+    plt.ylabel("Complexity")
 
     X = []
     Y_B = []
@@ -78,7 +78,7 @@ def generateAStarPlot(n):
 
     plt.figure()
     plt.xlabel("Problem number")
-    plt.ylabel("Load Count")
+    plt.ylabel("Complexity")
 
     H_Y = [[]]*5
     X = []
@@ -104,7 +104,7 @@ def main(n):
     """
     #generateDfsBfsPlot(n)
     generateAStarPlot(n)
-    generateDfsBfsPlot(n)
+    #generateDfsBfsPlot(n)
 
 if __name__ == '__main__':
     """
