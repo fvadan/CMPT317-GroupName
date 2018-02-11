@@ -20,13 +20,13 @@ def euclidean_metric(p1, p2):
     """
     return math.sqrt(sum([(p1[i] - p2[i]) ** 2 for i in range(len(p1))]))
 
-def h0(state):
+def h1(state):
     """
         The zero heuristic.
     """
     return 0
 
-def h1(state):
+def h2(state):
     """
         Heuristic:
         total delivery distance + return distance heuristic
@@ -45,7 +45,7 @@ def h1(state):
 
     return max_distance + delivery_distance
 
-def h2(state):
+def h3(state):
     """
         Heuristic:
         distances to mid-points of all delivery lines for all packages
@@ -67,7 +67,7 @@ def h2(state):
         distance += euclidean_metric(v.getPosition(), origin)
     return distance
 
-def h3(state):
+def h4(state):
     """
         Heuristic:
         distance to mid-point of minimum delivery line for all packages
@@ -93,7 +93,7 @@ def h3(state):
         distance += euclidean_metric(v.getPosition(), origin)
     return distance
 
-def h4(state):
+def h5(state):
     """
         Heuristic that returns max source and destination distance of all
         the packages.
