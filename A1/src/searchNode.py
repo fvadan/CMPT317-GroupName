@@ -22,8 +22,9 @@ class SearchNode():
     pred = None
     cost = 0
     vehicleDistances = None # list corresponding to the distances of all the vehicles.
+    planStep = None
 
-    def __init__(self, _state, _pred):
+    def __init__(self, _state, _pred, _planStep):
         """
             Initializes the search nodes class.
             :param _state: the state to construct.
@@ -43,6 +44,7 @@ class SearchNode():
             self.cost = sum(self.vehicleDistances) + time
         else:
             self.cost = 0
+        self.planStep = _planStep
 
     def __eq__(self, other):
         return hash(self.state) == hash(other.state)
@@ -67,6 +69,9 @@ class SearchNode():
         """
         return self.cost
 
+    def getPlanStep(self):
+        return self.planStep
+
     def traceBack(self):
         """
             Trace back to initial state:
@@ -74,10 +79,10 @@ class SearchNode():
         """
         depth = 0
         cursor = self.pred
-        result  = [self.state]
+        result  = [(self.state, self.getPlanStep())]
         while cursor is not None:
             depth += 1
-            result.insert(0, cursor.getState())
+            result.insert(0, (cursor.getState(), cursor.getPlanStep()))
             cursor = cursor.pred
         return result, depth
 

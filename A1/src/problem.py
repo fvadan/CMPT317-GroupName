@@ -51,7 +51,7 @@ class Problem():
         Return current state.
         :return: state.
         """
-        return SearchNode(self.initState, None)
+        return SearchNode(self.initState, None, "Begin\n")
 
     def readProblem():
         """
@@ -111,7 +111,10 @@ class Problem():
                         packages = node.getState().getPackages().clone()
                         packages.pop(p.getIndex())
                         # Append to list of possible states:
-                        newNode = SearchNode(State(vehicles,packages),node)
+                        planStep = "V" + str(v.getIndex()) + " delivers " +\
+                            "P" + str(p.getIndex()) + "\n"
+                        newNode = SearchNode(State(vehicles,packages),node,
+                                                planStep)
                         possibleSuccessors.append(newNode)
 
                     # If the vehicle can pick up more packages:
@@ -133,7 +136,11 @@ class Problem():
                         packages = node.getState().getPackages().clone()
                         packages[p.getIndex()] = pickUp
 
-                        newNode = SearchNode(State(vehicles,packages),node)
+                        planStep = "V" + str(v.getIndex()) + " picks up " +\
+                            "P" + str(p.getIndex()) + "\n"
+
+                        newNode = SearchNode(State(vehicles,packages),node,
+                                                planStep)
 
                         # Append to the list of possible states:
                         possibleSuccessors.append(newNode)
@@ -147,7 +154,8 @@ class Problem():
                 vehicles = node.getState().getVehicles().clone()
                 vehicles[v.getIndex()] = currVehicle
                 packages = node.getState().getPackages().clone()
-                newNode = SearchNode(State(vehicles,packages), node)
+                planStep = "V" + str(v.getIndex()) + " returns to origin\n"
+                newNode = SearchNode(State(vehicles,packages), node, planStep)
                 # Append state to the possible successor
                 possibleSuccessors.append(newNode)
         return possibleSuccessors
@@ -174,3 +182,4 @@ class Problem():
     def getValues(self):
         """ String representation of the current values used """
         return("(M, N, K, Y) := " + str((self.m, self.n, self.k, self.y)))
+
