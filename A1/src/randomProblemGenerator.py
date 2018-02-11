@@ -25,7 +25,7 @@ def generateRandomProblem():
         :return: problem.
     """
     _m = r.randint(1, 2)
-    _n = 10
+    _n = 2
     _k = r.randint(1, 4)
     _y = r.randint(1, 2)
 
@@ -68,6 +68,47 @@ def generateDfsBfsPlot(n):
     plt.legend(('BFS','DFS'))
     plt.show()
 
+def generateAStarPlotWithLines(n):
+    """
+        Generates a plot.
+        :param n: # of random problems to test algorithm on.
+    """
+    colors = ['r','g','b','m','c']
+    heuristics = [h0,h1,h2,h3,h4]
+
+    plt.figure()
+    plt.xlabel("Problem number")
+    plt.ylabel("Complexity")
+
+    H0_Y = []
+    H1_Y = []
+    H2_Y = []
+    H3_Y = []
+    H4_Y = []
+
+    for i in range(int(n)):
+        p = generateRandomProblem()
+        H0_Y.append(sum(S.astar(p, h0)[1:]))
+        H1_Y.append(sum(S.astar(p, h1)[1:]))
+        H2_Y.append(sum(S.astar(p, h2)[1:]))
+        H3_Y.append(sum(S.astar(p, h3)[1:]))
+        H4_Y.append(sum(S.astar(p, h4)[1:]))
+
+
+        # for j in range(len(results)):
+        #     y = sum(results[j])
+        #     H_Y.append(y)
+        #     #X.append(i)
+    plt.plot([x for x in range(1,n+1)], H0_Y, marker='o', linestyle='-', color=colors[0], label='h1')
+    plt.plot([x for x in range(1,n+1)], H1_Y, marker='o', linestyle='-', color=colors[1], label='h1')
+    plt.plot([x for x in range(1,n+1)], H2_Y, marker='o', linestyle='-', color=colors[2], label='h1')
+    plt.plot([x for x in range(1,n+1)], H3_Y, marker='o', linestyle='-', color=colors[3], label='h1')
+    plt.plot([x for x in range(1,n+1)], H4_Y, marker='o', linestyle='-', color=colors[4], label='h1')
+
+    plt.legend(('H1','H2','H3','H4','H5'))
+    plt.show()
+
+
 def generateAStarPlot(n):
     """
         Generates a plot.
@@ -80,16 +121,18 @@ def generateAStarPlot(n):
     plt.xlabel("Problem number")
     plt.ylabel("Complexity")
 
-    H_Y = [[]]*5
+    H_ALL = []
     X = []
     for i in range(int(n)):
         p = generateRandomProblem()
         results = [S.astar(p, h)[1:] for h in heuristics]
+        H_Y = []
         for j in range(len(results)):
             y = sum(results[j])
-            #H_Y[j].append(y)
+            H_Y.append(y)
             #X.append(i)
-            plt.plot(i, y, marker='o', linestyle='-', color=colors[j])
+            plt.plot([1,2,3,4,5], H_Y, marker='o', linestyle='-', color=colors[j])
+
     plt.legend(('H1','H2','H3','H4','H5'))
 
     # plt.plot(X, H_Y[1], marker='o', linestyle='-', color='g', label='H2')
@@ -102,8 +145,9 @@ def main(n):
     """
         Main program that generates statstics for M-N-K-Y Problem with plots.
     """
-    #generateDfsBfsPlot(n)
-    generateAStarPlot(n)
+    generateAStarPlotWithLines(10)
+    # generateDfsBfsPlot(n)
+    #generateAStarPlot(n)
     #generateDfsBfsPlot(n)
 
 if __name__ == '__main__':
