@@ -127,7 +127,7 @@ class Search():
             if len(q) > memory:
                 memory = len(q)
         # Search failed:
-        return []
+        return [],-1,-1,-1,-1,-1
 
 def readPlan(trace):
     result = "##########\nPlan:\n"
