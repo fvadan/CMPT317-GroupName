@@ -92,6 +92,7 @@ class Search():
 
     def astar(problem, h):
         """
+            Covers uniform cost search if h == lambda a: 0
             :param: problem which contains initialState
             :param: heuristic funciton to use.
         """
@@ -101,40 +102,24 @@ class Search():
         depth = 0 # the depth of our solution.
         memory = 0 # the max memory in use i.e. size of data structure
 
-        # keep track of the states that were evaluated already
         seen = {}
-
-        # initialize a queue that keeps track of successors that
-        # were not evaluted yet
         q = StateHeap(lambda a,b: a.getCost() + h(a.getState()) == \
                                   b.getCost() + h(b.getState()),   \
                       lambda a,b: a.getCost() + h(a.getState()) <  \
                                   b.getCost() + h(b.getState()))
 
-        # add initial state to the queue
         q.enqueue(problem.getInitState())
 
-        # keep getting states from the queue until we find the goal
         while q.isEmpty() is False:
-
-            # search node having the least cost
             curr = q.dequeue()
-
-            # number of expanded nodes increases every time we pop
             exp_nodes += 1
-
-            # mark as seen, issue with hashing was fixed
             seen[curr.getState()] = True
-
-            # return the goal when you find it
             if problem.isGoal(curr.getState()):
                 elapsed_time = time.time() - start_time
                 trace, depth = curr.traceBack()
                 return trace, exp_nodes, depth, round(elapsed_time*1000,2), memory, curr.getCost()
             successors = problem.successors(curr)
-            # for each successor of the current search node
             for s in successors:
-                # ignore the node which is already evaluated
                 if s.getState() in seen:
                     continue
                 else:
@@ -148,15 +133,15 @@ if __name__ == '__main__':
     p = Problem.readProblem()
 
     bfs_trace, bfs_nodes, bfs_depth, bfs_time, bfs_memory, bfs_cost = Search.bfs(p)
+    print("BFS: " + str(bfs_nodes+bfs_depth+bfs_time+bfs_memory+bfs_cost))
     dfs_trace, dfs_nodes, dfs_depth, dfs_time, dfs_memory, dfs_cost = Search.dfs(p)
+    print("DFS: " + str(dfs_nodes+dfs_depth+dfs_time+dfs_memory+dfs_cost))
     h1_trace, h1_nodes, h1_depth, h1_time, h1_memory, h1_cost = Search.astar(p,h1)
-    h2_trace, h2_nodes, h2_depth, h2_time, h2_memory, h2_cost = Search.astar(p,h2)
-    h3_trace, h3_nodes, h3_depth, h3_time, h3_memory, h3_cost = Search.astar(p,h3)
-    h4_trace, h4_nodes, h4_depth, h4_time, h4_memory, h4_cost = Search.astar(p,h4)
-
-    #print("BFS: " + str(bfs_nodes+bfs_depth+bfs_time+bfs_memory+bfs_cost))
-    #print("DFS: " + str(dfs_nodes+dfs_depth+dfs_time+dfs_memory+dfs_cost))
     print("H1: " + str(h1_nodes+h1_depth+h1_time+h1_memory+h1_cost))
+    h2_trace, h2_nodes, h2_depth, h2_time, h2_memory, h2_cost = Search.astar(p,h2)
     print("H2: " + str(h2_nodes+h2_depth+h2_time+h2_memory+h2_cost))
+    h3_trace, h3_nodes, h3_depth, h3_time, h3_memory, h3_cost = Search.astar(p,h3)
     print("H3: " + str(h3_nodes+h3_depth+h3_time+h3_memory+h3_cost))
+    h4_trace, h4_nodes, h4_depth, h4_time, h4_memory, h4_cost = Search.astar(p,h4)
     print("H4: " + str(h4_nodes+h4_depth+h4_time+h4_memory+h4_cost))
+
