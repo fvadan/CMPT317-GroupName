@@ -113,6 +113,8 @@ class Search():
         while q.isEmpty() is False:
             curr = q.dequeue()
             exp_nodes += 1
+            # This reduces hash conflicts but increases time:
+            # seen[(curr.getState(), curr.getPlanStep())] = True
             seen[curr.getState()] = True
             if problem.isGoal(curr.getState()):
                 elapsed_time = time.time() - start_time
