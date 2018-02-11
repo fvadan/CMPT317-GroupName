@@ -129,25 +129,46 @@ class Search():
         # Search failed:
         return []
 
+def readPlan(trace):
+    result = "\n##########\nPlan:\n\n"
+    for i in trace:
+        result += str(i)
+    return result
+
 if __name__ == '__main__':
 
     p = Problem.readProblem()
 
-    if len(sys.argv) > 1 and sys.argv[1] == "--with-bfs":
+    heuristics = [h1,h2,h3,h4,h5]
+
+    runBFS = False
+    printPlan = False
+    for i in sys.argv:
+        if i == "--run-bfs":
+            runBFS = True
+        if i == "--print-plan":
+            printPlan = True
+
+    if runBFS:
         bfs_trace, bfs_nodes, bfs_depth, bfs_time, bfs_memory, bfs_cost = Search.bfs(p)
         print("BFS: " + str(bfs_nodes+bfs_depth+bfs_time+bfs_memory) + "; Cost: " + str(bfs_cost))
+        if printPlan:
+            print(readPlan(bfs_trace))
 
     dfs_trace, dfs_nodes, dfs_depth, dfs_time, dfs_memory, dfs_cost = Search.dfs(p)
     print("DFS: " + str(dfs_nodes+dfs_depth+dfs_time+dfs_memory) + "; Cost: " + str(dfs_cost))
+    if printPlan:
+        print(readPlan(dfs_trace))
 
-    h1_trace, h1_nodes, h1_depth, h1_time, h1_memory, h1_cost = Search.astar(p,h1)
-    print("H1: " + str(h1_nodes+h1_depth+h1_time+h1_memory) + "; Cost: " + str(h1_cost))
-    h2_trace, h2_nodes, h2_depth, h2_time, h2_memory, h2_cost = Search.astar(p,h2)
-    print("H2: " + str(h2_nodes+h2_depth+h2_time+h2_memory) + "; Cost: " + str(h2_cost))
-    h3_trace, h3_nodes, h3_depth, h3_time, h3_memory, h3_cost = Search.astar(p,h3)
-    print("H3: " + str(h3_nodes+h3_depth+h3_time+h3_memory) + "; Cost: " + str(h3_cost))
-    h4_trace, h4_nodes, h4_depth, h4_time, h4_memory, h4_cost = Search.astar(p,h4)
-    print("H4: " + str(h4_nodes+h4_depth+h4_time+h4_memory) + "; Cost: " + str(h4_cost))
-    h5_trace, h5_nodes, h5_depth, h5_time, h5_memory, h5_cost = Search.astar(p,h5)
-    print("H5: " + str(h5_nodes+h5_depth+h5_time+h5_memory) + "; Cost: " + str(h5_cost))
+    i = 1
+    for h in heuristics:
+        result = list(Search.astar(p, h))
+        trace = result[0]
+        load_count = sum(result[1:5])
+        cost = result[5]
+        print("H" + str(i) + ": Load: " + str(load_count) + "; Cost: " +\
+                str(cost))
+        if printPlan:
+            print(readPlan(trace))
+        i += 1
 
