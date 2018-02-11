@@ -146,7 +146,6 @@ class Search():
 if __name__ == '__main__':
 
     p = Problem.readProblem()
-    print(p)
 
     bfs_trace, bfs_nodes, bfs_depth, bfs_time, bfs_memory, bfs_cost = Search.bfs(p)
     dfs_trace, dfs_nodes, dfs_depth, dfs_time, dfs_memory, dfs_cost = Search.dfs(p)
@@ -161,3 +160,4 @@ if __name__ == '__main__':
     print("H2: " + str(h2_nodes+h2_depth+h2_time+h2_memory+h2_cost))
     print("H3: " + str(h3_nodes+h3_depth+h3_time+h3_memory+h3_cost))
     print("H4: " + str(h4_nodes+h4_depth+h4_time+h4_memory+h4_cost))
+    
