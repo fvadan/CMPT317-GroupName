@@ -101,29 +101,18 @@ class Search():
         # keep track of the states that were evaluated already
         seen = {}
 
-        # initialize a queue that keeps track of successors that
-        # were not evaluted yet
+        # Priority queue with the right priority evaluation function:
         q = StateHeap(lambda a,b: a.getCost() + h(a.getState()) == \
                                   b.getCost() + h(b.getState()),   \
                       lambda a,b: a.getCost() + h(a.getState()) <  \
                                   b.getCost() + h(b.getState()))
 
-        # add initial state to the queue
         q.enqueue(problem.getInitState())
 
-        # keep getting states from the queue until we find the goal
         while q.isEmpty() is False:
-
-            # search node having the least cost
             curr = q.dequeue()
-
-            # number of expanded nodes increases every time we pop
             exp_nodes += 1
-
-            # mark as seen, issue with hashing was fixed
             seen[curr.getState()] = True
-
-            # return the goal when you find it
             if problem.isGoal(curr.getState()):
                 elapsed_time = time.time() - start_time
                 trace, depth = curr.traceBack()
@@ -138,15 +127,14 @@ class Search():
                 return trace, curr.getCost()
 
             successors = problem.successors(curr)
-            # for each successor of the current search node
             for s in successors:
-                # ignore the node which is already evaluated
                 if s.getState() in seen:
                     continue
                 else:
-                    q.enqueue(s)
+                    q.enqueue(s) # Handles cost modification as well
             if len(q) > memory:
                 memory = len(q)
+        # Search failed:
         return []
 
 if __name__ == '__main__':

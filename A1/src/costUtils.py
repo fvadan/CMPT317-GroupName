@@ -43,14 +43,9 @@ def h2(state):
                       positions.
     """
     origin = [0 for x in range(len(state.getVehicles()[0].getPosition()))]
-    numVehiclesAtOrigin = 0
-    for k, v in state.getVehicles().items():
-        if v.getPosition() == origin:
-            numVehiclesAtOrigin+=1
-    distance = 0
-    distance += 100 * numVehiclesAtOrigin
     for k1, v in state.getVehicles().items():
         for k2, p in state.getPackages().items():
+            # Package is carried by some other vehicle:
             if p.carrier() is not None and p.carrier() != v.getIndex():
                 continue
             src = p.getPosition()
@@ -69,20 +64,15 @@ def h3(state):
                       positions.
     """
     origin = [0 for x in range(len(state.getVehicles()[0].getPosition()))]
-    numVehiclesAtOrigin = 0
-    for k,v in state.getVehicles().items():
-        if v.getPosition() == origin:
-            numVehiclesAtOrigin +=1
-    distance = 0
-    distance += 100 * numVehiclesAtOrigin
     for k1, v in state.getVehicles().items():
         closest_mid = v.getPosition()
         for k2, p in state.getPackages().items():
+            # Package is carried by some other vehicle:
+            if p.carrier() is not None and p.carrier() != v.getIndex():
+                continue
             src = p.getPosition()
             dest = p.getDestination()
             p_mid = [abs(src[i]-dest[i])/2 for i in range(len(src))]
-            # Only add the minimum distance to a mid position instead of all
-            # package destination mid-points:
             if euclidean_metric(p_mid, v.getPosition()) \
                     < euclidean_metric(closest_mid, v.getPosition()):
                 closest_mid = p_mid
