@@ -154,10 +154,9 @@ if __name__ == '__main__':
     h3_trace, h3_nodes, h3_depth, h3_time, h3_memory, h3_cost = Search.astar(p,h3)
     h4_trace, h4_nodes, h4_depth, h4_time, h4_memory, h4_cost = Search.astar(p,h4)
 
-    print("BFS: " + str(bfs_nodes+bfs_depth+bfs_time+bfs_memory+bfs_cost))
-    print("DFS: " + str(dfs_nodes+dfs_depth+dfs_time+dfs_memory+dfs_cost))
+    #print("BFS: " + str(bfs_nodes+bfs_depth+bfs_time+bfs_memory+bfs_cost))
+    #print("DFS: " + str(dfs_nodes+dfs_depth+dfs_time+dfs_memory+dfs_cost))
     print("H1: " + str(h1_nodes+h1_depth+h1_time+h1_memory+h1_cost))
     print("H2: " + str(h2_nodes+h2_depth+h2_time+h2_memory+h2_cost))
     print("H3: " + str(h3_nodes+h3_depth+h3_time+h3_memory+h3_cost))
     print("H4: " + str(h4_nodes+h4_depth+h4_time+h4_memory+h4_cost))
-    
