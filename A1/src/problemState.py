@@ -1,7 +1,16 @@
 from unique import UniqueHashable
 
 """
-    Problem State - defines the structure of the problem state.
+    Problem state file defines the classes that are used for representing all
+    the information for the MNKY problem. The file implements class Vehicle,
+    Package, and State.
+
+    Authors: Mahmud Ahzam*, Tayab Soomro*, Flaviu Vadan*
+    Class: CMPT317
+    Instructor: Michael Horsch
+    Assignment: 1
+
+    * - all authors equally contributed to the implementation
 """
 
 class Vehicle(UniqueHashable):

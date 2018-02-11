@@ -1,6 +1,19 @@
 from problemState import Vehicle, Package, State
 from dataStructures import HashableDictionary
 
+"""
+    TestUnique file that tests whether classes instantiated with the same
+    parameters will hash to the same locations. Testing based on unique
+    hashable.
+
+    Authors: Mahmud Ahzam*, Tayab Soomro*, Flaviu Vadan*
+    Class: CMPT317
+    Instructor: Michael Horsch
+    Assignment: 1
+
+    * - all authors equally contributed to the implementation 
+"""
+
 v1 = Vehicle((0,), 0, 2)
 v1_copy = Vehicle((0,), 0, 2)
 

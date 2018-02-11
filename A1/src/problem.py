@@ -3,6 +3,21 @@ from dataStructures import HashableDictionary
 from searchNode import SearchNode
 import copy
 
+
+"""
+    Problem class that defines the blueprint for the problems used in the MNKY
+    problem. The class also contains methods to read a problem from standard
+    input, return successors of a particular state, and a method for checking
+    whether a given state is the goal state.
+
+    Authors: Mahmud Ahzam*, Tayab Soomro*, Flaviu Vadan*
+    Class: CMPT317
+    Instructor: Michael Horsch
+    Assignment: 1
+
+    * - all authors equally contributed to the implementation
+"""
+
 class Problem():
     """ Problem Class """
     m = None
@@ -135,19 +150,6 @@ class Problem():
                 newNode = SearchNode(State(vehicles,packages), node)
                 # Append state to the possible successor
                 possibleSuccessors.append(newNode)
-        """
-            Print out states where more than one vehicle is deployed:
-        """
-        """
-        for i in possibleSuccessors:
-            count = 0
-            for k,v in i.getState().getVehicles().items():
-                if v.getRoom() < self.k:
-                    count += 1
-            if count > 1:
-                print("Multiple vehicles carrying packages:")
-                print(i)
-        """
         return possibleSuccessors
 
     def isGoal(self, state):

@@ -1,6 +1,18 @@
 from costUtils import *
 
-DISTANCE_TO_TIME = 1
+DISTANCE_TO_TIME = 10
+
+"""
+    Search node class that defines and implements the search nodes used for
+    storing particular states, their origin state, and their cost.
+
+    Authors: Mahmud Ahzam*, Tayab Soomro*, Flaviu Vadan*
+    Class: CMPT317
+    Instructor: Michael Horsch
+    Assignment: 1
+
+    * - all authors equally contributed to the implementation
+"""
 
 class SearchNode():
     """

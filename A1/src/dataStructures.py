@@ -2,6 +2,19 @@ import queue as Queue
 import heapq
 import sys
 
+"""
+    Data structures file that defines and implements the "backbone" of the
+    assignment. The file contains implementations of all the data structures
+    that were used for the MNKY problem.
+
+    Authors: Mahmud Ahzam*, Tayab Soomro*, Flaviu Vadan*
+    Class: CMPT317
+    Instructor: Michael Horsch
+    Assignment: 1
+
+    * - all authors equally contributed to the implementation 
+"""
+
 class HashableDictionary():
     table = None
     name = None
