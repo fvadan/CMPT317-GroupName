@@ -107,31 +107,5 @@ def main(n):
     #generateDfsBfsPlot(n)
 
 if __name__ == '__main__':
-<<<<<<< HEAD
-    _m = 0
-    _n = 0
-    _k = 0
-    _y = 0
-    if len(sys.argv) < 5:
-        _m = 1 # std is 10
-        _n = 1
-        _k = 1
-        _y = 1
-    else:
-        _m = int(sys.argv[1]) # std is 10
-        _n = int(sys.argv[2])
-        _k = int(sys.argv[3])
-        _y = int(sys.argv[4])
-        if len(sys.argv) > 5:
-            for i in range(int(sys.argv[5])):
-                main(_m, _n, _k, _y)
-                print("Complete ", i + 1, file=sys.stderr)
-        else:
-            main(_m,_n,_k,_y)
-
-=======
-    """
-        Entry point
-    """
     main(sys.argv[1])
->>>>>>> master
+
