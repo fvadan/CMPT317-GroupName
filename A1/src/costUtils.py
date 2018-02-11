@@ -54,6 +54,7 @@ def h2(state):
                       positions.
     """
     origin = [0 for x in range(len(state.getVehicles()[0].getPosition()))]
+    distance = 0
     for k1, v in state.getVehicles().items():
         for k2, p in state.getPackages().items():
             # Package is carried by some other vehicle:
@@ -75,6 +76,7 @@ def h3(state):
                       positions.
     """
     origin = [0 for x in range(len(state.getVehicles()[0].getPosition()))]
+    distance = 0
     for k1, v in state.getVehicles().items():
         closest_mid = v.getPosition()
         for k2, p in state.getPackages().items():
@@ -101,11 +103,10 @@ def h4(state):
     farthest_d = 0
     origin = [0 for x in range(len(state.getVehicles()[0].getPosition()))]
     for k, p in state.getPackages().items():
-        if p.isDelivered() is False:
-            if euclidean_metric(origin, p.position) > farthest_s:
-                farthest_s = euclidean_metric(origin, p.position) > farthest_s
-            if euclidean_metric(origin, p.destination) > farthest_d:
-                farthest_d = euclidean_metric(origin, p.destination) > farthest_d
+        if euclidean_metric(origin, p.position) > farthest_s:
+            farthest_s = euclidean_metric(origin, p.position) > farthest_s
+        if euclidean_metric(origin, p.destination) > farthest_d:
+            farthest_d = euclidean_metric(origin, p.destination) > farthest_d
     return farthest_s + farthest_d
 
 def metric(point1, point2):
