@@ -1,8 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
-for i in `ls tests/test_cases`; do
-    echo "\n\n--------------------\n$i\n"
-    python3 search.py 1 < "tests/test_cases/$i"
+TEST_DIR="../tests/test_cases/"
+
+for i in `ls $TEST_DIR`; do
+    echo -e "\n\n--------------------\n$i\n"
+    python3 search.py 1 < "$TEST_DIR$i"
     echo "Finished $i" 1>&2
 done
 
