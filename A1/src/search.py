@@ -153,13 +153,13 @@ if __name__ == '__main__':
 
     if runBFS:
         bfs_trace, bfs_nodes, bfs_depth, bfs_time, bfs_memory, bfs_cost = Search.bfs(p)
-        print("\n----------")
+        print("----------")
         print("BFS: " + str(bfs_nodes+bfs_depth+bfs_time+bfs_memory) + "; Cost: " + str(bfs_cost))
         if printPlan:
             print(readPlan(bfs_trace))
 
     dfs_trace, dfs_nodes, dfs_depth, dfs_time, dfs_memory, dfs_cost = Search.dfs(p)
-    print("\n----------")
+    print("----------")
     print("DFS: " + str(dfs_nodes+dfs_depth+dfs_time+dfs_memory) + "; Cost: " + str(dfs_cost))
     if printPlan:
         print(readPlan(dfs_trace))
@@ -170,7 +170,7 @@ if __name__ == '__main__':
         trace = result[0]
         load_count = sum(result[1:5])
         cost = result[5]
-        print("\n----------")
+        print("----------")
         print("H" + str(i) + ": Load: " + str(load_count) + "; Cost: " +\
                 str(cost))
         if printPlan:
