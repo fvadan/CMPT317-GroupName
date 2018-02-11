@@ -15,7 +15,7 @@ import copy
     Instructor: Michael Horsch
     Assignment: 1
 
-    * - all authors equally contributed to the implementation 
+    * - all authors equally contributed to the implementation
 """
 
 class Problem():

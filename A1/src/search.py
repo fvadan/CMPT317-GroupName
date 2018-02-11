@@ -145,14 +145,19 @@ class Search():
 
 if __name__ == '__main__':
 
-    if(len(sys.argv) < 2):
-        exit()
-
-    heuristics = [h0, h1, h2, h3, h4]
     p = Problem.readProblem()
     print(p)
 
     bfs_trace, bfs_nodes, bfs_depth, bfs_time, bfs_memory, bfs_cost = Search.bfs(p)
     dfs_trace, dfs_nodes, dfs_depth, dfs_time, dfs_memory, dfs_cost = Search.dfs(p)
-    astar_trace, astar_nodes, astar_depth, astar_time, astar_memory, astar_cost = \
-        Search.astar(p, heuristics[int(sys.argv[1])])
+    h1_trace, h1_nodes, h1_depth, h1_time, h1_memory, h1_cost = Search.astar(p,h1)
+    h2_trace, h2_nodes, h2_depth, h2_time, h2_memory, h2_cost = Search.astar(p,h2)
+    h3_trace, h3_nodes, h3_depth, h3_time, h3_memory, h3_cost = Search.astar(p,h3)
+    h4_trace, h4_nodes, h4_depth, h4_time, h4_memory, h4_cost = Search.astar(p,h4)
+
+    print("BFS: " + str(bfs_nodes+bfs_depth+bfs_time+bfs_memory+bfs_cost))
+    print("DFS: " + str(dfs_nodes+dfs_depth+dfs_time+dfs_memory+dfs_cost))
+    print("H1: " + str(h1_nodes+h1_depth+h1_time+h1_memory+h1_cost))
+    print("H2: " + str(h2_nodes+h2_depth+h2_time+h2_memory+h2_cost))
+    print("H3: " + str(h3_nodes+h3_depth+h3_time+h3_memory+h3_cost))
+    print("H4: " + str(h4_nodes+h4_depth+h4_time+h4_memory+h4_cost))
