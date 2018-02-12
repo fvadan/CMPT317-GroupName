@@ -11,4 +11,3 @@ done
 echo -e "\n\n________________________________________________________\n3422.txt\n"
 python3 search.py < "$TEST_DIR""3422.txt"
 echo -e "\nFinished 3422.txt\n" 1>&2
-

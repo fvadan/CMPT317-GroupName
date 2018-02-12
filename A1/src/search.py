@@ -176,4 +176,3 @@ if __name__ == '__main__':
         if printPlan:
             print(readPlan(trace))
         i += 1
-
