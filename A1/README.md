@@ -21,6 +21,18 @@ The cost of a plan must consider the total distance travelled by all vehicles: y
 
 You can start with a few hard-coded M-N-K-Y problems, but you'll want to implement a random problem generator that puts N sources and destinations in the city at random locations.  You'll want to report average performance (run-time, solution cost, etc) for the problems you solve.
 
+Language used: 
+	- Python
+
+Package dependencies: 
+	- queue
+	- heapq	
+	- sys
+	- copy
+	- matplotlib.pyplot
+	- random
+	- time
+
 The implementation of the MNKY problem may be run in three different ways:
 
 1. Open Terminal and use ./runall.sh
