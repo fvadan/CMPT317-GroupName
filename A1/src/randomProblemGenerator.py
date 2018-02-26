@@ -25,7 +25,7 @@ def generateRandomProblem():
         :return: problem.
     """
     _m = r.randint(1, 2)
-    _n = 2
+    _n = 3
     _k = r.randint(1, 4)
     _y = r.randint(1, 2)
 
@@ -94,16 +94,11 @@ def generateAStarPlotWithLines(n):
         H3_Y.append(sum(S.astar(p, h3)[1:]))
         H4_Y.append(sum(S.astar(p, h4)[1:]))
 
-
-        # for j in range(len(results)):
-        #     y = sum(results[j])
-        #     H_Y.append(y)
-        #     #X.append(i)
-    plt.plot([x for x in range(1,n+1)], H0_Y, marker='o', linestyle='-', color=colors[0], label='h1')
-    plt.plot([x for x in range(1,n+1)], H1_Y, marker='o', linestyle='-', color=colors[1], label='h1')
-    plt.plot([x for x in range(1,n+1)], H2_Y, marker='o', linestyle='-', color=colors[2], label='h1')
-    plt.plot([x for x in range(1,n+1)], H3_Y, marker='o', linestyle='-', color=colors[3], label='h1')
-    plt.plot([x for x in range(1,n+1)], H4_Y, marker='o', linestyle='-', color=colors[4], label='h1')
+    plt.plot([x for x in range(1,n+1)], H0_Y, marker='o', linestyle='-', color='r')
+    plt.plot([x for x in range(1,n+1)], H1_Y, marker='o', linestyle='-', color='g')
+    plt.plot([x for x in range(1,n+1)], H2_Y, marker='o', linestyle='-', color='b')
+    plt.plot([x for x in range(1,n+1)], H3_Y, marker='o', linestyle='-', color='m')
+    plt.plot([x for x in range(1,n+1)], H4_Y, marker='o', linestyle='-', color='c')
 
     plt.legend(('H1','H2','H3','H4','H5'))
     plt.show()
@@ -145,11 +140,10 @@ def main(n):
     """
         Main program that generates statstics for M-N-K-Y Problem with plots.
     """
-    generateAStarPlotWithLines(10)
-    # generateDfsBfsPlot(n)
+    #generateAStarPlotWithLines(int(n))
+    generateDfsBfsPlot(n)
     #generateAStarPlot(n)
     #generateDfsBfsPlot(n)
 
 if __name__ == '__main__':
     main(sys.argv[1])
-
