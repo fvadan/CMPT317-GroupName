@@ -110,7 +110,7 @@ class Board():
         Tell whether attacker can capture defendant.
         """
         if self.board[attacker[0]][attacker[1]] == Piece.W:
-            if self.isDiag(attacker, defendant):
+            if self.isDiag(attacker, defendant) and self.board[defendant[0]][defendant[1]] != Piece.W:
                 if self.isOccupied(defendant):
                     return True
                 else:
@@ -163,10 +163,14 @@ class Board():
             newBoard = self.copy()
             newBoard.board[neighbour[0]][neighbour[1]] = \
                 self.board[piecePos[0]][piecePos[1]]
+
             newBoard.board[piecePos[0]][piecePos[1]] = Piece.E
             if self.identity(neighbour) == Piece.W:
+                #print("\n\n#######################", newBoard.wights, "##########\n\n")
+                #print("TUPLE:", neighbour, "\n")
+                #print(self)
                 newBoard.wights.pop( \
-                    newBoard.wights.index(neighbour))
+                    newBoard.wights.index(piecePos))
             elif self.identity(neighbour) == Piece.Q:
                 newBoard.queen = None
             elif self.identity(neighbour) == Piece.D:

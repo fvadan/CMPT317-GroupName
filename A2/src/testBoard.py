@@ -21,10 +21,10 @@ def main():
         [print(x) for x in b.neighbours((4, i))]
     #print(b1)
     """
-    print("SUCCESSORS\n")
-    [print("\n\n##############\n", x, "\n###########\n") for x in b.successors("Player 1")]
+    #print("SUCCESSORS\n")
+    #[print("\n\n##############\n", x, "\n###########\n") for x in b.successors("Player 1")]
 
-    #print(minimax(b, "Player 1", 0))
+    print(minimax(b, "Player 2", 0))
 
 
 if __name__ == '__main__':
