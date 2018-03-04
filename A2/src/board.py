@@ -1,7 +1,7 @@
 from copy import deepcopy
 
 class Piece():
-    W,Q,D,E = range(4)
+    W,Q,D,E = range(1, 4)
 
 P1 = "Player 1"
 P2 = "Player 2"
@@ -45,7 +45,9 @@ class Board():
         return deepcopy(self)
 
     def __str__(self):
-        """ String representation of the board """
+        """
+        String representation of the board.
+        """
         retVal = "Board:\n"
         for i in range(len(self.board)):
             for j in range(len(self.board)):
@@ -60,21 +62,102 @@ class Board():
             retVal += "\n"
         return retVal
 
-    def neighbours(pos):
-        def isLeftEdge(p):
-            return False
-        def isRightEdge(p):
-            return False
-        def isTop(p):
-            return False
-        def isBottom(p):
-            return False
+    def isDiag(self, p1, p2):
+        """
+        Return whether two points are diagonal to each other.
+        """
+        if p1 == (p2[0]-1, p2[1]-1) or
+           p1 == (p2[0]+1, p2[1]+1) or
+           p1 == (p2[0]+1, p2[1]-1) or
+           p1 == (p2[0]-1, p2[1]+1):
+            return True
+        return False
 
-        top = [(pos[0]-1, pos[1]-1), (pos[0], pos[1]-1), (pos[0]+1, pos[0]+1)]
-        mid = [(pos[0], pos[0]-1), (pos[0], pos[0]+1)]
-        bottom = [(pos[0]+1, pos[0]-1), (pos[0]+1, pos[0]), (pos[0]+1, pos[0]+1)]
+    def neighbours(self, pos):
+        """
+        Return the possible neighbours.
+        """
+        res = []
+        x,y = pos[0], pos[1]
+        I = x-1
+        J = y-1
+        for i in range(I, I+3):
+            for j in range(J, J+3):
+                if i < 0 or j < 0 or i > 4 or j > 4 or (i,j) == pos:
+                    continue
+                else:
+                    if self.canCapture(self.board[pos], (i,j)):
+                        res.append((i, j))
+                    res.append((i,j))
+        return res
 
-        return top + mid + bottom
+    def isOccupied(self, pos):
+        """
+        If the position is occupied, return what occupies the position.
+        Otherwise, return false.
+        """
+        return self.board[pos] != Piece.E
+
+    def canCapture(self, attacker, defendant):
+        """
+        Tell whether attacker can capture defendant.
+        """
+        if self.board[attacker] == Piece.W:
+            if self.isDiag(attacker, defendant):
+                if self.isOccupied(defendant):
+                    return True
+                else:
+                    return False
+            else:
+                if not self.isOccupied(defendant):
+                    return True
+                else:
+                    return False
+        else: # attacker is either Queen or Dragon
+            if self.isOccupied(attacker)
+               and (self.board[defendant] == Piece.W
+               or not self.isOccupied(defendant)):
+                return True
+        return False
+
+    def isTerminal(self, board, ply):
+        """
+        Determine if a given board state is a terminal state
+        """
+        max_ply = 50
+
+        # Queen reaches the Wight's home row
+        if board.queen[1] == 4:
+            return True
+
+        # Queen is captured
+        if board.queen == None:
+            return True
+
+        # Reached max ply
+        if ply == max_ply:
+            return True
+
+        return False
+
+    def possiblePieceMoves(self, piecePos):
+        """
+        Return the list of all the possible movies of a given piece
+        :param: piecePos -- the piece to determine the possible moves of.
+        """
+        possibleMoves = []
+        # All valid neighbours:
+        for neighbour in self.neighbours(piecePos):
+            newBoard = self.copy()
+            newBoard.board[neighbour] = piecePos
+
+            possibleMoves.append(newBoard)
+            if neighbour == Piece.W:
+                newBoard.wights.pop(
+                    newBoard.wights.index(neighbour))
+
+
+        return possibleMoves
 
     def successors(self, player):
         """
@@ -84,11 +167,16 @@ class Board():
 
         if(player == P1):
 
-            # Queen's move
-            nb = self.neighbours(self.queen)
-            for i in range(neighbours):
-                newBoard = self.copy()
-                newBoard.queen = nb[i]
-                possibleSuccessors.append(newBoard)
+            # Queen moves
+            possibleSuccessors.append(self.possiblePieceMoves(self.queen))
+
+            # Dragons' moves
+            for dragon in self.board.dragons:
+                possibleSuccessors.append(self.possiblePieceMoves(dragon))
+
         else:
-            return 0
+            # Wights moves
+            for wight in self.board.wights:
+                possibleSuccessors.append(self.possiblePieceMoves(wight))
+
+        return possibleSuccessors
