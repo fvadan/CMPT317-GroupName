@@ -1,10 +1,17 @@
 from copy import deepcopy
 
-class Piece():
-    W,Q,D,E = range(1, 5)
-
+# Status Constants:
+PLAYER_1_WIN = 1
+PLAYER_2_WIN = -1
+DRAW = 0
+NON_TERMINAL = 404
+MAX_PLY = 50
 P1 = "Player 1"
 P2 = "Player 2"
+
+# Types of pieces:
+class Piece():
+    W,Q,D,E = range(1, 5)
 
 class Board():
     """
@@ -35,7 +42,7 @@ class Board():
 
         # Initialize the positions of queen, wights and dragons
         self.queen = (0,2)
-        self.wights = [(5,i) for i in range(5)]
+        self.wights = [(4,i) for i in range(5)]
         self.dragons = [(1, i) for i in range (1,4)]
 
     def copy(self):
@@ -81,6 +88,7 @@ class Board():
         x,y = pos[0], pos[1]
         I = x-1
         J = y-1
+
         for i in range(I, I+3):
             for j in range(J, J+3):
                 if i < 0 or j < 0 or i > 4 or j > 4 or (i,j) == pos:
@@ -119,25 +127,24 @@ class Board():
                 return True
         return False
 
-    def isTerminal(self, ply):
+    def utility(self, ply):
         """
-        Determine if a given board state is a terminal state
+        Return the utility of a board.
         """
-        max_ply = 50
 
         # Queen reaches the Wight's home row
-        if self.board.queen[1] == 4:
-            return True
+        if self.queen[0] == 4:
+            return PLAYER_1_WIN
 
         # Queen is captured
-        if self.board.queen == None:
-            return True
+        if self.queen == None:
+            return PLAYER_2_WIN
 
         # Reached max ply
-        if ply == max_ply:
-            return True
+        if ply == MAX_PLY:
+            return DRAW
 
-        return False
+        return NON_TERMINAL
 
     def identity(self, pos):
         """
@@ -154,7 +161,9 @@ class Board():
         # All valid neighbours:
         for neighbour in self.neighbours(piecePos):
             newBoard = self.copy()
-            newBoard.board[neighbour[0]][neighbour[1]] = piecePos
+            newBoard.board[neighbour[0]][neighbour[1]] = \
+                self.board[piecePos[0]][piecePos[1]]
+            newBoard.board[piecePos[0]][piecePos[1]] = Piece.E
             if self.identity(neighbour) == Piece.W:
                 newBoard.wights.pop( \
                     newBoard.wights.index(neighbour))
