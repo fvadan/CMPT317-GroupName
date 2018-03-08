@@ -1,5 +1,6 @@
 from board import Board
 from gamePlay import minimax
+from evaluate import Evaluate
 
 def main():
     b = Board()
@@ -24,7 +25,11 @@ def main():
     #print("SUCCESSORS\n")
     #[print("\n\n##############\n", x, "\n###########\n") for x in b.successors("Player 1")]
 
-    print(minimax(b, "Player 2", 0))
+    #print(minimax(b, "Player 2", 0))
+
+    for succ in b.successors("Player 1"):
+        print("Successor:\n", succ)
+        print("Evaluation:", Evaluate(succ).evaluation(), "\n\n")
 
 
 if __name__ == '__main__':

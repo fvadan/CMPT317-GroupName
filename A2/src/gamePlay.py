@@ -9,26 +9,7 @@ NON_TERMINAL = 404
 MAX_PLY = 50
 MAX = "Player 1"
 MIN = "Player 2"
-"""
-def minimax(board, player, ply):
 
-    sleep(10)
-    util = board.utility(ply)
-    print("\n\n############ Playing ply:", ply, "############\n")
-    print(board)
-    print("\n############ Done ############\n\n")
-    if util == PLAYER_1_WIN or util == PLAYER_2_WIN or util == DRAW:
-        return util
-    else:
-        nextP = MIN if player == MAX else MAX
-        succ = board.successors(nextP)
-        [print(x) for x in succ]
-        val = [minimax(s, nextP, ply + 1) for s in board.successors(player)]
-        if val == []: # No successors/no moves left
-            return DRAW
-        else:
-            return max(val) if player == MAX else min(val)
-"""
 def minimax(board, player, ply):
     """
     Minimax algorithm.
@@ -37,11 +18,11 @@ def minimax(board, player, ply):
     :param ply: the turn number;
     :return value: value of the game.
     """
-
+    
     rec_table = dict()
 
     def do_minimax(board, player, ply):
-        sleep(1)
+        sleep(0.25)
         print("\n##### START PLY: ", ply, " #####")
         print("\nSTATUS:\n", len(board.wights), " wights\n", \
                 len(board.queen)-1, " queen\n", len(board.dragons), " dragons\n")
