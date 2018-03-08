@@ -127,28 +127,9 @@ class Board():
                 return True
         return False
 
-    def utility(self, ply):
-        """
-        Return the utility of a board.
-        """
-
-        # Queen reaches the Wight's home row
-        if self.queen[0] == 4:
-            return PLAYER_1_WIN
-
-        # Queen is captured
-        if self.queen == None:
-            return PLAYER_2_WIN
-
-        # Reached max ply
-        if ply == MAX_PLY:
-            return DRAW
-
-        return NON_TERMINAL
-
     def identity(self, pos):
         """
-        Tell what piece was given.
+        Determine what piece was given.
         """
         return self.board[pos[0]][pos[1]]
 
@@ -166,9 +147,6 @@ class Board():
 
             newBoard.board[piecePos[0]][piecePos[1]] = Piece.E
             if self.identity(neighbour) == Piece.W:
-                #print("\n\n#######################", newBoard.wights, "##########\n\n")
-                #print("TUPLE:", neighbour, "\n")
-                #print(self)
                 newBoard.wights.pop( \
                     newBoard.wights.index(piecePos))
             elif self.identity(neighbour) == Piece.Q:
