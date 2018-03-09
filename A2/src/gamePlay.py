@@ -1,6 +1,7 @@
 from board import *
 from time import sleep
 from evaluate import Evaluate
+from hashTable import HashTable
 
 # Status Constants:
 PLAYER_1_WIN = 1
@@ -20,7 +21,7 @@ def minimax(board, player, ply):
     :return value: value of the game.
     """
 
-    rec_table = dict()
+    rec_table = HashTable()
 
     def do_minimax(board, player, ply):
 
@@ -38,6 +39,7 @@ def minimax(board, player, ply):
 
         s = board.__str__()
         u = boardEval.utility(ply)
+        rec_table[s] = u 
         if s in rec_table:
             print("\n\nRETURNED FROM TRANSPOSITION TABLE!\n\n")
             return rec_table[s]

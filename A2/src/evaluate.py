@@ -25,7 +25,7 @@ class Evaluate():
             3. Displacement of dragon * (W3 = 6)
             4. Number of wights * (W4 = -3)
             5. Number of dragons * (W5 = 4)
-            6. Queen under attack * (W6 = -40)  <-- (0 or 1) * weight
+            6. Queen under attack * (W6 = -40)  <-- (0 or 1) * wights
         :return: evaluation value.
         """
         # Weights for different evalution features.
@@ -40,16 +40,19 @@ class Evaluate():
         queen_attacked = self.queenUnderAttack() * W6
 
         # Displacement of wights
-        num_w = len(self.board.wights) * W4
-
+        initial_wight_position = 4
+        disp_w = sum([abs(w[0] - initial_wight_position) for w in self.board.wights]) * W2
+        
         # Displacement of dragons
         num_d = len(self.board.dragons) * W5
-        evaluation_value = num_w + num_d + queen_attacked
+        evaluation_value = disp_w + num_d + queen_attacked
 
         # Normalize
         norm_eval = ((evaluation_value - MIN_SCORE)/(MAX_SCORE - MIN_SCORE)) * MAX_SCORE
 
         return norm_eval, evaluation_value
+
+
 
     def utility(self, ply):
         """
