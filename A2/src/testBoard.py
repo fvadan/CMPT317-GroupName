@@ -59,9 +59,9 @@ def main():
     print(b)
     print(Evaluate(b).evaluation(), "\n\n")
 
-    for k, v in tab.tab.items():
+    for k, v in tab.items():
         print("Board:\n", k)
-        print("Eval:", v)
+        print("Eval:", str(v))
 
 
 if __name__ == '__main__':
