@@ -2,6 +2,14 @@ from board import Board, Piece
 
 MAX_SCORE = 100
 MIN_SCORE = -100
+# Status Constants:
+PLAYER_1_WIN = 1
+PLAYER_2_WIN = -1
+DRAW = 0
+NON_TERMINAL = 404
+MAX_PLY = 50
+P1 = "Player 1"
+P2 = "Player 2"
 
 class Evaluate():
     board = None
@@ -25,8 +33,8 @@ class Evaluate():
         evaulation_value = 0
 
         # Displacement of queen
-        initial_queen_pos = 2
-        displacement_queen = abs(initial_queen_pos  - self.board.queen) * W1
+        dest_queen_pos_y = 4
+        displacement_queen = abs(dest_queen_pos_y  - self.board.queen[0]) * W1
 
         # Queen under attack?
         queen_attacked = self.queenUnderAttack() * W6
@@ -49,11 +57,11 @@ class Evaluate():
         """
 
         # Queen reaches the Wight's home row
-        if self.queen[0] == 4:
+        if self.board.queen[0] == 4:
             return PLAYER_1_WIN
 
         # Queen is captured
-        if self.queen == None:
+        if self.board.queen == None:
             return PLAYER_2_WIN
 
         # Reached max ply

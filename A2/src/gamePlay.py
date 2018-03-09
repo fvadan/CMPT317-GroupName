@@ -1,5 +1,6 @@
 from board import *
 from time import sleep
+from evaluate import Evaluate
 
 # Status Constants:
 PLAYER_1_WIN = 1
@@ -18,18 +19,25 @@ def minimax(board, player, ply):
     :param ply: the turn number;
     :return value: value of the game.
     """
-    
+
     rec_table = dict()
 
     def do_minimax(board, player, ply):
-        sleep(0.25)
+
+        #sleep(0.50)
         print("\n##### START PLY: ", ply, " #####")
         print("\nSTATUS:\n", len(board.wights), " wights\n", \
                 len(board.queen)-1, " queen\n", len(board.dragons), " dragons\n")
         print(board)
+
+        boardEval = Evaluate(board)
+
+        print("Evaluation:")
+        print(boardEval.evaluation(), "\n")
         print("##### END PLY: ", ply, " #####\n")
+
         s = board.__str__()
-        u = board.utility(ply)
+        u = boardEval.utility(ply)
         if s in rec_table:
             print("\n\nRETURNED FROM TRANSPOSITION TABLE!\n\n")
             return rec_table[s]
