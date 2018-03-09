@@ -25,7 +25,7 @@ def minimax(board, player, ply):
 
     def do_minimax(board, player, ply):
 
-        #sleep(0.50)
+        sleep(0.50)
         print("\n##### START PLY: ", ply, " #####")
         print("\nSTATUS:\n", len(board.wights), " wights\n", \
                 len(board.queen)-1, " queen\n", len(board.dragons), " dragons\n")
@@ -39,7 +39,7 @@ def minimax(board, player, ply):
 
         s = board.__str__()
         u = boardEval.utility(ply)
-        rec_table[s] = u 
+
         if s in rec_table:
             print("\n\nRETURNED FROM TRANSPOSITION TABLE!\n\n")
             return rec_table[s]
@@ -52,5 +52,5 @@ def minimax(board, player, ply):
                 return DRAW
             else:
                 return max(val) if player == MAX else min(val)
-
+        rec_table[s] = u
     return do_minimax(board, player, ply)

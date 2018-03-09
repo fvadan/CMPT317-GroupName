@@ -32,18 +32,10 @@ class HashTable():
             l.append((key, item))
             self.tab[key] = l
 
-    def items(self):
-        for k,v in self.tab.items():
-            for i in v:
-                yield i[0],i[1]
-
-    def keys(self):
-        for k,v in self.tab.items():
-            for i in v:
-                yield i[0]
-
-    def __iter__(self):
-        for k,v in self.tab.items():
-            for i in v:
-                yield i[1]
-
+    def __contains__(self, key):
+        if key in self.tab:
+            l = self.tab[key]
+            for i in l:
+                if i[0] == key:
+                    return True
+        return False

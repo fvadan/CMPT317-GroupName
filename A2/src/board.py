@@ -177,3 +177,6 @@ class Board():
                 possibleSuccessors += self.possiblePieceMoves(wight)
 
         return possibleSuccessors
+
+    def __hash__(self):
+        return hash(self.queen + tuple(self.wights) + tuple(self.dragons))

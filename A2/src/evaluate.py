@@ -1,7 +1,7 @@
 from board import Board, Piece
 
-MAX_SCORE = 100
-MIN_SCORE = -100
+MAX_SCORE = 200
+MIN_SCORE = -200
 # Status Constants:
 PLAYER_1_WIN = 1
 PLAYER_2_WIN = -1
@@ -10,6 +10,14 @@ NON_TERMINAL = 404
 MAX_PLY = 50
 P1 = "Player 1"
 P2 = "Player 2"
+
+
+def manhattan_dist(p1,p2):
+    """
+    Return Manhattan distnace between two points.
+    :return: distance
+    """
+    return abs(p1[0]-p2[0]) + abs(p1[1]-p2[1])
 
 class Evaluate():
     board = None
@@ -20,39 +28,53 @@ class Evaluate():
         """
         Return the evaluation of the current state/board.
         Evaluation is determined by following factors:
-            1. Displacement of queen * (W1 = 20)
-            2. Dislacement of wights * (W2 = 5)
-            3. Displacement of dragon * (W3 = 6)
-            4. Number of wights * (W4 = -3)
-            5. Number of dragons * (W5 = 4)
-            6. Queen under attack * (W6 = -40)  <-- (0 or 1) * wights
+            1. Displacement of queen * (W1 = 10)
+            2. Dislacement of wights * (W2 = -5)
+            3. Displacement of dragon * (W3 = 5)
+            4. Number of wights * (W4 = -2)
+            5. Number of dragons * (W5 = 3)
+            6. Queen under attack * (W6 = -50)  <-- (0 or 1) * wights
         :return: evaluation value.
         """
         # Weights for different evalution features.
-        W1, W2, W3, W4, W5, W6 = 20, 5, 6, -3, 4, -40
+        W1, W2, W3, W4, W5, W6 = 20, -5, 10, -10, 15, MIN_SCORE
         evaulation_value = 0
 
         # Displacement of queen
         dest_queen_pos_y = 4
-        displacement_queen = abs(dest_queen_pos_y  - self.board.queen[0]) * W1
+        disp_q = abs(dest_queen_pos_y  - self.board.queen[0]) * W1
 
         # Queen under attack?
         queen_attacked = self.queenUnderAttack() * W6
 
-        # Displacement of wights
-        initial_wight_position = 4
-        disp_w = sum([abs(w[0] - initial_wight_position) for w in self.board.wights]) * W2
-        
-        # Displacement of dragons
-        num_d = len(self.board.dragons) * W5
-        evaluation_value = disp_w + num_d + queen_attacked
+        # Displacement of wights, Manhattan distance
+        disp_w = ((sum([manhattan_dist(w, self.board.queen) for w in self.board.wights]))\
+                    /len(self.board.wights)) * W2
 
+        # Number of wights
+        num_w = len(self.board.wights) * W4
+
+        # Number of dragons
+        num_d = len(self.board.dragons) * W5
+
+        # Displacement dragons
+        dest_dragon_pos = 4
+        disp_d = (sum([abs(d[0] - dest_dragon_pos) for d in self.board.dragons])) * W3
+
+        print("Values: ", disp_w, num_w, disp_d, num_d, disp_q, queen_attacked)
+        # Actuall Evalution Value
+        evaluation_value = disp_w + num_w + disp_d + num_d + disp_q + queen_attacked
+
+        """
+        # if evaluate_value > 100:
+        #     evaluate_value = 100
+        # elif evaluate_value < 100:
+        #       evaluate_value = -100
+        """
         # Normalize
-        norm_eval = ((evaluation_value - MIN_SCORE)/(MAX_SCORE - MIN_SCORE)) * MAX_SCORE
+        norm_eval = ((evaluation_value - MIN_SCORE)/(MAX_SCORE - MIN_SCORE)) * 100
 
         return norm_eval, evaluation_value
-
-
 
     def utility(self, ply):
         """
