@@ -55,8 +55,10 @@ class Game():
 
 game = Game()
 while not game.isAtEndGame():
-    print("Current Board at ply: " + str(game.ply))
+    print("Current Board at ply: " + str(game.ply), "; Player:", game.player)
     print(game.board)
+    print("Successors:")
+    [print(x.encode()) for x in game.successors]
     print("Advance?\n>")
     input()
     game.advanceWithAI(alphaBeta)
