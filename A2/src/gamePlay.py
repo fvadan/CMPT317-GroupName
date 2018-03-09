@@ -72,4 +72,3 @@ def minimax(board, player, ply, depth):
     ### Internal function ends
 
     return do_minimax(board, player, ply, depth)
-

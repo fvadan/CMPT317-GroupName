@@ -1,8 +1,11 @@
 from copy import deepcopy
 from constants import Constants
 
-# Types of pieces:
+
 class Piece():
+    """
+    Types of pieces on the board.
+    """
     W,Q,D,E = range(1, 5)
 
 class Board():
@@ -20,6 +23,9 @@ class Board():
         self.pieces = dict()
 
     def constructBoard(self):
+        """
+        Construct the board according to what pieces are on the board.
+        """
         ret = [["--" for i in range(5)] for j in range(5)]
         for k,v in self.pieces.items():
             ret[v[1][0]][v[1][1]] = k
@@ -117,7 +123,7 @@ class Board():
 
     def possiblePieceMoves(self, board, piece_id):
         """
-        Return the list of all the possible movies of a given piece
+        Return the list of all the possible moves of a given piece
         :param: piecePos -- the piece to determine the possible moves of.
         """
         possibleSuccessors = []
@@ -135,6 +141,12 @@ class Board():
         return possibleSuccessors
 
     def successors(self, player):
+        """
+        Return the list of possible successors of a given board, according
+        to the player.
+        :param - player: MAX or MIN player
+        :return: list of successors of player 
+        """
         b = self.constructBoard()
         possibleSuccessors = []
         for k,v in self.pieces.items():
@@ -147,8 +159,6 @@ class Board():
 
     def __hash__(self):
         return hash(tuple([v[1] for k,v in self.pieces.items()]))
-
-
 
 class BoardAdapter():
     """
@@ -171,6 +181,3 @@ class BoardAdapter():
         for i in ["W0", "W1", "W2", "W3", "W4"]:
             if i in b.pieces:
                 self.wights.append(b.pieces[i][1])
-
-
-

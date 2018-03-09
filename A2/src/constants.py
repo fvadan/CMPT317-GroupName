@@ -14,3 +14,4 @@ class Constants():
     MAX_PLY = 50
     MAX = "Player 1"
     MIN = "Player 2"
+    QUEEN_DESTINATION = 4

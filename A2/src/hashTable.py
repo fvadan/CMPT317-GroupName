@@ -1,12 +1,22 @@
 
 class HashTable():
+    """
+    HashTable class defined specifically for the board game.
+    """
 
     tab = None
 
     def __init__(self):
+        """
+        Constructor, initialize the hash table.
+        """
         self.tab = dict()
 
     def __getitem__(self, key):
+        """
+        Return the item if in table.
+        :return: item.
+        """
         if key not in self.tab:
             return None
         else:
@@ -19,6 +29,11 @@ class HashTable():
                         return i[1]
 
     def __setitem__(self, key, item):
+        """
+        Add an item to the table.
+        :param - key: key of the item
+        :param - item: item to add
+        """
         if key not in self.tab:
             self.tab[key] = [(key, item)]
         else:
@@ -33,17 +48,28 @@ class HashTable():
             self.tab[key] = l
 
     def items(self):
+        """
+        Get the list of items (key, value) currently in the table.
+        :return: list of items
+        """
         for k,v in self.tab.items():
             for i in v:
                 yield i[0],i[1]
 
     def keys(self):
+        """
+        Get the keys currently stored in the table.
+        :return: list of keys.
+        """
         for k,v in self.tab.items():
             for i in v:
                 yield i[0]
 
     def __iter__(self):
+        """
+        Get the values stored in the table.
+        :return: list of values. 
+        """
         for k,v in self.tab.items():
             for i in v:
                 yield i[1]
-
