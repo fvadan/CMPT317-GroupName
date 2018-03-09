@@ -1,6 +1,6 @@
 import random
 from board import Board, Piece
-from gamePlay import minimax
+from gamePlay import minimax, alphaBeta
 from evaluate import Evaluate
 from hashTable import HashTable
 
@@ -62,7 +62,10 @@ def main():
         print("#####")
     """
 
-    print(minimax(b, "Player 1", 0, 0))
+    print("Minimax result of initial node: ",\
+        minimax(b, "Player 1", 0, 5))
+    print("Alpha-Beta result of initial node: ",\
+        alphaBeta(b, "Player 1", 0, 5))
 
 if __name__ == '__main__':
     main()

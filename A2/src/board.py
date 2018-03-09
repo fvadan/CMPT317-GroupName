@@ -122,7 +122,6 @@ class Board():
                         res.append((i, j))
         return res
 
-
     def possiblePieceMoves(self, board, piece_id):
         """
         Return the list of all the possible moves of a given piece
@@ -147,7 +146,7 @@ class Board():
         Return the list of possible successors of a given board, according
         to the player.
         :param - player: MAX or MIN player
-        :return: list of successors of player 
+        :return: list of successors of player
         """
         b = self.constructBoard()
         possibleSuccessors = []

@@ -15,3 +15,5 @@ class Constants():
     MAX = "Player 1"
     MIN = "Player 2"
     QUEEN_DESTINATION = 4
+    INF = math.inf
+    NEGINF = (-1) * math.inf
