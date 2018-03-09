@@ -134,6 +134,33 @@ class Board():
             possibleSuccessors.append(new_board)
         return possibleSuccessors
 
+    def successors(self):
+        b = self.constructBoard()
+        possibleSuccessors = []
+        for k,v in self.pieces.items():
+            possibleSuccessors += self.possiblePieceMoves(b, k)
+        return possibleSuccessors
+
     def __hash__(self):
         return hash(tuple([v[1] for k,v in self.pieces.items()]))
+
+
+
+class BoardAdapter():
+    """
+        Adapter for previous implementation
+    """
+    board = None
+    queen = None
+    dragons = None
+    wights = None
+
+    def __init__(self, b):
+        self.new_scheme = b
+        self.board = b.constructBoard()
+        self.queen = b.pieces["QQ"][1]
+        self.dragons = [b.pieces[x][1] for x in ["D0", "D1", "D2"]]
+        self.wights = [b.pieces[x][1] for x in ["W0", "W1", "W2", "W3", "W4"]]
+
+
 

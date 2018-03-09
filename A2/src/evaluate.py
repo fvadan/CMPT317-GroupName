@@ -1,4 +1,4 @@
-from board import Board, Piece
+from board import Board, Piece, BoardAdapter
 
 MAX_SCORE = 200
 MIN_SCORE = -200
@@ -22,7 +22,7 @@ def manhattan_dist(p1,p2):
 class Evaluate():
     board = None
     def __init__(self, board):
-        self.board = board
+        self.board = BoardAdapter(board)
 
     def evaluation(self):
         """
