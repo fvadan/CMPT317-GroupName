@@ -31,3 +31,19 @@ class HashTable():
             # Didn't find key: Safe to append:
             l.append((key, item))
             self.tab[key] = l
+
+    def items(self):
+        for k,v in self.tab.items():
+            for i in v:
+                yield i[0],i[1]
+
+    def keys(self):
+        for k,v in self.tab.items():
+            for i in v:
+                yield i[0]
+
+    def __iter__(self):
+        for k,v in self.tab.items():
+            for i in v:
+                yield i[1]
+
