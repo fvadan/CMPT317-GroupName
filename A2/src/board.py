@@ -163,7 +163,7 @@ class Board():
         res = tuple([])
         for k in Piece.keyList:
             if k in self.pieces:
-                res += self.pieces[k][1]
+                res += self.pieces[k]
         return res
 
 class BoardAdapter():
