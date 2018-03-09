@@ -1,7 +1,6 @@
 from copy import deepcopy
 from constants import Constants
 
-
 class Piece():
     """
     Types of pieces on the board.

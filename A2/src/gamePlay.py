@@ -66,6 +66,10 @@ def alphaBeta(board, player, ply, depth):
     rec_table = HashTable()
 
     def do_alphaBeta(board, player, ply, alpha, beta, depth):
+        """
+        :param - alpha: alpha value
+        :param - beta: beta value
+        """
         # check if board is already in the table
         if board.encode() in rec_table:
             return rec_table[board.encode()]
@@ -84,7 +88,6 @@ def alphaBeta(board, player, ply, depth):
                 ret = Constants.DRAW
             elif player == Constants.MAX:
                 v = Constants.NEGINF
-
                 for child in successors:
                     v = max(v, do_alphaBeta(child, Constants.MIN, ply+1, \
                                          alpha, beta, depth-1))
