@@ -1,16 +1,5 @@
 from board import Board, Piece, BoardAdapter
-
-MAX_SCORE = 200
-MIN_SCORE = -200
-# Status Constants:
-PLAYER_1_WIN = MAX_SCORE
-PLAYER_2_WIN = MIN_SCORE
-DRAW = 0
-NON_TERMINAL = 404
-MAX_PLY = 50
-P1 = "Player 1"
-P2 = "Player 2"
-
+from constants import Constants
 
 def manhattan_dist(p1,p2):
     """
@@ -37,7 +26,7 @@ class Evaluate():
         :return: evaluation value.
         """
         # Weights for different evalution features.
-        W1, W2, W3, W4, W5, W6 = 20, -5, 10, -10, 15, MIN_SCORE
+        W1, W2, W3, W4, W5, W6 = 20, -5, 10, -10, 15, Constants.MIN_SCORE
         evaulation_value = 0
 
         # Displacement of queen
@@ -67,14 +56,9 @@ class Evaluate():
         # Actuall Evalution Value
         evaluation_value = disp_w + num_w + disp_d + num_d + disp_q + queen_attacked
 
-        """
-        # if evaluate_value > 100:
-        #     evaluate_value = 100
-        # elif evaluate_value < 100:
-        #       evaluate_value = -100
-        """
         # Normalize
-        norm_eval = ((evaluation_value - MIN_SCORE)/(MAX_SCORE - MIN_SCORE)) * 100
+        norm_eval = ((evaluation_value - Constants.MIN_SCORE)/\
+                    (Constants.MAX_SCORE - Constants.MIN_SCORE)) * 100
 
         return norm_eval, evaluation_value
 
@@ -85,17 +69,17 @@ class Evaluate():
 
         # Queen is captured
         if self.board.queen == None:
-            return PLAYER_2_WIN
+            return Constants.PLAYER_2_WIN
 
         # Queen reaches the Wight's home row
-        if self.board.queen[0] == 4:
-            return PLAYER_1_WIN
+        if self.board.queen[0] == Constants.QUEEN_DESTINATION:
+            return Constants.PLAYER_1_WIN
 
         # Reached max ply
-        if ply == MAX_PLY:
-            return DRAW
+        if ply == Constants.MAX_PLY:
+            return Constants.DRAW
 
-        return NON_TERMINAL
+        return Constants.NON_TERMINAL
 
     def queenUnderAttack(self):
         """
