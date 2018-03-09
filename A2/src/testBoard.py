@@ -23,11 +23,18 @@ def main():
         [print(x) for x in b.neighbours(b.constructBoard(), (4, i))]
     #print(b1)
 
-    """
     #print("SUCCESSORS\n")
-    #[print("\n\n##############\n", x, "\n###########\n")\
-        for x in b.successors("Player 1")]
+    [print("\n\n##############\n", x, "\n###########\n")\
+        for x in b.possiblePieceMoves(b.constructBoard(), "QQ")]
+    [print("\n\n##############\n", x, "\n###########\n")\
+        for x in b.possiblePieceMoves(b.constructBoard(), "D0")]
+    [print("\n\n##############\n", x, "\n###########\n")\
+        for x in b.possiblePieceMoves(b.constructBoard(), "W0")]
 
+
+
+
+    """
     print(minimax(b, "Player 2", 0, 0))
 
     # Tests for evaluation function

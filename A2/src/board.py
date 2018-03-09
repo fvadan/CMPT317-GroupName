@@ -22,7 +22,7 @@ class Board():
     def constructBoard(self):
         ret = [["--" for i in range(5)] for j in range(5)]
         for k,v in self.pieces.items():
-            ret[v[2][0]][v[2][1]] = k
+            ret[v[1][0]][v[1][1]] = k
         return ret
 
     def initialValues(self):
@@ -31,10 +31,10 @@ class Board():
         """
         # Initialize the positions of queen, wights and dragons
         for i in range(0,5):
-            self.pieces["W" + str(i)] = (Piece.W, i, (4,i))
+            self.pieces["W" + str(i)] = (Piece.W, (4,i))
         for i in range(0,3):
-            self.pieces["D" + str(i)] = (Piece.D, i, (1,i+1))
-        self.pieces["QQ"] = (Piece.Q, 0, (0,2))
+            self.pieces["D" + str(i)] = (Piece.D, (1,i+1))
+        self.pieces["QQ"] = (Piece.Q, (0,2))
 
     def copy(self):
         """
@@ -96,12 +96,6 @@ class Board():
                 return True
         return False
 
-    def identity(self, board, pos):
-        """
-        Determine what piece was given.
-        """
-        return board[pos[0]][pos[1]][0]
-
     def neighbours(self, board, pos):
         """
         Return the possible neighbours.
@@ -121,14 +115,25 @@ class Board():
         return res
 
 
-    def possiblePieceMoves(self, piecePos):
+    def possiblePieceMoves(self, board, piece_id):
         """
         Return the list of all the possible movies of a given piece
         :param: piecePos -- the piece to determine the possible moves of.
         """
         possibleSuccessors = []
+        pos = self.pieces[piece_id][1]
+        p_type = self.pieces[piece_id][0]
+        Ns = self.neighbours(board, pos)
+        for dest in Ns:
+            dest_piece = board[dest[0]][dest[1]]
+            new_board = self.copy()
+            if dest_piece != "--":
+                # Capture in progress:
+                new_board.pieces.pop(board[dest[0]][dest[1]])
+            new_board.pieces[piece_id] = (p_type, dest)
+            possibleSuccessors.append(new_board)
         return possibleSuccessors
 
     def __hash__(self):
-        return hash(self.queen + tuple(self.wights) + tuple(self.dragons))
+        return hash(tuple([v[1] for k,v in self.pieces.items()]))
 
