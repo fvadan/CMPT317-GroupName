@@ -4,6 +4,8 @@ from constants import Constants
 # Types of pieces:
 class Piece():
     W,Q,D,E = range(1, 5)
+    keyList = ["W" + str(i) for i in range(0,5)] +\
+            ["D" + str(i) for i in range(0,4)] + ["QQ"]
 
 class Board():
     """
@@ -139,14 +141,20 @@ class Board():
         possibleSuccessors = []
         for k,v in self.pieces.items():
             if player == "Player 1" and v[0] == Piece.W:
+                # Player 1 does not play Wights:
                 continue
             if player == "Player 2" and v[0] != Piece.W:
+                # Player 2 plays only wights:
                 continue
             possibleSuccessors += self.possiblePieceMoves(b, k)
         return possibleSuccessors
 
-    def __hash__(self):
-        return hash(tuple([v[1] for k,v in self.pieces.items()]))
+    def encode(self):
+        res = tuple([])
+        for k in Piece.keyList:
+            if k in self.pieces:
+                res += self.pieces[k][1]
+        return res
 
 
 
