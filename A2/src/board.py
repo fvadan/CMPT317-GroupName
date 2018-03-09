@@ -11,31 +11,31 @@ class Board():
     """
     board = None
     utility = -1
-    wights = None
-    dragons = None
-    queen = None
+    pieces = None
 
     def __init__(self):
         """
-        Initialize the board.
+        Empty board.
         """
-        self.board = [[Piece.E for i in range(5)] for j in range(5)]
-        self.wights = [(-1,-1)] * 5
-        self.dragons = [(-1,-1)] * 3
-        self.queen = (-1,-1)
+        self.board = [[(Piece.E, "--") for i in range(5)] for j in range(5)]
+        self.pieces = dict()
 
     def initialValues(self):
         """
         Default positioning of the pieces.
         """
-        self.board[0][2] = Piece.Q
-        self.board[1] = [Piece.E] + [Piece.D] * 3 + [Piece.E]
-        self.board[4] = [Piece.W for i in range(5)]
-
         # Initialize the positions of queen, wights and dragons
-        self.queen = (0,2)
-        self.wights = [(4,i) for i in range(5)]
-        self.dragons = [(1, i) for i in range (1,4)]
+        for i in range(1,6):
+            self.pieces["W" + str(i)] = (Piece.W, i, (4,i))
+        for i in range(1,4):
+            self.pieces["D" + str(i)] = (Piece.D, i, (1,i+1))
+        self.pieces["Q"] = (0,2)
+
+        self.board[0][2] = (Piece.Q, "QQ")
+        self.board[1] = [(Piece.E, "--")]\
+            + [(Piece.D,"D" + str(i)) for i in range(1,4)]\
+            + [(Piece.E, "--")]
+        self.board[4] = [(Piece.W, "W" + str(i)) for i in range(5)]
 
     def copy(self):
         """
@@ -50,14 +50,8 @@ class Board():
         retVal = "Board:\n"
         for i in range(len(self.board)):
             for j in range(len(self.board)):
-                if self.board[i][j] == Piece.W:
-                    retVal += 'W'
-                elif self.board[i][j] == Piece.Q:
-                    retVal += 'Q'
-                elif self.board[i][j] == Piece.D:
-                    retVal += 'D'
-                else:
-                    retVal += '-'
+                val = self.board[i][j]
+                retVal += "|" + str(val[1]) + "| "
             retVal += "\n"
         return retVal
 

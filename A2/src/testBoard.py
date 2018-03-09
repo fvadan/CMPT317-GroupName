@@ -9,8 +9,8 @@ def main():
     #assert(b1.board != None)
     #print(b1)
     b.initialValues()
-    #print(b1)
-    """
+    print(b)
+    return
     print("Queen neighbours:")
     [print(x) for x in (b.neighbours((0, 2)))]
     print("Dragon 1 neighbours:")
@@ -23,6 +23,7 @@ def main():
         print("Neighbour of wight", i, ":")
         [print(x) for x in b.neighbours((4, i))]
     #print(b1)
+
     """
     #print("SUCCESSORS\n")
     #[print("\n\n##############\n", x, "\n###########\n") for x in b.successors("Player 1")]
@@ -30,7 +31,6 @@ def main():
     print(minimax(b, "Player 2", 0, 0))
 
     # Tests for evaluation function
-    """
     # Tests for board hashing:
     tab = HashTable()
     tab[b] = Evaluate(b).evaluation()
