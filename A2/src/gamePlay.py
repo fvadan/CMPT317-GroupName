@@ -15,27 +15,24 @@ def minimax(board, player, ply, depth):
     """
 
     rec_table = HashTable()
-    depth_limit = 10
+    depth_limit = 4
 
     ### Internal function begins
     def do_minimax(board, player, ply, depth):
 
-
+        old_board = BoardAdapter(board)
         #sleep(1)
-        print("\n##### START PLY: ", ply, " #####")
-        print("\nSTATUS:\n--> WIGHTS: ", board.wights, \
-                       "\n--> DRAGONS:", board.dragons, \
-                       "\n--> QUEEN:", board.queen)
+        #print("\n##### START PLY: ", ply, " #####")
+        #print("\nSTATUS:\n--> WIGHTS: ", old_board.wights, \
+        #               "\n--> DRAGONS:", old_board.dragons, \
+        #               "\n--> QUEEN:", old_board.queen)
 
-        print("\nSTATUS:\n", len(board.wights), " wights\n", \
-                len(board.queen)-1, " queen\n", len(board.dragons), " dragons\n")
-
-        print(board)
+        #print(board)
 
 
-        print("Evaluation:")
-        print(Evaluate(board).evaluation(), "\n")
-        print("##### END PLY: ", ply, " #####\n")
+        #print("Evaluation:")
+        #print(Evaluate(board).evaluation(), "\n")
+        #print("##### END PLY: ", ply, " #####\n")
 
 
         # if_you_are_at_a_terminal_node/reached ply
@@ -75,3 +72,4 @@ def minimax(board, player, ply, depth):
     ### Internal function ends
 
     return do_minimax(board, player, ply, depth)
+

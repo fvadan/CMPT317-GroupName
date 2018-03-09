@@ -134,10 +134,14 @@ class Board():
             possibleSuccessors.append(new_board)
         return possibleSuccessors
 
-    def successors(self):
+    def successors(self, player):
         b = self.constructBoard()
         possibleSuccessors = []
         for k,v in self.pieces.items():
+            if player == "Player 1" and v[0] == Piece.W:
+                continue
+            if player == "Player 2" and v[0] != Piece.W:
+                continue
             possibleSuccessors += self.possiblePieceMoves(b, k)
         return possibleSuccessors
 
@@ -158,9 +162,15 @@ class BoardAdapter():
     def __init__(self, b):
         self.new_scheme = b
         self.board = b.constructBoard()
-        self.queen = b.pieces["QQ"][1]
-        self.dragons = [b.pieces[x][1] for x in ["D0", "D1", "D2"]]
-        self.wights = [b.pieces[x][1] for x in ["W0", "W1", "W2", "W3", "W4"]]
+        self.queen = b.pieces["QQ"][1] if "QQ" in b.pieces else None
+        self.dragons = []
+        self.wights = []
+        for i in ["D0", "D1", "D2"]:
+            if i in b.pieces:
+                self.dragons.append(b.pieces[i][1])
+        for i in ["W0", "W1", "W2", "W3", "W4"]:
+            if i in b.pieces:
+                self.wights.append(b.pieces[i][1])
 
 
 

@@ -34,13 +34,14 @@ def main():
 
 
 
+    """
     # print(minimax(b, "Player 2", 0, 0))
 
     # Tests for evaluation function
     # Tests for board hashing:
     tab = HashTable()
     tab[b] = Evaluate(b).evaluation()
-    s0 = b.successors()
+    s0 = b.successors("Player 1")
     print("#####")
     print("Successors of initial state:")
     print()
@@ -49,6 +50,19 @@ def main():
         print(i)
         print(Evaluate(i).evaluation())
         print("#####")
+
+    s1 = b.successors("Player 2")
+    print("#####")
+    print("Successors of initial state:")
+    print()
+    for i in s1:
+        print("#####")
+        print(i)
+        print(Evaluate(i).evaluation())
+        print("#####")
+    """
+
+    print(minimax(b, "Player 1", 0, 0))
 
 if __name__ == '__main__':
     main()

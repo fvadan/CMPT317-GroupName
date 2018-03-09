@@ -42,14 +42,16 @@ class Evaluate():
 
         # Displacement of queen
         dest_queen_pos_y = 4
-        disp_q = abs(dest_queen_pos_y  - self.board.queen[0]) * W1
+        disp_q = abs(dest_queen_pos_y  - self.board.queen[0]) * W1\
+            if self.board.queen != None else -20
 
         # Queen under attack?
         queen_attacked = self.queenUnderAttack() * W6
 
         # Displacement of wights, Manhattan distance
         disp_w = ((sum([manhattan_dist(w, self.board.queen) for w in self.board.wights]))\
-                    /len(self.board.wights)) * W2
+                    /len(self.board.wights)) * W2\
+            if self.board.queen != None else 0
 
         # Number of wights
         num_w = len(self.board.wights) * W4
@@ -61,7 +63,7 @@ class Evaluate():
         dest_dragon_pos = 4
         disp_d = (sum([abs(d[0] - dest_dragon_pos) for d in self.board.dragons])) * W3
 
-        print("Values: ", disp_w, num_w, disp_d, num_d, disp_q, queen_attacked)
+        #print("Values: ", disp_w, num_w, disp_d, num_d, disp_q, queen_attacked)
         # Actuall Evalution Value
         evaluation_value = disp_w + num_w + disp_d + num_d + disp_q + queen_attacked
 
@@ -81,13 +83,13 @@ class Evaluate():
         Return the utility of a board.
         """
 
-        # Queen reaches the Wight's home row
-        if self.board.queen[0] == 4:
-            return PLAYER_1_WIN
-
         # Queen is captured
         if self.board.queen == None:
             return PLAYER_2_WIN
+
+        # Queen reaches the Wight's home row
+        if self.board.queen[0] == 4:
+            return PLAYER_1_WIN
 
         # Reached max ply
         if ply == MAX_PLY:
@@ -100,6 +102,8 @@ class Evaluate():
         Determine whether queen is under attack.
         :return: 1 if under attack, 0 otherwise.
         """
+        if self.board.queen == None:
+            return 0
         x, y = self.board.queen[0], self.board.queen[1]
         I, J = x - 1, y - 1
 
