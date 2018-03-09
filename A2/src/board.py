@@ -1,13 +1,5 @@
 from copy import deepcopy
-
-# Status Constants:
-PLAYER_1_WIN = 1
-PLAYER_2_WIN = -1
-DRAW = 0
-NON_TERMINAL = 404
-MAX_PLY = 50
-P1 = "Player 1"
-P2 = "Player 2"
+from constants import Constants
 
 # Types of pieces:
 class Piece():
@@ -146,14 +138,38 @@ class Board():
                 self.board[piecePos[0]][piecePos[1]]
 
             newBoard.board[piecePos[0]][piecePos[1]] = Piece.E
+            # Queen or dragon is moving:
             if self.identity(neighbour) == Piece.W:
-                newBoard.wights.pop( \
-                    newBoard.wights.index(piecePos))
+                # Capture wight
+                newBoard.wights.pop(self.wights.index(neighbour))
+                # Get piece that captured
+                movingPiece = self.identity(piecePos)
+                # If dragon captured, move dragon to captured neighbour
+                if movingPiece == Piece.D:
+                    newBoard.dragons[self.dragons.index(piecePos)] = neighbour
+                # If queen captured, move queen to captured neighbour
+                elif movingPiece == Piece.Q:
+                    newBoard.queen = neighbour
+                else:
+                    # This should never happen
+                    assert(False)
+            # Wight is capturing the queen
             elif self.identity(neighbour) == Piece.Q:
                 newBoard.queen = None
+                newBoard.wights[self.wights.index(piecePos)] = neighbour
+            # Wight is capturing a dragon
             elif self.identity(neighbour) == Piece.D:
-                newBoard.dragons.pop(
-                    newBoard.dragons.index(neighbour))
+                newBoard.dragons.pop(self.dragons.index(neighbour))
+            # Move to an empty spot:
+            elif self.identity(neighbour) == Piece.E:
+                if self.identity(piecePos) == Piece.W:
+                    newBoard.wights[self.wights.index(piecePos)] = neighbour
+                elif self.identity(piecePos) == Piece.D:
+                    newBoard.dragons[self.dragons.index(piecePos)] = neighbour
+                elif self.identity(piecePos) == Piece.Q:
+                    newBoard.queen = neighbour
+                else:
+                    assert(False)
             possibleMoves.append(newBoard)
         return possibleMoves
 
@@ -163,7 +179,7 @@ class Board():
         """
         possibleSuccessors = []
 
-        if(player == P1):
+        if(player == Constants.MAX):
             # Queen moves
             possibleSuccessors += self.possiblePieceMoves(self.queen)
 

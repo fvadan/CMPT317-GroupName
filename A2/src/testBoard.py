@@ -27,10 +27,10 @@ def main():
     #print("SUCCESSORS\n")
     #[print("\n\n##############\n", x, "\n###########\n") for x in b.successors("Player 1")]
 
-    #print(minimax(b, "Player 2", 0))
+    print(minimax(b, "Player 2", 0, 0))
 
     # Tests for evaluation function
-
+    """
     # Tests for board hashing:
     tab = HashTable()
     tab[b] = Evaluate(b).evaluation()
@@ -62,7 +62,7 @@ def main():
     for k, v in tab.items():
         print("Board:\n", k)
         print("Eval:", str(v))
-
+    """
 
 if __name__ == '__main__':
     main()

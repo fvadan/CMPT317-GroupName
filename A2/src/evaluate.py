@@ -3,8 +3,8 @@ from board import Board, Piece
 MAX_SCORE = 200
 MIN_SCORE = -200
 # Status Constants:
-PLAYER_1_WIN = 1
-PLAYER_2_WIN = -1
+PLAYER_1_WIN = MAX_SCORE
+PLAYER_2_WIN = MIN_SCORE
 DRAW = 0
 NON_TERMINAL = 404
 MAX_PLY = 50
