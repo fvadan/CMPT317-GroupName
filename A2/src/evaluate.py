@@ -22,13 +22,13 @@ class Evaluate():
         return len(self.board.dragons)
 
     def queenPresent(self):
-        return 0 if self.board.queen == None else 1
+        return -1 if self.board.queen == None else 1
 
     def queenPosition(self):
         return self.board.queen[0] if self.board.queen != None else 0
 
     def wightPositions(self):
-        return sum([1/w[0] if w[0] != 0 else 1/5 for w in self.board.wights])
+        return sum([1/w[0] if w[0] != 0 else 9999 for w in self.board.wights])
 
     def dragonPositions(self):
         return sum([d[0] for d in self.board.dragons])
@@ -54,7 +54,7 @@ class Evaluate():
         all_functions = [
                             (300, self.numDragons()), \
                             (200, self.numWights()), \
-                            (1000, self.queenPresent()), \
+                            (9999, self.queenPresent()), \
                             (50, self.dragonPositions()), \
                             (-30, self.wightPositions()), \
                             (100, self.queenPosition()), \

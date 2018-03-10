@@ -69,8 +69,8 @@ def alphaBeta(board, player, ply, depth):
         :param - beta: beta value
         """
         # check if board is already in the table
-        if board.encode() in rec_table:
-            return rec_table[board.encode()]
+        #if board.encode() in rec_table:
+        #    return rec_table[board.encode()]
 
         b_eval = Evaluate(board)
         if b_eval.utility(ply) != Constants.NON_TERMINAL: # terminal node

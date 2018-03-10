@@ -39,12 +39,6 @@ class Game():
         for i in moves:
             # Utility values for opponent's moves:
             util = search(i, self.player, self.ply + 1, self.depth_limit)
-            util_minimax = minimax(i, self.player, self.ply + 1, self.depth_limit)
-            #if util != util_minimax:
-            #    print("######################## OMG ERHMAHGERD ############")
-            #    print(i)
-            #assert(util == util_minimax)
-
             if util > maximum:
                 maxMove = i
                 maximum = util
