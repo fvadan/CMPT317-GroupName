@@ -22,13 +22,12 @@ def minimax(board, player, ply, depth):
         if board.encode() in rec_table:
             return rec_table[board.encode()]
 
-        old_board = BoardAdapter(board)
-
         b_eval = Evaluate(board)
-        if b_eval.utility(ply) != Constants.NON_TERMINAL: # base case 1
+        if b_eval.utility(ply) != Constants.NON_TERMINAL: # End game
             ret = b_eval.utility(ply)
-        elif depth <= 0: # base case 2
-            ret = b_eval.evaluation()[0]
+        elif depth <= 0: # max search depth hit
+            ret = b_eval.evaluation()
+            #print("REACHED DEPTH 0 WITH RET ", ret)
         else: # recursive case
             successors = board.successors(player)
 
@@ -74,13 +73,11 @@ def alphaBeta(board, player, ply, depth):
         if board.encode() in rec_table:
             return rec_table[board.encode()]
 
-        old_board = BoardAdapter(board)
-
         b_eval = Evaluate(board)
-        if b_eval.utility(ply) != Constants.NON_TERMINAL:
+        if b_eval.utility(ply) != Constants.NON_TERMINAL: # terminal node
             ret = b_eval.utility(ply)
         elif depth <= 0:
-            ret = b_eval.evaluation()[0]
+            ret = b_eval.evaluation()
         else:
             successors = board.successors(player)
 

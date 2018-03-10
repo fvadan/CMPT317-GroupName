@@ -13,6 +13,17 @@ class Evaluate():
     def __init__(self, board):
         self.board = BoardAdapter(board)
 
+    def numWights(self):
+        if len(self.board.wights) == 0:
+            return Constant.INF
+        return 1/len(self.board.wights)
+
+    def numDragons(self):
+        return len(self.board.dragons)
+
+    def queenPresent(self):
+        return 0 if self.board.queen == None else 1
+
     def evaluation(self):
         """
         Return the evaluation of the current state/board.
@@ -26,41 +37,12 @@ class Evaluate():
         :return: evaluation value.
         """
         # Weights for different evalution features.
-        W1, W2, W3, W4, W5, W6 = 20, -5, 10, -10, 15, Constants.MIN_SCORE
-        evaulation_value = 0
 
-        # Displacement of queen
-        dest_queen_pos_y = 4
-        disp_q = abs(dest_queen_pos_y  - self.board.queen[0]) * W1\
-            if self.board.queen != None else -20
+        all_functions = [(250, self.numDragons()), \
+                         (200, self.numWights()), \
+                         (250, self.queenPresent())]
 
-        # Queen under attack?
-        queen_attacked = self.queenUnderAttack() * W6
-
-        # Displacement of wights, Manhattan distance
-        disp_w = ((sum([manhattan_dist(w, self.board.queen) for w in self.board.wights]))\
-                    /len(self.board.wights)) * W2\
-            if self.board.queen != None else 0
-
-        # Number of wights
-        num_w = len(self.board.wights) * W4
-
-        # Number of dragons
-        num_d = len(self.board.dragons) * W5
-
-        # Displacement dragons
-        dest_dragon_pos = 4
-        disp_d = (sum([abs(d[0] - dest_dragon_pos) for d in self.board.dragons])) * W3
-
-        #print("Values: ", disp_w, num_w, disp_d, num_d, disp_q, queen_attacked)
-        # Actuall Evalution Value
-        evaluation_value = disp_w + num_w + disp_d + num_d + disp_q + queen_attacked
-
-        # Normalize
-        norm_eval = ((evaluation_value - Constants.MIN_SCORE)/\
-                    (Constants.MAX_SCORE - Constants.MIN_SCORE)) * 100
-
-        return norm_eval, evaluation_value
+        return sum([x[0] * x[1] for x in all_functions])
 
     def utility(self, ply):
         """

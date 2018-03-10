@@ -37,7 +37,8 @@ class Game():
             Constants.MAX
         for i in moves:
             # Utility values for opponent's moves:
-            util = utility(self.board, opponent, self.ply + 1, 3)
+            util = utility(i, opponent, self.ply + 1, 0)
+            print("Util is:", util)
             if util > maximum:
                 maxMove = i
                 maximum = util
@@ -57,11 +58,6 @@ game = Game()
 while not game.isAtEndGame():
     print("Current Board at ply: " + str(game.ply), "; Player:", game.player)
     print(game.board)
-    print("Successors:")
-    [print(x.encode()) for x in game.successors]
     print("Advance?\n>")
     input()
-    game.advanceWithAI(alphaBeta)
-
-
-
+    game.advanceWithAI(minimax)

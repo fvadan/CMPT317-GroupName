@@ -32,13 +32,11 @@ def main():
         for x in b.possiblePieceMoves(b.constructBoard(), "W0")]
     """
 
-
-
-    """
     # print(minimax(b, "Player 2", 0, 0))
 
     # Tests for evaluation function
     # Tests for board hashing:
+    """
     tab = HashTable()
     tab[b] = Evaluate(b).evaluation()
     s0 = b.successors("Player 1")
@@ -51,7 +49,7 @@ def main():
         print(Evaluate(i).evaluation())
         print("#####")
 
-    s1 = b.successors("Player 2")
+    s1 = b.successors("Player 1")[0].successors("Player 2")
     print("#####")
     print("Successors of initial state:")
     print()
@@ -61,11 +59,21 @@ def main():
         print(Evaluate(i).evaluation())
         print("#####")
     """
-
+    """
     print("Minimax result of initial node: ",\
         minimax(b, "Player 1", 0, 5))
     print("Alpha-Beta result of initial node: ",\
         alphaBeta(b, "Player 1", 0, 5))
+    """
+
+    test = Board()
+    test.initialValues()
+    test.pieces["QQ"] = (Piece.Q ,(3, 2))
+    test.pieces["D0"] = (Piece.D, (2, 1))
+    test.pieces["D1"] = (Piece.D, (2, 2))
+    test.pieces["D2"] = (Piece.D, (3, 3))
+    [print(x) for x in test.successors("Player 1")]
+
 
 if __name__ == '__main__':
     main()
