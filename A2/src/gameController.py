@@ -37,7 +37,7 @@ class Game():
             Constants.MAX
         for i in moves:
             # Utility values for opponent's moves:
-            util = utility(i, opponent, self.ply + 1, 0)
+            util = utility(i, opponent, self.ply + 1, 3)
             print("Util is:", util)
             if util > maximum:
                 maxMove = i
