@@ -92,3 +92,4 @@ class Evaluate():
                 elif self.board.board[i][j] == Piece.W:
                     return 1
         return 0
+

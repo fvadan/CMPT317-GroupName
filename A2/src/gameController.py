@@ -13,7 +13,7 @@ class Game():
     board = None
     successors = None
 
-    def __init__(self):
+    def __init__(self, depth_limit):
         """
         Constructor that initializes a board and starts a game.
         """
@@ -22,12 +22,13 @@ class Game():
         self.board = Board()
         self.board.initialValues()
         self.successors = self.board.successors(self.player)
+        self.depth_limit = depth_limit
 
     def isAtEndGame(self):
         return len(self.successors) == 0 or\
             Evaluate(self.board).utility(self.ply) != Constants.NON_TERMINAL
 
-    def advanceWithAI(self, utility):
+    def advanceWithAI(self, search):
         if self.isAtEndGame():
             return
         moves = self.successors
@@ -37,12 +38,12 @@ class Game():
             Constants.MAX
         for i in moves:
             # Utility values for opponent's moves:
-            util = utility(i, opponent, self.ply + 1, 3)
-            util_minimax = minimax(i, opponent, self.ply + 1, 3)
-            if util != util_minimax:
-                print("######################## OMG ERHMAHGERD ############")
-                print(i)
-            assert(util == util_minimax)
+            util = search(i, self.player, self.ply + 1, self.depth_limit)
+            util_minimax = minimax(i, self.player, self.ply + 1, self.depth_limit)
+            #if util != util_minimax:
+            #    print("######################## OMG ERHMAHGERD ############")
+            #    print(i)
+            #assert(util == util_minimax)
 
             if util > maximum:
                 maxMove = i
@@ -59,9 +60,13 @@ class Game():
     def advanceWithPerson(self):
         pass
 
-game = Game()
-while not game.isAtEndGame():
-    print("Current Board at ply: " + str(game.ply), "; Player:", game.player)
+def runGame(depth_limit, search):
+    game = Game(depth_limit)
+    while not game.isAtEndGame():
+        print("Current Board at ply: " + str(game.ply), "; Player:", game.player)
+        print(game.board)
+        #print("Advance?\n>")
+        game.advanceWithAI(search)
+    print("Final State:")
     print(game.board)
-    #print("Advance?\n>")
-    game.advanceWithAI(alphaBeta)
+
