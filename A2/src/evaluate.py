@@ -54,7 +54,7 @@ class Evaluate():
                          (-30, self.wightPositions()), \
                          (100, self.queenPosition())]
 
-        return sum([x[0] * x[1] for x in all_functions])
+        return int(sum([x[0] * x[1] for x in all_functions]) * 10)
 
     def utility(self, ply):
         """

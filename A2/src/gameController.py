@@ -38,7 +38,12 @@ class Game():
         for i in moves:
             # Utility values for opponent's moves:
             util = utility(i, opponent, self.ply + 1, 3)
-            print("Util is:", util)
+            util_minimax = minimax(i, opponent, self.ply + 1, 3)
+            if util != util_minimax:
+                print("######################## OMG ERHMAHGERD ############")
+                print(i)
+            assert(util == util_minimax)
+
             if util > maximum:
                 maxMove = i
                 maximum = util
@@ -58,6 +63,5 @@ game = Game()
 while not game.isAtEndGame():
     print("Current Board at ply: " + str(game.ply), "; Player:", game.player)
     print(game.board)
-    print("Advance?\n>")
-    input()
-    game.advanceWithAI(minimax)
+    #print("Advance?\n>")
+    game.advanceWithAI(alphaBeta)

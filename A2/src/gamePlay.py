@@ -27,7 +27,6 @@ def minimax(board, player, ply, depth):
             ret = b_eval.utility(ply)
         elif depth <= 0: # max search depth hit
             ret = b_eval.evaluation()
-            #print("REACHED DEPTH 0 WITH RET ", ret)
         else: # recursive case
             successors = board.successors(player)
 
@@ -35,16 +34,16 @@ def minimax(board, player, ply, depth):
             if len(successors) <= 0:
                 ret = Constants.DRAW
             elif player == Constants.MAX:
-                b_eval_succ = [\
-                    do_minimax(succ, Constants.MIN, ply+1, depth-1)\
-                          for succ in successors]
-                best_value = max(b_eval_succ)
+                best_value = Constants.NEGINF
+                for succ in successors:
+                    v = do_minimax(succ, Constants.MIN, ply+1, depth-1)
+                    best_value = max(best_value, v)
                 ret = best_value
             else: # if player is minimizer
-                b_eval_succ = [\
-                    do_minimax(succ, Constants.MAX, ply+1, depth-1)\
-                           for succ in successors]
-                best_value = min(b_eval_succ)
+                best_value = Constants.INF
+                for succ in successors:
+                    v = do_minimax(succ, Constants.MAX, ply+1, depth-1)
+                    best_value = min(best_value, v)
                 ret = best_value
         rec_table[board.encode()] = ret
         return ret
@@ -88,22 +87,23 @@ def alphaBeta(board, player, ply, depth):
                 for child in successors:
                     v = max(v, do_alphaBeta(child, Constants.MIN, ply+1, \
                                          alpha, beta, depth-1))
-                    alpha = max(alpha, v)
-                    if beta <= alpha:
-                        break # beta cut-off
+                    # alpha = max(alpha, v)
+                    # if beta <= alpha:
+                    #     break # beta cut-off
                 ret = v
             else:
                 v = Constants.INF
                 for child in successors:
                     v = min(v, do_alphaBeta(child, Constants.MAX, ply+1, \
                                          alpha, beta, depth-1))
-                    beta = min(beta, v)
-                    if beta <= alpha:
-                        break # alpha cut-off
+                    # beta = min(beta, v)
+                    # if beta <= alpha:
+                    #     break # alpha cut-off
                 ret = v
         rec_table[board.encode()] = ret
         return ret
 
-    result = do_alphaBeta(board, player, ply, Constants.NEGINF, \
-                          Constants.INF, depth)
+    result = do_alphaBeta(board, player, ply, \
+                            Constants.NEGINF, \
+                            Constants.INF, depth)
     return result

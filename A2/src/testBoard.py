@@ -3,6 +3,7 @@ from board import Board, Piece
 from gamePlay import minimax, alphaBeta
 from evaluate import Evaluate
 from hashTable import HashTable
+from gameController import Game
 
 def main():
     b = Board()
@@ -68,12 +69,18 @@ def main():
 
     test = Board()
     test.initialValues()
-    test.pieces["QQ"] = (Piece.Q ,(3, 2))
-    test.pieces["D0"] = (Piece.D, (2, 1))
-    test.pieces["D1"] = (Piece.D, (2, 2))
-    test.pieces["D2"] = (Piece.D, (3, 3))
-    [print(x) for x in test.successors("Player 1")]
+    test.pieces["QQ"] = (Piece.Q ,(2, 2))
+    test.pieces["D0"] = (Piece.D, (1, 0))
+    test.pieces["D1"] = (Piece.D, (1, 2))
+    test.pieces["D2"] = (Piece.D, (2, 4))
+    test.pieces["W4"] = (Piece.W, (3, 4))
+    test.pieces["W2"] = (Piece.W, (3, 1))
+    print(test)
 
+    util = alphaBeta(test, "Player 1", 0, 3)
+    util_minimax = minimax(test, "Player 1", 0, 3)
+    print("alpha beta:", util)
+    print("util_minimax:", util_minimax)
 
 if __name__ == '__main__':
     main()
