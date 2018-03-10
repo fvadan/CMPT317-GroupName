@@ -34,8 +34,10 @@ class Evaluate():
         return sum([d[0] for d in self.board.dragons])
 
     def wightDistsToQueen(self):
-        return sum([1/manhattan_dist(w, self.board.queen) for w in\
-            self.board.wights])
+        if self.queenPresent() == 1:
+            return sum([1/manhattan_dist(w, self.board.queen) for w in\
+                self.board.wights])
+        return 9999
 
     def evaluation(self):
         """

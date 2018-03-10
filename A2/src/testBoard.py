@@ -67,6 +67,8 @@ def main():
         alphaBeta(b, "Player 1", 0, 5))
     """
 
+    """
+    # Minimax value versus alpha-beta value tests:
     test = Board()
     test.initialValues()
     test.pieces["QQ"] = (Piece.Q ,(2, 2))
@@ -86,6 +88,22 @@ def main():
     #util_minimax2 = minimax(b, "Player 2", 0, lim)
     #print("util_minimax 2:", util_minimax2)
     #runGame(lim, minimax)
+    """
+
+    # Successor tests:
+    test = Board()
+    test.pieces["QQ"] = (Piece.Q, (1,1))
+    test.pieces["D2"] = (Piece.D, (1,3))
+    test.pieces["D1"] = (Piece.D, (2,3))
+    test.pieces["W3"] = (Piece.W, (2,2))
+    test.pieces["W0"] = (Piece.W, (4,0))
+    test.pieces["W1"] = (Piece.W, (4,1))
+    test.pieces["W4"] = (Piece.W, (4,4))
+    print(test)
+    for j in test.successors("Player 2"):
+        print(j)
+        print(Evaluate(j).utility(1))
+        print(Evaluate(j).evaluation())
 
 if __name__ == '__main__':
     main()

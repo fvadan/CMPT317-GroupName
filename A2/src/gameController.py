@@ -4,6 +4,11 @@ from board import Board
 from evaluate import Evaluate
 from gamePlay import minimax, alphaBeta
 
+_print = print
+def print(*args, **kwargs):
+    kwargs['flush'] = True
+    return _print(*args, **kwargs)
+
 class Game():
     """
     Class to control The Dragon Queen game.
@@ -42,9 +47,16 @@ class Game():
             if util > maximum:
                 maxMove = i
                 maximum = util
-            elif util <= minimum:
+            elif util < minimum:
                 minMove = i
                 minimum = util
+            if Evaluate(i).utility(self.ply) == Constants.INF:
+                maxMove = i
+                maximum = Constants.INF
+            elif Evaluate(i).utility(self.ply) == Constants.NEGINF:
+                minMove = i
+                minimum = Constants.NEGINF
+
         # Update Game:
         self.board = maxMove if self.player == Constants.MAX else minMove
         self.ply += 1
