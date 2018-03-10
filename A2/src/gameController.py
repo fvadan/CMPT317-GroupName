@@ -42,7 +42,7 @@ class Game():
             if util > maximum:
                 maxMove = i
                 maximum = util
-            elif util < minimum:
+            elif util <= minimum:
                 minMove = i
                 minimum = util
         # Update Game:

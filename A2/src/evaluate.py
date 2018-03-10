@@ -24,6 +24,15 @@ class Evaluate():
     def queenPresent(self):
         return 0 if self.board.queen == None else 1
 
+    def queenPosition(self):
+        return self.board.queen[0] if self.board.queen != None else 0
+
+    def wightPositions(self):
+        return sum([1/w[0] if w[0] != 0 else 1/5 for w in self.board.wights])
+
+    def dragonPositions(self):
+        return sum([d[0] for d in self.board.dragons])
+
     def evaluation(self):
         """
         Return the evaluation of the current state/board.
@@ -40,7 +49,10 @@ class Evaluate():
 
         all_functions = [(250, self.numDragons()), \
                          (200, self.numWights()), \
-                         (250, self.queenPresent())]
+                         (250, self.queenPresent()), \
+                         (50, self.dragonPositions()), \
+                         (-30, self.wightPositions()), \
+                         (100, self.queenPosition())]
 
         return sum([x[0] * x[1] for x in all_functions])
 
