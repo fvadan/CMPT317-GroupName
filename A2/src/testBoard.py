@@ -75,14 +75,18 @@ def main():
     test.pieces["D2"] = (Piece.D, (2, 4))
     test.pieces["W4"] = (Piece.W, (3, 4))
     test.pieces["W2"] = (Piece.W, (3, 1))
-    #print(test)
+    print(test)
 
     lim = 4
     util = alphaBeta(test, "Player 1", 0, lim)
-    util_minimax = minimax(test, "Player 1", 0, lim)
-    #print("alpha beta:", util)
-    #print("util_minimax:", util_minimax)
-    runGame(3, minimax)
+    print("alpha beta:", util)
+    util_minimax1 = minimax(test, "Player 1", 0, lim)
+    print("util_minimax 1:", util_minimax1)
+
+    #util_minimax2 = minimax(b, "Player 2", 0, lim)
+    #print("util_minimax 2:", util_minimax2)
+    #runGame(lim, minimax)
 
 if __name__ == '__main__':
     main()
+

@@ -83,7 +83,7 @@ def alphaBeta(board, player, ply, depth):
             if len(successors) <= 0:
                 ret = Constants.DRAW
             elif player == Constants.MAX:
-                v = Constants.NEGINF - 10
+                v = Constants.NEGINF
                 for child in successors:
                     v = max(v, do_alphaBeta(child, Constants.MIN, ply+1, \
                                          alpha, beta, depth-1))
@@ -92,7 +92,7 @@ def alphaBeta(board, player, ply, depth):
                         break # beta cut-off
                 ret = v
             else:
-                v = Constants.INF + 10
+                v = Constants.INF
                 for child in successors:
                     v = min(v, do_alphaBeta(child, Constants.MAX, ply+1, \
                                          alpha, beta, depth-1))
@@ -104,7 +104,7 @@ def alphaBeta(board, player, ply, depth):
         return ret
 
     result = do_alphaBeta(board, player, ply, \
-                            Constants.NEGINF-10, \
-                            Constants.INF+10, depth)
+                            Constants.NEGINF, \
+                            Constants.INF, depth)
     return result
 

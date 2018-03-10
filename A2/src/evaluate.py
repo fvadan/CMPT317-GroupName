@@ -33,6 +33,10 @@ class Evaluate():
     def dragonPositions(self):
         return sum([d[0] for d in self.board.dragons])
 
+    def wightDistsToQueen(self):
+        return sum([1/manhattan_dist(w, self.board.queen) for w in\
+            self.board.wights])
+
     def evaluation(self):
         """
         Return the evaluation of the current state/board.
@@ -47,12 +51,15 @@ class Evaluate():
         """
         # Weights for different evalution features.
 
-        all_functions = [(250, self.numDragons()), \
-                         (200, self.numWights()), \
-                         (250, self.queenPresent()), \
-                         (50, self.dragonPositions()), \
-                         (-30, self.wightPositions()), \
-                         (100, self.queenPosition())]
+        all_functions = [
+                            (300, self.numDragons()), \
+                            (200, self.numWights()), \
+                            (1000, self.queenPresent()), \
+                            (50, self.dragonPositions()), \
+                            (-30, self.wightPositions()), \
+                            (100, self.queenPosition()), \
+                            (-10, self.wightDistsToQueen())
+                        ]
 
         return int(sum([x[0] * x[1] for x in all_functions]) * 10)
 
