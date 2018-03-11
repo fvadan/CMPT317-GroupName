@@ -18,9 +18,11 @@ def minimax(board, player, ply, depth):
 
     ### Internal function begins
     def do_minimax(board, player, ply, depth):
-
-        if board.encode() in rec_table:
-            return rec_table[board.encode()]
+        """
+        For memoization.
+        """
+        #if board.encode() in rec_table:
+        #    return rec_table[board.encode()]
 
         b_eval = Evaluate(board)
         if b_eval.utility(ply) != Constants.NON_TERMINAL: # End game
@@ -57,16 +59,17 @@ def alphaBeta(board, player, ply, depth):
     Alpha-Beta pruning algorithm.
     :param board: the board that minimax is performed on;
     :param player: the player whose turn it is;
-    :param ply: the turn number;
+    :param ply: the turn number
+    :param - alpha: alpha value
+    :param - beta: beta value
     :return value: value of the game.
     """
 
     rec_table = HashTable()
-    
+
     def do_alphaBeta(board, player, ply, alpha, beta, depth):
         """
-        :param - alpha: alpha value
-        :param - beta: beta value
+        For memoization.
         """
         # check if board is already in the table
         #if board.encode() in rec_table:
@@ -107,4 +110,3 @@ def alphaBeta(board, player, ply, depth):
                             Constants.NEGINF, \
                             Constants.INF, depth)
     return result
-

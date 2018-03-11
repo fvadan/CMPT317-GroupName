@@ -30,10 +30,18 @@ class Game():
         self.depth_limit = depth_limit
 
     def isAtEndGame(self):
+        """
+        Determine whether the current board is the end of the game.
+        :return: True if at end, False otherwise
+        """
         return len(self.successors) == 0 or\
             Evaluate(self.board).utility(self.ply) != Constants.NON_TERMINAL
 
     def advanceWithAI(self, search):
+        """
+        Advance the game to the new ply using AI.
+        :param search: the search strategy to be used
+        """
         if self.isAtEndGame():
             return
         moves = self.successors
@@ -69,6 +77,10 @@ class Game():
         self.successors = self.board.successors(self.player)
 
     def parseMoveFromLine(self, line):
+        """
+        Parse chosen player moves from the given line.
+        :param line: player's moves from command line
+        """
         coords = line.split()
         coord_nums = []
         if len(coords) != 3 or coords[0] not in Piece.keyList:
@@ -84,6 +96,10 @@ class Game():
         return from_p, to_p
 
     def advanceWithPerson(self, line):
+        """
+        Advance the game with the command given by the player.
+        :param line: player's move from command line
+        """
         ret = self.parseMoveFromLine(line)
         opponent = Constants.MIN if self.player == Constants.MAX else\
             Constants.MAX
@@ -94,7 +110,7 @@ class Game():
                     (self.player == Constants.MIN and\
                     self.board.pieceIdentity(from_p) != Piece.W):
                 return False
-                
+
             nextMove = self.board.move(from_p, to_p)
             if nextMove != None:
                 self.board = nextMove
@@ -105,6 +121,11 @@ class Game():
         return False
 
 def runGame(depth_limit, search):
+    """
+    Instantiates and runs a game.
+    :param depth_limit: the depth limit of the search strategy used
+    :param search: search strategy - minimax/alphabeta
+    """
     game = Game(depth_limit)
     print("Wights or Dragons or all AI?")
     print(":: Options :: W for Wights, D for Dragons, AI for all AI")
@@ -141,4 +162,3 @@ def runGame(depth_limit, search):
     print(game.board)
     print(Constants.MIN if game.player == Constants.MAX else Constants.MAX,\
             "wins!")
-

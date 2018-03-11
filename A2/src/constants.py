@@ -15,4 +15,3 @@ class Constants():
     NEGINF = (-1) * INF
     PLAYER_1_WIN = 9999999 # Player 1 is maximizer
     PLAYER_2_WIN = -9999999 # Player 2 is minimizer
-

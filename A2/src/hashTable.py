@@ -52,9 +52,17 @@ class HashTable():
             self.length += 1
 
     def __len__(self):
+        """
+        Return the number of elements in the table
+        :return: num elements
+        """
         return self.length
 
     def __contains__(self, key):
+        """
+        Tell whether a given key is in the table
+        :return: True if in table, False otherwise
+        """
         if key in self.tab:
             l = self.tab[key]
             for i in l:
@@ -63,6 +71,11 @@ class HashTable():
         return False
 
     def dict_len(self):
+        """
+        Return dictionary length, different than num elements
+        (accounts for conflicts)
+        :return: dictionary length
+        """
         return len(self.tab)
 
     def items(self):
@@ -86,7 +99,7 @@ class HashTable():
     def __iter__(self):
         """
         Get the values stored in the table.
-        :return: list of values. 
+        :return: list of values.
         """
         for k,v in self.tab.items():
             for i in v:

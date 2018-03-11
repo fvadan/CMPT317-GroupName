@@ -9,31 +9,63 @@ def manhattan_dist(p1,p2):
     return abs(p1[0]-p2[0]) + abs(p1[1]-p2[1])
 
 class Evaluate():
+    """
+    Evaluation class used to obtain evaluation values and utility for
+    given boards.
+    """
     board = None
     def __init__(self, board):
         self.board = BoardAdapter(board)
 
     def numWights(self):
+        """
+        Return number of wights.
+        :return: number of wights
+        """
         if len(self.board.wights) == 0:
             return Constants.INF
         return len(self.board.wights)
 
     def numDragons(self):
+        """
+        Return number of dragons left.
+        :return: number of dragons left
+        """
         return len(self.board.dragons)
 
     def queenPresent(self):
+        """
+        Tell whether queen is still on the board
+        :return: True if on board, False otherwise
+        """
         return -1 if self.board.queen == None else 1
 
     def queenPosition(self):
+        """
+        Tell the queen position if on board.
+        :return: position of the queen
+        """
         return self.board.queen[0] if self.board.queen != None else 0
 
     def wightPositions(self):
+        """
+        Return a list of wight positions left on the board
+        :return: list of wight positions
+        """
         return sum([1/w[0] if w[0] != 0 else 9999 for w in self.board.wights])
 
     def dragonPositions(self):
+        """
+        Return a list of dragon positions left on the board
+        :return: list of dragon positions
+        """
         return sum([d[0] for d in self.board.dragons])
 
     def wightDistsToQueen(self):
+        """
+        Return a value representing the distance of wights to the queen.
+        :return: sum of wights distances to the queen
+        """
         if self.queenPresent() == 1:
             return sum([manhattan_dist(w, self.board.queen) for w in\
                 self.board.wights])
@@ -66,6 +98,10 @@ class Evaluate():
     def utility(self, ply):
         """
         Return the utility of a board.
+        :param ply: current ply (turn)
+        :return: utility of the board (NEGINF = Player 2 win
+                                          INF = Player 1 win
+                                          0   = Draw)
         """
 
         # Queen is captured
@@ -99,4 +135,3 @@ class Evaluate():
                 elif self.board.board[i][j] == Piece.W:
                     return 1
         return 0
-

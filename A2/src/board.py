@@ -32,12 +32,22 @@ class Board():
         return ret
 
     def pieceIdentity(self, ident):
+        """
+        Return the identity of the given piece.
+        :param ident: the piece to be identified
+        :return: identity of the piece (W, Q, D, or E)
+        """
         if ident in self.pieces:
             return self.pieces[ident][0]
         else:
             return Piece.E
 
     def move(self, key, to_p):
+        """
+        Move the given piece.
+        :param key: key of the piece to be moved
+        :param to_p: destination of the piece to be moved 
+        """
         board_rep = self.constructBoard()
         if key not in self.pieces:
             return None
