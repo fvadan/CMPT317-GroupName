@@ -45,7 +45,7 @@ class Game():
         minMove = self.successors[0]
         for i in moves:
             # Utility values for opponent's moves:
-            heuristic = search(i, opponent, self.ply + 1, 3)
+            heuristic = search(i, opponent, self.ply + 1, self.depth_limit)
             if(heuristic > Constants.INF and heuristic < Constants.NEGINF):
                 print(i)
                 assert(False)
@@ -106,7 +106,8 @@ class Game():
 
 def runGame(depth_limit, search):
     game = Game(depth_limit)
-    print("Wights or Dragons?")
+    print("Wights or Dragons or all AI?")
+    print(":: Options :: W for Wights, D for Dragons, AI for all AI")
     SELECT_PLAYER = False
     while not SELECT_PLAYER:
         line = input()
@@ -128,10 +129,10 @@ def runGame(depth_limit, search):
         print("Current Board at ply: " + str(game.ply), "; Player:",
             game.player)
         print(game.board)
-        print("> Enter move: ", end='')
         if HUMAN and not ALL_AI:
+            print("> Enter move: ", end='')
             while not game.advanceWithPerson(input()):
-                print("!!Bad Move!!")
+                print("!!Bad Move!! Please enter again...")
                 print("> Enter move again: ", end='')
         else:
             game.advanceWithAI(search)

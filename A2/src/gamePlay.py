@@ -87,7 +87,6 @@ def alphaBeta(board, player, ply, depth):
                 for child in successors:
                     v = max(v, do_alphaBeta(child, Constants.MIN, ply+1, \
                                          alpha, beta, depth-1))
-                    continue
                     alpha = max(alpha, v)
                     if beta <= alpha:
                         break # beta cut-off
@@ -97,7 +96,6 @@ def alphaBeta(board, player, ply, depth):
                 for child in successors:
                     v = min(v, do_alphaBeta(child, Constants.MAX, ply+1, \
                                          alpha, beta, depth-1))
-                    continue
                     beta = min(beta, v)
                     if beta <= alpha:
                         break # alpha cut-off

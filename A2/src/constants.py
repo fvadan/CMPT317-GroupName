@@ -7,7 +7,7 @@ class Constants():
 
     DRAW = 0
     NON_TERMINAL = 404
-    MAX_PLY = 50
+    MAX_PLY = 200
     MAX = "Player 1"
     MIN = "Player 2"
     QUEEN_DESTINATION = 4
