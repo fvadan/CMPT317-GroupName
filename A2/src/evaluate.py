@@ -15,8 +15,8 @@ class Evaluate():
 
     def numWights(self):
         if len(self.board.wights) == 0:
-            return Constant.INF
-        return 1/len(self.board.wights)
+            return Constants.INF
+        return len(self.board.wights)
 
     def numDragons(self):
         return len(self.board.dragons)
@@ -35,7 +35,7 @@ class Evaluate():
 
     def wightDistsToQueen(self):
         if self.queenPresent() == 1:
-            return sum([1/manhattan_dist(w, self.board.queen) for w in\
+            return sum([manhattan_dist(w, self.board.queen) for w in\
                 self.board.wights])
         return 9999
 
@@ -54,13 +54,11 @@ class Evaluate():
         # Weights for different evalution features.
 
         all_functions = [
-                            (300, self.numDragons()), \
-                            (200, self.numWights()), \
-                            (9999, self.queenPresent()), \
-                            (50, self.dragonPositions()), \
-                            (-30, self.wightPositions()), \
-                            (100, self.queenPosition()), \
-                            (-10, self.wightDistsToQueen())
+                            (15, self.numDragons()), \
+                            (-5, self.numWights()), \
+                            (10, self.queenPresent()), \
+                            (2, self.dragonPositions()), \
+                            (5, self.queenPosition()) \
                         ]
 
         return int(sum([x[0] * x[1] for x in all_functions]) * 10)

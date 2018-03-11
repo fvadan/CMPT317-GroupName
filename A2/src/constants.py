@@ -11,8 +11,8 @@ class Constants():
     MAX = "Player 1"
     MIN = "Player 2"
     QUEEN_DESTINATION = 4
-    INF = 9999999999
+    INF = 9999999
     NEGINF = (-1) * INF
-    PLAYER_1_WIN = INF # Player 1 is maximizer
-    PLAYER_2_WIN = NEGINF # Player 2 is minimizer
+    PLAYER_1_WIN = 9999999 # Player 1 is maximizer
+    PLAYER_2_WIN = -9999999 # Player 2 is minimizer
 

@@ -93,17 +93,29 @@ def main():
     # Successor tests:
     test = Board()
     test.pieces["QQ"] = (Piece.Q, (1,1))
+    test.pieces["D0"] = (Piece.D, (2,0))
+    test.pieces["D1"] = (Piece.D, (1,2))
     test.pieces["D2"] = (Piece.D, (1,3))
-    test.pieces["D1"] = (Piece.D, (2,3))
-    test.pieces["W3"] = (Piece.W, (2,2))
     test.pieces["W0"] = (Piece.W, (4,0))
-    test.pieces["W1"] = (Piece.W, (4,1))
+    test.pieces["W1"] = (Piece.W, (3,1))
+    test.pieces["W2"] = (Piece.W, (3,2))
+    test.pieces["W3"] = (Piece.W, (4,3))
     test.pieces["W4"] = (Piece.W, (4,4))
     print(test)
-    for j in test.successors("Player 2"):
-        print(j)
-        print(Evaluate(j).utility(1))
-        print(Evaluate(j).evaluation())
+    resMin = 9999999
+    resMax = -1 * resMin
+    for j in test.successors("Player 1"):
+        alph = alphaBeta(j, "Player 2", 0, 3)
+        if alph < resMin:
+            resMin = alph
+            minMove = j
+        if alph > resMax:
+            resMax = alph
+            maxMove = j
+    print(minMove)
+    print(resMin)
+    print(maxMove)
+    print(resMax)
 
 if __name__ == '__main__':
     main()

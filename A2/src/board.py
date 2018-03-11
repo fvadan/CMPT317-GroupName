@@ -14,8 +14,6 @@ class Board():
     """
     Defines the Board class that holds all the pieces of the game.
     """
-    board = None
-    utility = -1
     pieces = None
 
     def __init__(self):
@@ -32,6 +30,29 @@ class Board():
         for k,v in self.pieces.items():
             ret[v[1][0]][v[1][1]] = k
         return ret
+
+    def pieceIdentity(self, ident):
+        if ident in self.pieces:
+            return self.pieces[ident][0]
+        else:
+            return Piece.E
+
+    def move(self, key, to_p):
+        board_rep = self.constructBoard()
+        if key not in self.pieces:
+            return None
+        from_p = self.pieces[key][1]
+        Ns = self.neighbours(board_rep, from_p)
+        if to_p in Ns and self.canCapture(board_rep, from_p, to_p):
+            newBoard = self.copy()
+            attacker = board_rep[from_p[0]][from_p[1]]
+            defendant = board_rep[to_p[0]][to_p[1]]
+            if attacker in newBoard.pieces:
+                newBoard.pieces[attacker] = (self.pieces[attacker][0], to_p)
+                if defendant in self.pieces:
+                    newBoard.pieces.pop(defendant)
+                return newBoard
+        return None
 
     def initialValues(self):
         """
