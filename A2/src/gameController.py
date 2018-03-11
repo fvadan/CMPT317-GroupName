@@ -106,17 +106,38 @@ class Game():
 
 def runGame(depth_limit, search):
     game = Game(depth_limit)
+    print("Wights or Dragons?")
+    SELECT_PLAYER = False
+    while not SELECT_PLAYER:
+        line = input()
+        if line == 'W':
+            HUMAN = True
+            ALL_AI = False
+        elif line == 'D':
+            HUMAN = False
+            ALL_AI = False
+        elif line == 'AI':
+            HUMAN = False
+            ALL_AI = True
+        else:
+            print("Please enter again...")
+            continue
+        break
+
     while not game.isAtEndGame():
         print("Current Board at ply: " + str(game.ply), "; Player:",
             game.player)
         print(game.board)
-        """
         print("> Enter move: ", end='')
-        while not game.advanceWithPerson(input()):
-            print("!!Bad Move!!")
-            print("> Enter move again: ", end='')
-        """
-        game.advanceWithAI(search)
+        if HUMAN and not ALL_AI:
+            while not game.advanceWithPerson(input()):
+                print("!!Bad Move!!")
+                print("> Enter move again: ", end='')
+        else:
+            game.advanceWithAI(search)
+        HUMAN = not HUMAN
     print("Final State:")
     print(game.board)
+    print(Constants.MIN if game.player == Constants.MAX else Constants.MAX,\
+            "wins!")
 
