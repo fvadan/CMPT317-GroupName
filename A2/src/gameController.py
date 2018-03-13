@@ -3,11 +3,12 @@ from constants import Constants
 from board import Board, Piece
 from evaluate import Evaluate
 from gamePlay import minimax, alphaBeta
+from time import time
 
-_print = print
-def print(*args, **kwargs):
-    kwargs['flush'] = True
-    return _print(*args, **kwargs)
+# _print = print
+# def print(*args, **kwargs):
+#     kwargs['flush'] = True
+#     return _print(*args, **kwargs)
 
 class Game():
     """
@@ -51,12 +52,20 @@ class Game():
             Constants.MAX
         maxMove = self.successors[0]
         minMove = self.successors[0]
+
+        # statistics book-keeping
+        total_rec_table_size = 0
+        total_node_count = 0
+
         for i in moves:
             # Utility values for opponent's moves:
-            heuristic = search(i, opponent, self.ply + 1, self.depth_limit)
-            if(heuristic > Constants.INF and heuristic < Constants.NEGINF):
-                print(i)
-                assert(False)
+            heuristic, rec_table_size, node_count =\
+                    search(i, opponent, self.ply + 1, self.depth_limit)
+
+            # update stats
+            total_rec_table_size += rec_table_size
+            total_node_count += node_count
+
             if heuristic > maximum:
                 maxMove = i
                 maximum = heuristic
@@ -70,11 +79,16 @@ class Game():
                 minMove = i
                 minimum = Constants.NEGINF
 
+        # calculate average space and time
+        avg_rec_table_size = total_rec_table_size / len(moves)
+
         # Update Game:
         self.board = maxMove if self.player == Constants.MAX else minMove
         self.ply += 1
         self.player = opponent
         self.successors = self.board.successors(self.player)
+
+        return avg_rec_table_size, total_node_count
 
     def parseMoveFromLine(self, line):
         """
@@ -120,31 +134,22 @@ class Game():
                 return True
         return False
 
-def runGame(depth_limit, search):
+def runGame(depth_limit, search, H, A):
     """
     Instantiates and runs a game.
     :param depth_limit: the depth limit of the search strategy used
     :param search: search strategy - minimax/alphabeta
     """
+
+    HUMAN, ALL_AI = H, A
+
+    # statistical book-keeping
+    avg_table_size_per_ply = 0
+    avg_node_count_per_ply = 0
+    avg_time_per_ply = 0
+    index = 0
+
     game = Game(depth_limit)
-    print("Wights or Dragons or all AI?")
-    print(":: Options :: W for Wights, D for Dragons, AI for all AI")
-    SELECT_PLAYER = False
-    while not SELECT_PLAYER:
-        line = input()
-        if line == 'W':
-            HUMAN = True
-            ALL_AI = False
-        elif line == 'D':
-            HUMAN = False
-            ALL_AI = False
-        elif line == 'AI':
-            HUMAN = False
-            ALL_AI = True
-        else:
-            print("Please enter again...")
-            continue
-        break
 
     while not game.isAtEndGame():
         print("Current Board at ply: " + str(game.ply), "; Player:",
@@ -156,9 +161,24 @@ def runGame(depth_limit, search):
                 print("!!Bad Move!! Please enter again...")
                 print("> Enter move again: ", end='')
         else:
-            game.advanceWithAI(search)
+            index += 1
+            start_time = time()
+            avg_table_size, node_count = game.advanceWithAI(search)
+            end_time = time()
+
+            avg_table_size_per_ply += avg_table_size
+            avg_node_count_per_ply += node_count
+            avg_time_per_ply += (end_time-start_time)
+
         HUMAN = not HUMAN
     print("Final State:")
     print(game.board)
     print(Constants.MIN if game.player == Constants.MAX else Constants.MAX,\
             "wins!")
+    # print("Game statistics:\n"\
+    #       "Depth:", depth_limit, "\n"\
+    #       "Average table size per ply:", avg_table_size_per_ply/index, "\n"\
+    #       "Average node count per ply:", avg_node_count_per_ply/index)
+    return avg_table_size_per_ply/index, \
+           avg_node_count_per_ply/index, \
+           avg_time_per_ply/index

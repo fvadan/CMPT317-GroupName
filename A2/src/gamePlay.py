@@ -15,16 +15,24 @@ def minimax(board, player, ply, depth):
     """
 
     rec_table = HashTable()
+    node_count = [0]
 
     ### Internal function begins
     def do_minimax(board, player, ply, depth):
         """
         For memoization.
         """
-        #if board.encode() in rec_table:
-        #    return rec_table[board.encode()]
+        # Stats:
+        node_count[0] += 1
 
+        # Transposition:
+        board_hash = board.encode()
+        if board_hash in rec_table and depth < rec_table[board_hash][1]:
+            return rec_table[board_hash][0]
+
+        # evaluate board
         b_eval = Evaluate(board)
+
         if b_eval.utility(ply) != Constants.NON_TERMINAL: # End game
             ret = b_eval.utility(ply)
         elif depth <= 0: # max search depth hit
@@ -47,12 +55,15 @@ def minimax(board, player, ply, depth):
                     v = do_minimax(succ, Constants.MAX, ply+1, depth-1)
                     best_value = min(best_value, v)
                 ret = best_value
-        rec_table[board.encode()] = ret
+
+        # Transposition:
+        rec_table[board_hash] = (ret, depth)
         return ret
     ### Internal function ends
 
-    result = do_minimax(board, player, ply, depth)
-    return result
+    return do_minimax(board, player, ply, depth), \
+           len(rec_table), \
+           node_count[0]
 
 def alphaBeta(board, player, ply, depth):
     """
@@ -66,16 +77,24 @@ def alphaBeta(board, player, ply, depth):
     """
 
     rec_table = HashTable()
+    node_count = [0]
 
     def do_alphaBeta(board, player, ply, alpha, beta, depth):
         """
         For memoization.
         """
-        # check if board is already in the table
-        #if board.encode() in rec_table:
-        #    return rec_table[board.encode()]
 
+        # update stats
+        node_count[0] += 1
+
+        # Transposition:
+        board_hash = board.encode()
+        if board_hash in rec_table and depth < rec_table[board_hash][1]:
+            return rec_table[board_hash][0]
+
+        # evaluate board
         b_eval = Evaluate(board)
+
         if b_eval.utility(ply) != Constants.NON_TERMINAL: # terminal node
             ret = b_eval.utility(ply)
         elif depth <= 0:
@@ -86,7 +105,7 @@ def alphaBeta(board, player, ply, depth):
             if len(successors) <= 0:
                 ret = Constants.DRAW
             elif player == Constants.MAX:
-                v = Constants.NEGINF - 10
+                v = Constants.NEGINF
                 for child in successors:
                     v = max(v, do_alphaBeta(child, Constants.MIN, ply+1, \
                                          alpha, beta, depth-1))
@@ -95,7 +114,7 @@ def alphaBeta(board, player, ply, depth):
                         break # beta cut-off
                 ret = v
             else:
-                v = Constants.INF + 10
+                v = Constants.INF
                 for child in successors:
                     v = min(v, do_alphaBeta(child, Constants.MAX, ply+1, \
                                          alpha, beta, depth-1))
@@ -103,10 +122,14 @@ def alphaBeta(board, player, ply, depth):
                     if beta <= alpha:
                         break # alpha cut-off
                 ret = v
-        #rec_table[board.encode()] = ret
+
+        # Transposition:
+        rec_table[board_hash] = (ret, depth)
+
         return ret
 
-    result = do_alphaBeta(board, player, ply, \
-                            Constants.NEGINF, \
-                            Constants.INF, depth)
-    return result
+    return do_alphaBeta(board, player, ply, \
+                        Constants.NEGINF, \
+                        Constants.INF, depth), \
+           len(rec_table), \
+           node_count[0]
