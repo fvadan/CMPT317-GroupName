@@ -14,7 +14,8 @@ def generatePlot(depth_limit, minimax_vals, alphabeta_vals, y_label, title):
     :param depth_limit: depth limit for the search algorithm
     :param minimax_vals, alphabeta_vals: list of values to be plotted for
                                          each algorithm
-    :param y_val: titles of the axes
+    :param y_val: titles of the axes on the graph to be generated
+    :param title: title of the graph to be generated
     """
     plt.figure()
     x_vals = [i for i in range(1, depth_limit+1)]
@@ -69,7 +70,6 @@ def getStats(depth_limit):
     times_per_minimax_run = []
     times_per_alphabeta_run = []
 
-
     #run for multiple depths of minimax
     for i in range(1, depth_limit+1):
         #stats for minimax
@@ -84,6 +84,8 @@ def getStats(depth_limit):
         avg_table_size_alphabeta.append(alphabeta_size)
         avg_node_count_alphabeta.append(alphabeta_nodes)
         times_per_alphabeta_run.append(alphabeta_t*1000)
+
+        print("\nFinished Minimax and AlphaBeta for depth:", i)
 
     generatePlot(depth_limit, avg_table_size_minimax, \
                  avg_table_size_alphabeta, "Average Space" +\
@@ -118,7 +120,6 @@ def main():
         getStats(depth_limit)
     else:
         runGame(depth_limit, HUMAN, AI)
-
 
 if __name__ == '__main__':
     main()

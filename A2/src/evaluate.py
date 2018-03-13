@@ -90,7 +90,8 @@ class Evaluate():
                             (-5, self.numWights()), \
                             (10, self.queenPresent()), \
                             (2, self.dragonPositions()), \
-                            (5, self.queenPosition()) \
+                            (5, self.queenPosition()), \
+                            (-2, self.wightDistsToQueen())
                         ]
 
         return int(sum([x[0] * x[1] for x in all_functions]) * 10)

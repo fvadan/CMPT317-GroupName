@@ -152,9 +152,9 @@ def runGame(depth_limit, search, H, A):
     game = Game(depth_limit)
 
     while not game.isAtEndGame():
-        print("Current Board at ply: " + str(game.ply), "; Player:",
-            game.player)
-        print(game.board)
+        # print("Current Board at ply: " + str(game.ply), "; Player:",
+        #     game.player)
+        # print(game.board)
         if HUMAN and not ALL_AI:
             print("> Enter move: ", end='')
             while not game.advanceWithPerson(input()):
@@ -171,14 +171,10 @@ def runGame(depth_limit, search, H, A):
             avg_time_per_ply += (end_time-start_time)
 
         HUMAN = not HUMAN
-    print("Final State:")
-    print(game.board)
-    print(Constants.MIN if game.player == Constants.MAX else Constants.MAX,\
-            "wins!")
-    # print("Game statistics:\n"\
-    #       "Depth:", depth_limit, "\n"\
-    #       "Average table size per ply:", avg_table_size_per_ply/index, "\n"\
-    #       "Average node count per ply:", avg_node_count_per_ply/index)
+    # print("Final State:")
+    # print(game.board)
+    # print(Constants.MIN if game.player == Constants.MAX else Constants.MAX,\
+    #         "wins!")
     return avg_table_size_per_ply/index, \
            avg_node_count_per_ply/index, \
            avg_time_per_ply/index

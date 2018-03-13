@@ -46,7 +46,7 @@ class Board():
         """
         Move the given piece.
         :param key: key of the piece to be moved
-        :param to_p: destination of the piece to be moved 
+        :param to_p: destination of the piece to be moved
         """
         board_rep = self.constructBoard()
         if key not in self.pieces:
@@ -200,7 +200,7 @@ class Board():
 
 class BoardAdapter():
     """
-        Adapter for previous implementation
+    Adapter for previous implementation
     """
     board = None
     queen = None
