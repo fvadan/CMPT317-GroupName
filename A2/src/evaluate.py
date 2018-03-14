@@ -67,7 +67,7 @@ class Evaluate():
         :return: sum of wights distances to the queen
         """
         if self.queenPresent() == 1:
-            return sum([manhattan_dist(w, self.board.queen) for w in\
+            return sum([1/manhattan_dist(w, self.board.queen) for w in\
                 self.board.wights])
         return 9999
 
@@ -91,7 +91,7 @@ class Evaluate():
                             (20, self.queenPresent()), \
                             (3, self.dragonPositions()), \
                             (5, self.queenPosition()), \
-                            (-2, self.wightDistsToQueen())
+                            (-3, self.wightDistsToQueen())
                         ]
 
         return int(sum([x[0] * x[1] for x in all_functions]) * 10)

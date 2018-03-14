@@ -101,16 +101,16 @@ def getStats(depth_limit):
 
         print("\nFinished Minimax and AlphaBeta for depth:", i, "\n-----\n\n")
 
-    generatePlot(depth_limit, avg_table_size_minimax, \
-                 avg_table_size_alphabeta,\
-                 "Transposition table size (1000 nodes)",\
-                 "Memory")
-    generatePlot(depth_limit, avg_node_count_minimax, \
-                 avg_node_count_alphabeta, "Average Time (mil. nodes visited)",\
-                 "Search nodes")
-    generatePlot(depth_limit, times_per_minimax_run, \
-                 times_per_alphabeta_run, "Average Runtime Per Ply (s)", \
-                 "Time per ply")
+        generatePlot(i, avg_table_size_minimax, \
+                     avg_table_size_alphabeta,\
+                     "Transposition table size (1000 nodes)",\
+                     "Memory_d" + str(i))
+        generatePlot(i, avg_node_count_minimax, \
+                     avg_node_count_alphabeta, "Average Time (mil. nodes visited)",\
+                     "Search nodes_d" + str(i))
+        generatePlot(i, times_per_minimax_run, \
+                     times_per_alphabeta_run, "Average Runtime Per Ply (s)", \
+                     "Time per ply_d" + str(i))
 
 def main():
     """
