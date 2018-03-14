@@ -5,6 +5,7 @@ from evaluate import Evaluate
 from gamePlay import minimax, alphaBeta
 from time import time
 import sys
+import math
 
 # _print = print
 # def print(*args, **kwargs):

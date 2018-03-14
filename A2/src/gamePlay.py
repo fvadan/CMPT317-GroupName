@@ -95,6 +95,7 @@ def alphaBeta(board, player, ply, depth):
         For memoization.
         """
         nonlocal node_count
+        nonlocal table_hits
 
         # update stats
         node_count += 1
@@ -103,7 +104,6 @@ def alphaBeta(board, player, ply, depth):
         board_hash = board.encode()
         if USE_TRANSPOSITION and board_hash in rec_table and\
                 depth <= rec_table[board_hash][1]:
-            nonlocal table_hits
             table_hits += 1
             return rec_table[board_hash][0]
 

@@ -9,6 +9,11 @@ from time import time
 import matplotlib.pyplot as plt
 import sys
 
+_print = print
+def print(*args, **kwargs):
+    kwargs['flush'] = True
+    return _print(*args, **kwargs)
+
 def generatePlot(depth_limit, minimax_vals, alphabeta_vals, y_label, title):
     """
     Generate graph for node count.
