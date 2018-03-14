@@ -73,7 +73,7 @@ def minimax(board, player, ply, depth):
 
     return do_minimax(board, player, ply, depth), \
            len(rec_table), \
-           node_count[0]
+           node_count, table_hits
 
 def alphaBeta(board, player, ply, depth):
     """
