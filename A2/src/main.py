@@ -82,9 +82,9 @@ def getStats(depth_limit):
         #stats for minimax
         minimax_size, minimax_count, minimax_t, minimax_thr =\
             runGame(i, minimax, False, True)
-        avg_table_size_minimax.append(minimax_size)
-        avg_node_count_minimax.append(minimax_count)
-        times_per_minimax_run.append(minimax_t*1000)
+        avg_table_size_minimax.append(minimax_size/1000)
+        avg_node_count_minimax.append(minimax_count/1000000)
+        times_per_minimax_run.append(minimax_t)
 
         print("MINIMAX GAME: ", end='')
         print(minimax_size, minimax_count, minimax_t, minimax_thr)
@@ -92,9 +92,9 @@ def getStats(depth_limit):
         #stats for alphabeta
         alphabeta_size, alphabeta_nodes, alphabeta_t, alphabeta_thr = \
             runGame(i, alphaBeta, False, True)
-        avg_table_size_alphabeta.append(alphabeta_size)
-        avg_node_count_alphabeta.append(alphabeta_nodes)
-        times_per_alphabeta_run.append(alphabeta_t*1000)
+        avg_table_size_alphabeta.append(alphabeta_size/1000)
+        avg_node_count_alphabeta.append(alphabeta_nodes/1000000)
+        times_per_alphabeta_run.append(alphabeta_t)
 
         print("ALPHA_BETA GAME: ", end='')
         print(alphabeta_size, alphabeta_nodes, alphabeta_t, alphabeta_thr)
@@ -102,14 +102,14 @@ def getStats(depth_limit):
         print("\nFinished Minimax and AlphaBeta for depth:", i, "\n-----\n\n")
 
     generatePlot(depth_limit, avg_table_size_minimax, \
-                 avg_table_size_alphabeta, "Average Space" +\
-                 "(# nodes in transposition table)",\
+                 avg_table_size_alphabeta,\
+                 "Transposition table size (1000 nodes)",\
                  "Memory")
     generatePlot(depth_limit, avg_node_count_minimax, \
-                 avg_node_count_alphabeta, "Average Time (# nodes visited)", \
+                 avg_node_count_alphabeta, "Average Time (mil. nodes visited)",\
                  "Search nodes")
     generatePlot(depth_limit, times_per_minimax_run, \
-                 times_per_alphabeta_run, "Average Runtime Per Ply (ms)", \
+                 times_per_alphabeta_run, "Average Runtime Per Ply (s)", \
                  "Time per ply")
 
 def main():
