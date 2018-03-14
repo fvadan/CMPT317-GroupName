@@ -4,6 +4,10 @@ import math
 from evaluate import Evaluate
 from hashTable import HashTable
 from constants import Constants
+import sys
+
+USE_TRANSPOSITION = True\
+        if len(sys.argv) >= 2 and '--cache' in sys.argv else False
 
 def minimax(board, player, ply, depth):
     """
@@ -15,7 +19,8 @@ def minimax(board, player, ply, depth):
     """
 
     rec_table = HashTable()
-    node_count = [0]
+    node_count = 0
+    table_hits = 0
 
     ### Internal function begins
     def do_minimax(board, player, ply, depth):
@@ -23,11 +28,15 @@ def minimax(board, player, ply, depth):
         For memoization.
         """
         # Stats:
-        node_count[0] += 1
+        nonlocal node_count
+        nonlocal table_hits
+        node_count += 1
 
         # Transposition:
         board_hash = board.encode()
-        if board_hash in rec_table and depth < rec_table[board_hash][1]:
+        if USE_TRANSPOSITION and board_hash in rec_table and\
+                depth <= rec_table[board_hash][1]:
+            table_hits += 1
             return rec_table[board_hash][0]
 
         # evaluate board
@@ -57,7 +66,8 @@ def minimax(board, player, ply, depth):
                 ret = best_value
 
         # Transposition:
-        rec_table[board_hash] = (ret, depth)
+        if USE_TRANSPOSITION:
+            rec_table[board_hash] = (ret, depth)
         return ret
     ### Internal function ends
 
@@ -77,19 +87,24 @@ def alphaBeta(board, player, ply, depth):
     """
 
     rec_table = HashTable()
-    node_count = [0]
+    node_count = 0
+    table_hits = 0
 
     def do_alphaBeta(board, player, ply, alpha, beta, depth):
         """
         For memoization.
         """
+        nonlocal node_count
 
         # update stats
-        node_count[0] += 1
+        node_count += 1
 
         # Transposition:
         board_hash = board.encode()
-        if board_hash in rec_table and depth < rec_table[board_hash][1]:
+        if USE_TRANSPOSITION and board_hash in rec_table and\
+                depth <= rec_table[board_hash][1]:
+            nonlocal table_hits
+            table_hits += 1
             return rec_table[board_hash][0]
 
         # evaluate board
@@ -124,7 +139,8 @@ def alphaBeta(board, player, ply, depth):
                 ret = v
 
         # Transposition:
-        rec_table[board_hash] = (ret, depth)
+        if USE_TRANSPOSITION:
+            rec_table[board_hash] = (ret, depth)
 
         return ret
 
@@ -132,4 +148,5 @@ def alphaBeta(board, player, ply, depth):
                         Constants.NEGINF, \
                         Constants.INF, depth), \
            len(rec_table), \
-           node_count[0]
+           node_count, table_hits
+

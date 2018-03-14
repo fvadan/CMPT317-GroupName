@@ -7,6 +7,7 @@ from hashTable import HashTable
 from gameController import Game, runGame
 from time import time
 import matplotlib.pyplot as plt
+import sys
 
 def generatePlot(depth_limit, minimax_vals, alphabeta_vals, y_label, title):
     """
@@ -119,7 +120,12 @@ def main():
                 print("!!Bad input!!")
         getStats(depth_limit)
     else:
-        runGame(depth_limit, HUMAN, AI)
+        depth_limit = 4
+        for j in sys.argv:
+            if(j[0:2] == "-d"):
+                depth_limit = int(j[2:len(j)])
+        print("Using Depth:", depth_limit)
+        runGame(depth_limit, alphaBeta, HUMAN, ALL_AI)
 
 if __name__ == '__main__':
     main()

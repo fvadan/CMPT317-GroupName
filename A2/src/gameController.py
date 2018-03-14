@@ -59,7 +59,7 @@ class Game():
 
         for i in moves:
             # Utility values for opponent's moves:
-            heuristic, rec_table_size, node_count =\
+            heuristic, rec_table_size, node_count, table_hits =\
                     search(i, opponent, self.ply + 1, self.depth_limit)
 
             # update stats
@@ -152,9 +152,9 @@ def runGame(depth_limit, search, H, A):
     game = Game(depth_limit)
 
     while not game.isAtEndGame():
-        # print("Current Board at ply: " + str(game.ply), "; Player:",
-        #     game.player)
-        # print(game.board)
+        print("Current Board at ply: " + str(game.ply), "; Player:",\
+                game.player)
+        print(game.board)
         if HUMAN and not ALL_AI:
             print("> Enter move: ", end='')
             while not game.advanceWithPerson(input()):

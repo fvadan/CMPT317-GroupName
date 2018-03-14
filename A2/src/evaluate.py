@@ -87,9 +87,9 @@ class Evaluate():
 
         all_functions = [
                             (10, self.numDragons()), \
-                            (-5, self.numWights()), \
+                            (-8, self.numWights()), \
                             (20, self.queenPresent()), \
-                            (2, self.dragonPositions()), \
+                            (3, self.dragonPositions()), \
                             (5, self.queenPosition()), \
                             (-2, self.wightDistsToQueen())
                         ]

@@ -79,7 +79,9 @@ class Board():
         """
         Return a deep copy of yourself.
         """
-        return deepcopy(self)
+        newBoard = Board()
+        newBoard.pieces = self.pieces.copy()
+        return newBoard
 
     def __str__(self):
         """
