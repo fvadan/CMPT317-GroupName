@@ -71,22 +71,35 @@ def getStats(depth_limit):
     times_per_minimax_run = []
     times_per_alphabeta_run = []
 
+    print("######")
+    print("Statistics Output Format:")
+    print("ALGORITHM: SPACE TIME EXEC_TIME_S THR")
+    print("######", end="\n\n\n")
+
     #run for multiple depths of minimax
     for i in range(1, depth_limit+1):
+        print("-----\nDEPTH:", i, "\n")
         #stats for minimax
-        minimax_size, minimax_count, minimax_t = runGame(i, minimax, False, True)
+        minimax_size, minimax_count, minimax_t, minimax_thr =\
+            runGame(i, minimax, False, True)
         avg_table_size_minimax.append(minimax_size)
         avg_node_count_minimax.append(minimax_count)
         times_per_minimax_run.append(minimax_t*1000)
 
+        print("MINIMAX GAME: ", end='')
+        print(minimax_size, minimax_count, minimax_t, minimax_thr)
+
         #stats for alphabeta
-        alphabeta_size, alphabeta_nodes, alphabeta_t = \
+        alphabeta_size, alphabeta_nodes, alphabeta_t, alphabeta_thr = \
             runGame(i, alphaBeta, False, True)
         avg_table_size_alphabeta.append(alphabeta_size)
         avg_node_count_alphabeta.append(alphabeta_nodes)
         times_per_alphabeta_run.append(alphabeta_t*1000)
 
-        print("\nFinished Minimax and AlphaBeta for depth:", i)
+        print("ALPHA_BETA GAME: ", end='')
+        print(alphabeta_size, alphabeta_nodes, alphabeta_t, alphabeta_thr)
+
+        print("\nFinished Minimax and AlphaBeta for depth:", i, "\n-----\n\n")
 
     generatePlot(depth_limit, avg_table_size_minimax, \
                  avg_table_size_alphabeta, "Average Space" +\

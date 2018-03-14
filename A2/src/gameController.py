@@ -4,6 +4,7 @@ from board import Board, Piece
 from evaluate import Evaluate
 from gamePlay import minimax, alphaBeta
 from time import time
+import sys
 
 # _print = print
 # def print(*args, **kwargs):
@@ -56,6 +57,8 @@ class Game():
         # statistics book-keeping
         total_rec_table_size = 0
         total_node_count = 0
+        avg_table_hit_rate = 0
+        num_moves = len(moves)
 
         for i in moves:
             # Utility values for opponent's moves:
@@ -65,6 +68,7 @@ class Game():
             # update stats
             total_rec_table_size += rec_table_size
             total_node_count += node_count
+            avg_table_hit_rate += table_hits/node_count
 
             if heuristic > maximum:
                 maxMove = i
@@ -88,7 +92,8 @@ class Game():
         self.player = opponent
         self.successors = self.board.successors(self.player)
 
-        return avg_rec_table_size, total_node_count
+        return avg_rec_table_size, total_node_count,\
+            avg_table_hit_rate/num_moves
 
     def parseMoveFromLine(self, line):
         """
@@ -147,14 +152,16 @@ def runGame(depth_limit, search, H, A):
     avg_table_size_per_ply = 0
     avg_node_count_per_ply = 0
     avg_time_per_ply = 0
+    avg_table_hit_rate_per_ply = 0
     index = 0
 
     game = Game(depth_limit)
 
     while not game.isAtEndGame():
-        print("Current Board at ply: " + str(game.ply), "; Player:",\
-                game.player)
-        print(game.board)
+        if '--print-boards' in sys.argv:
+            print("Current Board at ply: " + str(game.ply), "; Player:",\
+                    game.player)
+            print(game.board)
         if HUMAN and not ALL_AI:
             print("> Enter move: ", end='')
             while not game.advanceWithPerson(input()):
@@ -163,18 +170,23 @@ def runGame(depth_limit, search, H, A):
         else:
             index += 1
             start_time = time()
-            avg_table_size, node_count = game.advanceWithAI(search)
+            avg_table_size, node_count, avg_table_hit_rate =\
+                game.advanceWithAI(search)
             end_time = time()
 
             avg_table_size_per_ply += avg_table_size
             avg_node_count_per_ply += node_count
             avg_time_per_ply += (end_time-start_time)
+            avg_table_hit_rate_per_ply += avg_table_hit_rate
 
         HUMAN = not HUMAN
-    # print("Final State:")
-    # print(game.board)
-    # print(Constants.MIN if game.player == Constants.MAX else Constants.MAX,\
-    #         "wins!")
+    if '--print-boards' in sys.argv:
+        print("Final State:")
+        print(game.board)
+    print(Constants.MIN if game.player == Constants.MAX else Constants.MAX,\
+             "wins!")
     return avg_table_size_per_ply/index, \
            avg_node_count_per_ply/index, \
-           avg_time_per_ply/index
+           avg_time_per_ply/index,\
+            avg_table_hit_rate_per_ply/index
+
