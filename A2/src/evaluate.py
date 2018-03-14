@@ -86,9 +86,9 @@ class Evaluate():
         # Weights for different evalution features.
 
         all_functions = [
-                            (15, self.numDragons()), \
+                            (10, self.numDragons()), \
                             (-5, self.numWights()), \
-                            (10, self.queenPresent()), \
+                            (20, self.queenPresent()), \
                             (2, self.dragonPositions()), \
                             (5, self.queenPosition()), \
                             (-2, self.wightDistsToQueen())
