@@ -1,9 +1,9 @@
 # Assignment 2
 
 ## The Dragon Queen
-The Dragon Queen is a game played on a board with 5 columns and 5 rows. One player (Player 1) controls the Queen, who has three Dragon protectors.  The other player (Player 2) controls 5 wights (a.k.a zombies).  (This game, as far as I know, is a completely unique invention; I don't think you'll find anything quite like it anywhere, which is the whole point).  
-
-The Dragon Queen could be a Mad King, with a King's Guard.  Or the Wights could be Daleks.  Or the Wights could be Sith-Lords, with the Queen as a Fleeing Senator, guarded by Jedi Protectors.  
+The Dragon Queen is a game played on a board with 5 columns and 5 rows. One 
+player (Player 1) controls the Queen, who has three Dragon protectors.  The 
+other player (Player 2) controls 5 wights (a.k.a zombies).  
 
 ### Initial Position
 
@@ -41,78 +41,45 @@ Capture is not forced.
 Other rules:
 
 A player must move if a move is possible.
-Written Document Requirements
-You will submit a written document addressing the following points.
 
-### Identification
-- Your name, and student number and NSID.
-- The names of everyone in your group.
-- An assessment of the balance of effort among your group members.
-- Who did what, generally?
-- Was the balance even, more or less?
+Authors: Tayab Soomro, Mahmud Azam, Flaviu Vadan
 
-### Implementation:
-- Describe how you represented the game state.
-  Objects, classes, structs, etc..
-- Data stored, assumptions made
-- Describe your heuristic evaluation function.
-- What are you doing to assess the state of the game?
-- Give some examples.
+Language used:
+	- Python
+	
+Package dependencies:
+	- math
+	- sys
+	- time
+	- matplotlib.pyplot (2.1.2)
+	- random
 
-### Results:
-Describe the performance of your implementation in terms of:
-- Wins/losses vs humans, or vs itself, or other implementations.
-- search nodes created/expanded,
-- depth of search in the game tree,
-- time to find moves,
-- memory used (perhaps the maximum size of your Queue).
+The implementation of the Dragon Queen Problem may be run in the following ways:
+	1. python3 main.py 
+		- Parameters:
+			- --cache = use transposition tables
+			- -dn = use search depth <n> for AI
+			- --print-boards = print the board after each ply 
 
-If you had slightly different implementations for some of these, explain the differences, and give results as appropriate.
+When the program is run, the following text appears:
 
-Compare your results using MiniMax (only) and MiniMax (with alpha-beta pruning).
-search nodes, depth of search, time to find moves, memory used, etc.
+---------- Options ----------
+ 	W -> Wights
+	D -> Dragons
+	AI -> all AI
+	STATS -> statistics
 
-### Discussion:
-Assess the quality of your results.
-Just be fair; results don't have to be good.
-- What is the limiting factor for your implementation?
-- Assess short-comings, strengths.
-Other comments:
-- Did something in this task surprise you?
-- Did you have any good ideas you didn't have time to implement?
-- Anything else?
+W - human plays as wights
+D - human plays as dragons
+AI - run an AI vs. AI game
+STATS - gather and print statistics of the gameplay with depths up to maximum
+	depth as specified on the command line (after STATS is selected)
 
-### Implementation Submission Requirements.
-Your zip file will be submitted by every member of your group.  It will contain:
-- All the source code
-- A README file containing a description of how to get your implementation to run, including:
-- language used
-- package dependencies
-- compile instructions (if appropriate; a shell script or makefile would be better)
-- how to run your implementation
+Instruction for moving pieces:
+	- when asked for a move, specify: 
+		D0 2 1 
+		- move D0 (Dragon 0) to row 2 column 1 where indices start at 0 
+		QQ 3 4
+		- move QQ (the Queen) to row 3 column 4 where indices start at 0
 
-### Grading:
-**3 marks: Indentification**
-- Complete / Incomplete
-- If group members report strikingly imbalanced workload, we will look into the situation immediately, and perhaps apply an adjustment to A1 total grade before April submission of grades.  Your Moodle grade will not reflect any such adjustment.  If you worked solo, a slight adjustment to your grade may be applied in your favour.
-
-**21 marks: Implementation Description**
-- 9 marks: The state representation,
-- 9 marks: The heuristic evaluation function?
-- 3 marks: presentation was good, fairly good grammar, clarity, etc.
-
-**24 marks: Results Description**
-- 12 marks: Your results looked at depth of search, nodes searched, time, space.
-- 9 marks: Your results compares Minimax (alone) against Minimax (with alpha-beta pruning).
-- 3 marks: presentation was good, fairly good grammar, clarity, etc.
-
-**9 marks: Discussion**
-- 3 marks: You discussed the quality of play.
-- 3 marks: You discussed the effectiveness of your evaluation function.
-- 3 marks: presentation was good, fairly good grammar, clarity, etc.
-
-**3 marks: Implementation Quality**
-
-- Is the code reasonably well documented?
-- Does the implementation seem to do anything weird or unhealthy?
-- Does it look like your code do what your description says?
+		

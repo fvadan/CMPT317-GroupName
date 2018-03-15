@@ -1,5 +1,3 @@
-
-from copy import deepcopy
 from constants import Constants
 
 class Piece():
@@ -194,6 +192,10 @@ class Board():
         return possibleSuccessors
 
     def encode(self):
+        """
+        Encode function that returns a list of position tuples.
+        :return: position tuples.
+        """
         res = tuple([])
         for k in Piece.keyList:
             if k in self.pieces:

@@ -9,6 +9,7 @@ from time import time
 import matplotlib.pyplot as plt
 import sys
 
+# redefinition of print function to allow flushing 
 _print = print
 def print(*args, **kwargs):
     kwargs['flush'] = True
