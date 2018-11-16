@@ -182,4 +182,3 @@ class Problem():
     def getValues(self):
         """ String representation of the current values used """
         return("(M, N, K, Y) := " + str((self.m, self.n, self.k, self.y)))
-

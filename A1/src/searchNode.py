@@ -85,4 +85,3 @@ class SearchNode():
             result.insert(0, (cursor.getState(), cursor.getPlanStep()))
             cursor = cursor.pred
         return result, depth
-
